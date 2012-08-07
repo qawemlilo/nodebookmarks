@@ -1,2 +1,40 @@
-h1= title
-p Welcome to #{title}
+p
+  h1 Bookmarker is a simple way to save your bookmarks
+p Node Bookmarks is a simple way to save your bookmarks. Bookmark.it is a simple way to save your bookmarks. Bookmark.it is a simple way to save your bookmarks.
+  | Bookmark.it is a simple way to save your bookmarks.
+
+div#form-container
+  form(action='/register', id='register-form', name='register-form', method='post')
+    fieldset
+      h1 Create an account
+      p
+        label(for='name') Name
+        br 
+        input(name='name', type='text', class='input', value='', id='name', style='width: 300px; color: #000')
+      p
+        label(for='email') Email
+        br 
+        input(name='email', type='text', class='input', value='', id='email', style='width: 300px; color: #000')
+      p
+        label(for='password') Password
+        br 
+        input(name='password', type='password', class='input', value='', id='password', style='width: 300px; color: #000')
+      p
+        input(name='submit', type='submit', class='button white', value='Sign Up', id='submit')    
+        a(href='#login', style='margin-left: 20px', id='login-link') Already registered? Login
+        
+  form(action='/login', id='login-form', name='login-form', method='post')
+    fieldset
+      h1 Login
+      p
+        label(for='email') Email
+        br 
+        input(name='email', type='text', class='input', value='', id='login-email', style='width: 300px; color: #000')
+      p
+        label(for='password') Password
+        br 
+        input(name='password', type='password', class='input', value='', id='login-password', style='width: 300px; color: #000')
+      p
+        input(name='submit', type='submit', class='button white', value='Login', id='login-submit')    
+        a(href='#register', style='margin-left: 20px', id='register-link') Not a member? Register
+   
