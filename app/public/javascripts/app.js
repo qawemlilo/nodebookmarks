@@ -3,11 +3,16 @@
 */
 var App = {
 
-    init: function () {
-        var router, form;
+    init: function (page) {
+        new App.Routes.AppRouter(); 
         
-        router = new App.Routes.AppRouter(); 
-        form = new App.Views.Form();
+        if (page === 'index') {
+            App.Views.Form = new App.Views.Form();
+        }
+        
+        if (page === 'home') {
+            App.Views.Settings = new App.Views.Settings();
+        }
         
         Backbone.history.start();
     },
@@ -24,7 +29,3 @@ var App = {
     
     Collections: {}
 };
-
-$(function() {
-    App.init(); //initialize app
-});

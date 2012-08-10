@@ -10,23 +10,33 @@
         el: $('#form-container'),
         
         
-        errors: 0,
+        loginErrors: 0,
+        
+        
+        registerErrors: 0,
         
         
         events: {
             'submit #register-form': 'registerUser',
             
+            'submit #login-form': 'loginUser',
+            
             'blur #name': 'validateName',
             
-            'blur #email': 'validateEmail',
+            'blur #email': 'validateRegisterEmail',
             
-            'blur #password': 'validatePassword'
+            'blur #login-email': 'validateLoginEmail',
+            
+            'blur #password': 'validatePassword',
+            
+            'blur #login-password': 'validateLoginPassword'
         },
         
         
         initialize: function () {
-            _.bindAll(this, 'registerUser', 'validateName', 'validateEmail', 'validatePassword', 'shout');
+            _.bindAll(this, 'registerUser', 'loginUser', 'validateName', 'validateRegisterEmail', 'validateLoginEmail', 'validatePassword', 'shout');
         },
+        
         
         
         /*
@@ -38,30 +48,66 @@
             
             var newMember, data, $this = this;
             
-            if ($this.errors > 0) {
+            if ($this.registerErrors > 0) {
                 $this.shout('Please correct all fields marked with a red border', 10);
                 return;
             }
                 
-            data = $this.getFormObject(['name', 'email', 'password']); 
-                        
+            data = $this.getFormObject('register-form'); 
+         
             newMember = new Models.User();
             
             newMember.save(data, {
                 success: function (model, res) {
-                
-                    $('#login-email').val(model.get('email'));
-                    document.forms['register-form'].reset();
+                    if (!res.error) {
+                        $('#login-email').val(model.get('email'));
+                        document.forms['register-form'].reset();
                     
-                    $('#register-form').fadeOut(function () {
-                        window.location.hash = 'login'; 
-                        $('#login-form').fadeIn('slow');
-                    });
+                        $('#register-form').fadeOut(function () {
+                            window.location.hash = 'login'; 
+                            $('#login-form').fadeIn('slow');
+                        });
                     
-                    $this.shout(res.msg);
+                        $this.shout(res.msg);
+                    } else {
+                        $this.shout('Account not created, your form contains errors');
+                    }
                 },
                 error: function () {
-                    console.log('err')
+                    $this.shout('Account not created, your form contains errors');
+                }                
+            });
+        },
+        
+        
+        
+        loginUser: function (e) {    
+            e.preventDefault();
+            
+            var newMember, data, $this = this;
+            
+            if ($this.loginErrors > 0) {
+                $this.shout('Please correct all fields marked with a red border', 10);
+                return;
+            }
+                
+            data = $this.getFormObject('login-form');
+                        
+            newMember = new Models.User();
+            newMember.setUrl('login');
+            
+            newMember.save(data, {
+                success: function (model, res) {
+                    if (!res.error) {
+                        window.location.href = 'http://localhost:3000'; 
+                    } else {
+                        $this.shout(res.msg);
+                        $('#login-email').addClass('warning');
+                        $('#login-password').addClass('warning');
+                    }
+                },
+                error: function () {
+                    $this.shout('Login error');
                 }                
             });
         },
@@ -72,78 +118,136 @@
             @Details - Creates a key-value object from a form.
             @Params -  Array @fields : ids of associative fields
         */
-        getFormObject: function (fields) {
-            var obj = {};
+        getFormObject: function (id) {
+            var formObj = {}, arr = $('#' + id).serializeArray();
             
-            $.each(fields, function (i, id) {
-                obj[id] = $('#' + id).val();
+            $.each(arr, function (i, fieldObj) {
+                if (fieldObj.name !== 'submit') {
+                    formObj[fieldObj.name] = fieldObj.value;
+                }
             });
             
-            return obj;
+            return formObj;
         },
         
-        
-        /*
-            @Details - Validates name field
-            @Event -  blur
-        */
-        validateName: function () {
-            var name = $('#name').val();
-            
-            if (name.length < 3) {
-            
-                this.errors += 1;
-                $('#name').addClass('warning');
-                
-            } else if ($('#name').hasClass('warning')) {
-            
-                this.errors -= 1;
-                $('#name').removeClass('warning');
-                
-            }
-        },
         
 
         /*
             @Details - Validates email field
             @Event -  blur
         */
-        validateEmail: function () {    
-            var email = $('#email').val();
+        validateEmail: function (email) {
+            var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
             
-            if (email.length < 3) {
+            return pattern.test(email);
+        },
+        
+        
+        
+        validateLoginEmail: function () { 
+            var emailField = $('#login-email'),
+                emailValue = emailField.val();
             
-                this.errors += 1;
-                $('#email').addClass('warning');
+            if (!this.validateEmail(emailValue) && !emailField.hasClass('warning')) {
+            
+                this.loginErrors += 1;
+                emailField.addClass('warning');
                 
-            } else if ($('#email').hasClass('warning')) {
+            } else if (this.validateEmail(emailValue) && emailField.hasClass('warning')) {
             
-                this.errors -= 1;
-                $('#email').removeClass('warning');
+                this.loginErrors -= 1;
+                emailField.removeClass('warning');
+                
+            }
+        },
+        
+        
+        /*
+            @Details - Validates password field
+            @Event -  blur
+        */
+        validateName: function () {    
+            var nameField = $('#name'),
+                nameValue = nameField.val();
+            
+            if ((!nameValue || nameValue.length < 3) && !nameField.hasClass('warning')) {
+            
+                this.registerErrors += 1;
+                nameField.addClass('warning');  
+                
+            } else if (nameValue && nameValue.length >= 3 && nameField.hasClass('warning')) {
+            
+                this.registerErrors -= 1;
+                nameField.removeClass('warning');
+                
+            }
+        },
+        
+        
+        
+        validateRegisterEmail: function () {    
+            var emailField = $('#email'),
+                emailValue = emailField.val();
+            
+            if (!this.validateEmail(emailValue) && !emailField.hasClass('warning')) {
+            
+                this.registerErrors += 1;
+                emailField.addClass('warning');
+                
+            } else if (this.validateEmail(emailValue) && emailField.hasClass('warning')) {
+            
+                this.registerErrors -= 1;
+                emailField.removeClass('warning');
                 
             }
         },
 
+        
         
         /*
             @Details - Validates password field
             @Event -  blur
         */
         validatePassword: function () {    
-            var password = $('#password').val();
+            var passwordField = $('#password'),
+                passwordValue = passwordField.val();
             
-            if (password.length < 6) {
+            if ((!passwordValue || passwordValue.length < 6) && passwordField.hasClass('warning')) {
             
-                this.errors += 1;
-                $('#password').addClass('warning');  
+                this.registerErrors += 1;
+                passwordField.addClass('warning');  
                 
-            } else if ($('#password').hasClass('warning')) {
+            } else if (passwordValue && passwordValue.length >= 6 && passwordField.hasClass('warning')) {
             
-                this.errors -= 1;
-                $('#password').removeClass('warning');
+                this.registerErrors -= 1;
+                passwordField.removeClass('warning');
                 
             }
-        }, 
+        },
+
+
+        /*
+            @Details - Validates password field
+            @Event -  blur
+        */
+        validateLoginPassword: function () {    
+            var passwordField = $('#login-password'),
+                passwordValue = passwordField.val();
+            
+            if ((!passwordValue || passwordValue.length < 6) && passwordField.hasClass('warning')) {
+            
+                this.loginErrors += 1;
+                passwordField.addClass('warning');  
+                
+            } else if (passwordValue && passwordValue.length >= 6 && passwordField.hasClass('warning')) {
+            
+                this.loginErrors -= 1;
+                passwordField.removeClass('warning');
+                
+            }
+        },        
+        
+        
         
         
         /*
@@ -151,30 +255,28 @@
             @Params -  String msg - text to be displayed
                        Number x - seconds before msg is cleared, default max
         */
-        shout: function (msg, x) { 
-		    if ($("#appMessage")) {
-			    $("#appMessage").fadeOut(function(){
-				    $("#appMessage").remove();
-			    });
-		    }
-		
-		    var elem = $('<div>', {'id': 'appMessage', html: msg});
-		
-		    elem.click(function () {
-			    $(this).fadeOut(function(){
-				    $(this).remove();
-			    });
-		    });
-		
-		    if (x) {
+        shout: function (msg, x) {
+            if ($("#appMessage")) {
+                $("#appMessage").fadeOut(function () {
+                    $("#appMessage").remove();
+                });
+            }
             
-		        setTimeout(function () {
-			        elem.click();
-		        }, x * 1000);
-                
-	        }
-        		
-		    elem.hide().appendTo('body').slideDown();
+            var elem = $('<div>', {'id': 'appMessage', html: msg});
+            
+            elem.click(function () {
+                $(this).fadeOut(function () {
+                    $(this).remove();
+                });
+            });
+            
+            if (x) {
+                setTimeout(function () {
+                    elem.click();
+                }, x * 1000);
+            }
+            
+            elem.hide().appendTo('body').slideDown();
         }            
     });
 }(App.Views, App.Models));

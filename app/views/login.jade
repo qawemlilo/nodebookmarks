@@ -1,0 +1,18 @@
+p.warning= error.msg
+
+div#form-container 
+  form(action='/login', id='login-form2', name='login-form', method='post')
+    fieldset
+      h1 Login
+      p
+        label(for='email') Email
+        br 
+        input(name='email', type='text', class='input warning', value='#{email}', id='login-email', style='width: 300px; color: #000')
+      p
+        label(for='password') Password
+        br 
+        input(name='password', type='password', class='input warning', value='', id='login-password', style='width: 300px; color: #000')
+      p
+        input(name='submit', type='submit', class='button white', value='Login', id='login-submit')    
+        a(href='/#register', style='margin-left: 20px', id='register-link') Not a member? Register
+   

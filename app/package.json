@@ -1,9 +1,11 @@
 {
-    "name": "application-name"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.2"
-    , "jade": ">= 0.0.1"
-  }
+    "name": "node-bookmarks", 
+    "version": "0.1.1", 
+    "private": true, 
+    "dependencies": {
+        "express": "2.5.2", 
+        "jade": ">= 0.0.1",
+        "mongoose": "2.7.x",
+        "connect-mongo": "0.1.x"
+    }
 }

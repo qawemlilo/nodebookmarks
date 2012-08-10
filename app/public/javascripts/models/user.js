@@ -10,6 +10,10 @@
             password:''
         },
         
-        url: 'register'
+        url: 'register',
+        
+        setUrl: function (url) {
+            this.url = url;
+        }
     });
 }(App.Models));

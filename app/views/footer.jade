@@ -5,11 +5,25 @@ nav
     li.first: a(href='/', title='Privacy') Privacy
     li.first: a(href='/', title='License') License
 
-script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+script(src='/javascripts/libs/jquery-1.7.2.min.js')
 script(src='/javascripts/libs/underscore-min.js')
-script(src='/javascripts/libs/backbone-min.js')
+script(src='/javascripts/libs/backbone2-min.js')
 script(src='/javascripts/app.js')
-script(src='/javascripts/routes/index.js')
 script(src='/javascripts/models/user.js')
-script(src='/javascripts/views/form.js')
+
+if(page === 'index')
+  script(src='/javascripts/routes/index.js')
+  script(src='/javascripts/views/form.js')
+  script(type='text/javascript')
+    $(function () {
+      App.init('index'); 
+    });
+  
+if(page === 'home')
+  script(src='/javascripts/routes/home.js')
+  script(src='/javascripts/views/settings.js')
+  script(type='text/javascript')
+    $(function () {
+      App.init('home'); 
+    });
  

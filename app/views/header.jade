@@ -1,8 +1,18 @@
-h1.logo Node-Bookmarks
+if(page === 'index')
+  a(href='/')
+    h1.logo Node-Bookmarks
+    
+if(page === 'home')
+  a(href='/#bookmarks')
+    h1.logo Node-Bookmarks
 
 nav
   ul
-    li.first: a(href='/', title='About') About
-    li.first: a(href='/', title='Tour') Tour
+    if(loggedIn)
+      li: a(href='/#settings', title='Settings') Account Settings
+      li: a(href='/logout', title='Logout') Logout
+    if(!loggedIn)
+      li: a(href='/', title='Tour') Tour
+      li: a(href='/#login', title='Login') Login
     
 div.clear 

@@ -7,18 +7,19 @@
 "use strict";
     Routes.AppRouter = Backbone.Router.extend({
         routes: {
-            'login': 'loadLogin',
-            'register': 'loadRegister'
+            'settings': 'loadSettings',
+            'bookmarks': 'loadHome',
+            '': 'loadHome'
         },
         
-        loadLogin: function () {
-            $('#register-form').css('display', 'none');
-            $('#login-form').css('display', 'block'); 
+        loadSettings: function () {
+            $('#home').css('display', 'none');
+            $('#settings').css('display', 'block');  
         },
         
-        loadRegister: function () {
-            $('#login-form').css('display', 'none');
-            $('#register-form').css('display', 'block');
+        loadHome: function () {
+            $('#settings').css('display', 'none');
+            $('#home').css('display', 'block');
         }
     });
 }(App.Routes));
