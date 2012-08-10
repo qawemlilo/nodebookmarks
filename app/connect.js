@@ -4,6 +4,8 @@ var mongoose = require('mongoose'),
     crypto = require('crypto'),    
     UserSchema, User, validEmail, validString,
     makeSalt,
+    BookmarkSchema,
+    Bookmark,
     test = [];
 
     
@@ -38,15 +40,6 @@ UserSchema = new Schema({
 });
 
 
-UserSchema.methods.hashPassword = function hashPassword (password) {
-    var salt = makeSalt();
-    this.salt = salt;
-    var cryp = crypto.createHmac('sha1', salt).update(password).digest('hex');
-    
-    return cryp;
-};
-
-
 User =  db.model('User', UserSchema);
 
 
@@ -60,12 +53,7 @@ exports.register = function (obj, fn) {
 
 exports.login = function (obj, fn) {
     var Model =  db.model('User');
-        
-    if (!validEmail( obj.email) || !validString(obj.password)) {
-        fn(true, {});
-        return;
-    }
-    
+
     Model.findOne({email:  obj.email}, function (err, user) {
         if (!(!!err) && (!!user)) {
             var passwordHash = crypto.createHmac('sha1', user.salt).update(obj.password).digest('hex');
@@ -91,13 +79,8 @@ exports.update = function (id, obj, fn) {
     
     Model.findById(id, function (err, user) {
         if (!(!!err) && (!!user)) {
-            if (obj.name && validString(obj.name)) {
-                user.name = obj.name;
-            }
-            
-            if (obj.email && validEmail(obj.email)) {
-                user.email = obj.email;
-            }
+            user.name = obj.name;
+            user.email = obj.email;
             
             if (obj.password && obj.password.length >= 6) {
                 user.password = obj.password; 

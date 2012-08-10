@@ -63,6 +63,60 @@ app.get('/home', function (req, res) {
     res.redirect('/');
 });
 
+app.get('/bookmarks', function (req, res) {
+    var bookmarks = [
+        {
+            url: 'http://mongoosejs.com',
+            title: 'mongoose',
+            notes: 'A mongodb framework for node',
+            tag: ['javascript', 'node', 'mongodb']
+            
+        },
+        {
+            url: 'http://stackoverflow.com',
+            title: 'stackoverflow',
+            notes: 'Network for programmers',
+            tag: ['programmers', 'code', 'answers']
+            
+        },
+        {
+            url: 'http://expressjs.com/',
+            title: 'Expressjs',
+            notes: 'A node.js framework',
+            tag: ['javascript', 'node', 'express']
+            
+        }
+    ];
+    res.send(bookmarks);
+});
+
+app.post('/bookmarks', function (req, res) {
+    var bookmarks = [
+        {
+            url: 'http://mongoosejs.com',
+            title: 'mongoose',
+            notes: 'A mongodb framework for node',
+            tag: ['javascript', 'node', 'mongodb']
+            
+        },
+        {
+            url: 'http://stackoverflow.com',
+            title: 'stackoverflow',
+            notes: 'Network for programmers',
+            tag: ['programmers', 'code', 'answers']
+            
+        },
+        {
+            url: 'http://expressjs.com/',
+            title: 'Expressjs',
+            notes: 'A node.js framework',
+            tag: ['javascript', 'node', 'express']
+            
+        }
+    ];
+    res.send(bookmarks);
+});
+
 app.get('/login', function (req, res) {
     res.redirect('/#login');
 });
