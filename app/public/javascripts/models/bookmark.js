@@ -5,6 +5,7 @@
 "use strict";
     Models.Bookmark = Backbone.Model.extend({
         defaults: {
+            date: '',
             url: '',
             title: '',
             notes: '',

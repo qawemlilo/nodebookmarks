@@ -7,13 +7,13 @@
 "use strict";
     Views.Bookmarks = Backbone.View.extend({
     
-        el: $('#home'),
+        el: $('#bookmarks-table'),
         
         
         initialize: function () {
             _.bindAll(this, 'addBookmark', 'addBookmarks');
             
-            this.collection = Collections.Bookmarks = new Collections.Bookmarks();
+            this.collection = new Collections.Bookmarks();
             
             this.collection.bind('add', this.addBookmark);
             this.collection.bind('reset', this.addBookmarks);
@@ -27,13 +27,11 @@
                 model: bookmarkModel
             });
             
-            console.log(bookmarkModel.get('title'));
-            
-            $(this.el).append(bookmarkView.render().el);
+            $(this.el).append(bookmarkView.el);
         }, 
 
         addBookmarks: function (bookmarkModel) {    
-            this.collection.each(this.addBookmark);
+            this.collection.forEach(this.addBookmark);
         }         
     });
 }(App.Views, App.Models, App.Collections));
