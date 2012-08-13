@@ -40,6 +40,14 @@ UserSchema = new Schema({
 });
 
 
+UserSchema.methods.hashPassword = function hashPassword (password) {
+    var salt = makeSalt();
+    this.salt = salt;
+    var cryp = crypto.createHmac('sha1', salt).update(password).digest('hex');
+    
+    return cryp;
+};
+
 User =  db.model('User', UserSchema);
 
 
