@@ -19,20 +19,23 @@
         
         
         initialize: function () {
-            _.bindAll(this, 'render', 'showDatails');          
+            _.bindAll(this, 'render', 'showDatails');
+            
+            this.render();
         },
+        
 
         render: function () {
             var div = $('<div>'), 
                 a = $('<a>', {
                     'class': 'bookmark-link',
-                    'href': this.model.url,
-                    'html': this.model.title,
+                    'href': this.model.get('url'),
+                    'html': this.model.get('title'),
                     'target': '_blank'
                 }),
                 
                 p = $('<p>', {
-                    'html': this.model.notes,
+                    'html': this.model.get('notes'),
                     'class': 'bookmark-note'
                 }),
                 
@@ -40,23 +43,24 @@
                     'class': 'tags'
                 });
                 
-            div.append(a);
-            div.append(p);            
+            $(div).append(a);
+            $(div).append(p);            
             
-            $(this.model.tags).each(function(i, tag){
-                $('<span>', {
+            (this.model.get('tags')).forEach(function(tag) {
+                var span = $('<span>', {
                     'class': 'tag',
                     'html': tag 
                 });
                 
-                tags.append(tag);
+                $(tags).append(span);
             });
             
-            div.append(tags);
+            $(div).append(tags);
             $(this.el).append(div);
             
             return this;
         },
+        
         
         showDatails: function () {
            alert(this.model.cid);

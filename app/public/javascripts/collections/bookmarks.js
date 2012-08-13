@@ -3,9 +3,13 @@
 */
 (function(Models, Collections) {
 "use strict";
-    Collections.Bookmarks = Backbone.Model.extend({
+    Collections.Bookmarks = Backbone.Collection.extend({
         model: Models.Bookmark,
         
-        url: '/bookmarks'
+        url: '/bookmarks',
+        
+        parse: function(response) {
+            console.log(response.results);
+        }
     });
 }(App.Models, App.Collections));

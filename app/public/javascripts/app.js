@@ -11,8 +11,10 @@ var App = {
         }
         
         if (page === 'home') {
-            App.Views.Settings = new App.Views.Settings();
-            App.Views.Bookmarks = new App.Views.Bookmarks();
+            var settingsView = new App.Views.Settings(),
+                bookmarksView = new App.Views.Bookmarks();
+                
+            App.Collections.Bookmarks = bookmarksView.collection;
         }
         
         Backbone.history.start();

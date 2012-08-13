@@ -63,31 +63,74 @@ app.get('/home', function (req, res) {
     res.redirect('/');
 });
 
+app.get('/login', function (req, res) {
+    res.redirect('/#login');
+});
+
+app.get('/settings',function (req, res) {
+    var user = req.session.user;
+    
+    if (user) {
+        res.send({password: '', name: user.name, email: user.email});
+    }
+    else {
+        res.send({});
+    }
+});
+
+app.get('/logout', function (req, res) {
+    if (req.session.user) {
+       req.session.destroy();
+    }
+    
+    res.redirect('/');
+});
+
 app.get('/bookmarks', function (req, res) {
     var bookmarks = [
         {
+            date: '',
             url: 'http://mongoosejs.com',
             title: 'mongoose',
             notes: 'A mongodb framework for node',
-            tag: ['javascript', 'node', 'mongodb']
+            tags: ['javascript', 'node', 'mongodb']
             
         },
         {
+            date: '',
             url: 'http://stackoverflow.com',
             title: 'stackoverflow',
             notes: 'Network for programmers',
-            tag: ['programmers', 'code', 'answers']
+            tags: ['programmers', 'code', 'answers']
             
         },
         {
+            date: '',
             url: 'http://expressjs.com/',
             title: 'Expressjs',
             notes: 'A node.js framework',
-            tag: ['javascript', 'node', 'express']
+            tags: ['javascript', 'node', 'express']
             
         }
     ];
     res.send(bookmarks);
+});
+
+
+
+/*
+    Post Routes - process requests
+*/
+app.post('/register', function (req, res) {
+    routes.register(req, res, connect);   
+});
+
+app.post('/settings', function (req, res) {
+    routes.update(req, res, connect);
+});
+
+app.post('/login', function (req, res) {   
+   routes.login(req, res, connect); 
 });
 
 app.post('/bookmarks', function (req, res) {
@@ -115,46 +158,6 @@ app.post('/bookmarks', function (req, res) {
         }
     ];
     res.send(bookmarks);
-});
-
-app.get('/login', function (req, res) {
-    res.redirect('/#login');
-});
-
-app.get('/settings',function (req, res) {
-    var user = req.session.user;
-    
-    if (user) {
-        res.send({password: '', name: user.name, email: user.email});
-    }
-    else {
-        res.send({});
-    }
-});
-
-app.get('/logout', function (req, res) {
-    if (req.session.user) {
-       req.session.destroy();
-    }
-    
-    res.redirect('/');
-});
-
-
-
-/*
-    Post Routes - process requests
-*/
-app.post('/register', function (req, res) {
-    routes.register(req, res, connect);   
-});
-
-app.post('/settings', function (req, res) {
-    routes.update(req, res, connect);
-});
-
-app.post('/login', function (req, res) {   
-   routes.login(req, res, connect); 
 });
 
 
