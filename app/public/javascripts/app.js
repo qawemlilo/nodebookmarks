@@ -16,7 +16,7 @@ var App = {
             
             var bookmarksView = new App.Views.Bookmarks();
 
-            bookmarksView.collection.add(bookmarks[0]);
+            bookmarksView.collection.add(bookmarks);
         }
         
         Backbone.history.start();
