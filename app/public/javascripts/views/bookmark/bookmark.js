@@ -22,6 +22,12 @@
         },
         
         
+        editTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
+        
+        
+        bookmarkTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
+        
+        
         initialize: function () {
             var $this = this;
             
@@ -56,14 +62,13 @@
         
 
         render: function () {
-            var $this = this,
-                model = this.model.toJSON(),
+            var model = this.model.toJSON(),
                 bookmarkTemplate;
                 
             model.date = new Date(parseInt(model.date)).toString().substring(4, 16);
-            bookmarkTemplate = new EJS({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}).render(model);
+            bookmarkTemplate = this.bookmarkTemplate.render(model);
                 
-            $($this.el).append(bookmarkTemplate);
+            $(this.el).append(bookmarkTemplate);
             
             return this;
         },
@@ -96,8 +101,10 @@
             });
             
             formObj.tags = formObj.tags.split(',') || [formObj.tags];
-            
+
             this.model.set(formObj);
+            
+            console.log(this.model);
 
             successHandler = function (model, response) {
                 editFormDiv.fadeOut(function () {
@@ -160,7 +167,7 @@
             $(this.el).find('.bookmark-edit-form').fadeOut(function () {
                 $($this.el).find('.bookmark-edit-form').remove();
                 $($this.el).find('.bookmark-main').fadeIn();
-                $($this.el).css('background', 'white');
+                $($this.el).removeClass('highlight');
             });
         },
         
@@ -172,13 +179,13 @@
                 model = this.model.toJSON(),
                 editTemplate;
             
-            model.tags = model.tags.length > 1 ? model.tags.join(', ') : model.tags[0];
+            model.tags = model.tags.length > 1 ? model.tags.join(',') : model.tags[0];
             
-            editTemplate = new EJS({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}).render(model);
+            editTemplate = this.editTemplate.render(model);
             
             $($this.el).find('.bookmark-main').fadeOut(function () {
                 $($this.el).find('.bookmark-middle-td').hide().append(editTemplate).fadeIn();
-                $($this.el).css('background', '#ffff99');
+                $($this.el).addClass('highlight');
             });
         },
         

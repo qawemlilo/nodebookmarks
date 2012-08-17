@@ -99,6 +99,10 @@ table td input.input {
   border: 1px solid #DDDDDD;
 }
 
+table .highlight {
+ background: #ffff99;
+}
+
 table td.bookmark-left-td {
   width: 15%;
 }
@@ -170,7 +174,7 @@ form.bookmark-edit-form label {
   font-weight: normal;
   font-size: 14px;
   width: 45px;
-  color: #000;
+  color: #FF6600;
 }
 
 form.bookmark-edit-form  .submit {
