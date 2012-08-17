@@ -6,10 +6,6 @@
     Collections.Bookmarks = Backbone.Collection.extend({
         model: Models.Bookmark,
         
-        url: '/bookmarks',
-        
-        parse: function(response) {
-            console.log(response.results);
-        }
+        url: '/bookmarks'
     });
 }(App.Models, App.Collections));

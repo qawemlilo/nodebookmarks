@@ -1,0 +1,22 @@
+﻿<td class='bookmark-left-td'>
+    <div class='bookmark-left'>
+        <div class='bookmark-date'><%= date %> </div>
+    </div>
+</td>
+  
+<td class='bookmark-middle-td'>
+    <div class='bookmark-main'>
+        <div class='bookmark-main-link'>
+            <a href='<%= url %>' class='bookmark-url' target='_blank' title='<%= notes %>'><%= title %></a>
+        </div>
+        <div class='bookmark-notes'><%= notes %></div>
+        <div class='bookmark-tags'>
+            <% for (var i = 0; i < tags.length; i++) { %>
+                <span class='tag'><%= tags[i] %></span>
+            <% }; %>
+        </div>
+        <div class='bookmark-main-edit'>
+            <a class='bookmark-edit-link' href='#'>Edit</a> | <a class='bookmark-delete' href='#'>Delete</a>
+        </div>
+    </div>
+</td>

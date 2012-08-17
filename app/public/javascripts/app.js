@@ -1,9 +1,10 @@
+
 /*
     @App - application namespace
 */
 var App = {
 
-    init: function (page) {
+    init: function (page, bookmarks) {
         new App.Routes.AppRouter(); 
         
         if (page === 'index') {
@@ -11,10 +12,11 @@ var App = {
         }
         
         if (page === 'home') {
-            var settingsView = new App.Views.Settings(),
-                bookmarksView = new App.Views.Bookmarks();
-                
-            App.Collections.Bookmarks = bookmarksView.collection;
+            App.Views.Settings = new App.Views.Settings();
+            
+            var bookmarksView = new App.Views.Bookmarks();
+
+            bookmarksView.collection.add(bookmarks[0]);
         }
         
         Backbone.history.start();

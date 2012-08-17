@@ -13,13 +13,15 @@
         },
         
         loadSettings: function () {
-            $('#home').css('display', 'none');
-            $('#settings').css('display', 'block');  
+            $('#home').fadeOut(function () {
+                $('#settings').fadeIn(); 
+            }); 
         },
         
         loadHome: function () {
-            $('#settings').css('display', 'none');
-            $('#home').css('display', 'block');
+            $('#settings').fadeOut(function () {
+                $('#home').fadeIn();
+            });
         }
     });
 }(App.Routes));

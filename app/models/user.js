@@ -83,25 +83,35 @@ exports.login = function (obj, fn) {
 
 
 exports.update = function (id, obj, fn) {
-    var Model =  db.model('User');
+    var Model =  db.model('User'), changed = false;
     
     Model.findById(id, function (err, user) {
         if (!(!!err) && (!!user)) {
-            user.name = obj.name;
-            user.email = obj.email;
+        
+            if (obj.name && user.name !== obj.name) {
+                user.name = obj.name;
+                changed = true;
+            }
+            if (obj.email && user.email !== obj.email) {
+                user.email = obj.email;
+                changed = true;
+            }
             
             if (obj.password && obj.password.length >= 6) {
                 user.password = obj.password; 
+                changed = true;
             }
-
-            user.save(function (err) {
-                if (!!err) {
-                    fn(true, {});
-                }
-                else {
-                  fn(false, user);
-                }
-            });
+            
+            if (changed) {
+                user.save(function (err) {
+                    if (!!err) {
+                        fn(true, {});
+                    }
+                    else {
+                        fn(false, user);
+                    }
+                });
+            }
             
         } else {
             fn(true, {});

@@ -84,6 +84,57 @@ body {
  font: "helvetica neue", helvetica, verdana, arial, sans-serif;
 }
 
+table {
+  width: 100%;
+}
+
+table td {
+  padding: 5px 0px 5px 0px;
+}
+
+table td input.input {
+  width: 400px;
+  padding: 2px;
+  margin-bottom: 2px;
+  border: 1px solid #DDDDDD;
+}
+
+table td.bookmark-left-td {
+  width: 15%;
+}
+
+table td.bookmark-middle-td {
+  width: 85%;
+}
+
+table div.bookmark-notes {
+  color: #828282;
+}
+
+span.tag {
+ background: #DDDDDD;
+ padding: 2px;
+ margin-right: 5px;
+}
+
+table td a.bookmark-edit-link, table td a.bookmark-delete {
+ color: #FF6600;
+ padding: 2px;
+ margin-right: 2px;
+}
+
+a.cancel {
+ margin-left: 10px;
+}
+
+table td a.bookmark-url {
+ color: #000;
+ font-weight: bold;
+ font-size: 14px;
+ padding: 5px 2px 5px 2px;
+ margin-top: 5px;
+}
+
 .container {
  width: 620px;
  margin: 0 auto;
@@ -109,8 +160,22 @@ fieldset {
  border: 1px solid #FF6600;
  width: 618px;
 }
+
 label {
  font-weight: bold;
+}
+
+form.bookmark-edit-form label {
+  float: left;
+  font-weight: normal;
+  font-size: 14px;
+  width: 45px;
+  color: #000;
+}
+
+form.bookmark-edit-form  .submit {
+  margin-left: 45px;
+  margin-top: 2px;
 }
 
 fieldset h1 {
@@ -129,7 +194,7 @@ fieldset p {
 #appMessage {
  width:100%;
  border-bottom:3px solid #fff !important;
- position:absolute;
+ position:fixed;
  top:0;
  left:0;
  z-index:1000;

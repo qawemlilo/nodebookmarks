@@ -3,7 +3,7 @@
       @Register View - $default loads registration for
       @Login View - loads login form
 */
-(function(Views, Models, Collections) {
+(function(Views, Models, Collections, $) {
 "use strict";
     Views.Bookmarks = Backbone.View.extend({
     
@@ -18,7 +18,7 @@
             this.collection.bind('add', this.addBookmark);
             this.collection.bind('reset', this.addBookmarks);
             
-            this.collection.fetch();
+            Collections.Bookmarks = this.collection;
         },
         
 
@@ -32,6 +32,7 @@
 
         addBookmarks: function (bookmarkModel) {    
             this.collection.forEach(this.addBookmark);
+            console.log(this.collection.models);
         }         
     });
-}(App.Views, App.Models, App.Collections));
+}(App.Views, App.Models, App.Collections, jQuery));

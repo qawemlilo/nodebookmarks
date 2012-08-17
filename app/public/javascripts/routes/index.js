@@ -12,13 +12,15 @@
         },
         
         loadLogin: function () {
-            $('#register-form').css('display', 'none');
-            $('#login-form').css('display', 'block'); 
+            $('#register-form').fadeOut(function () {
+                $('#login-form').fadeIn();
+            });
         },
         
         loadRegister: function () {
-            $('#login-form').css('display', 'none');
-            $('#register-form').css('display', 'block');
+            $('#login-form').fadeOut(function () {
+                $('#register-form').fadeIn();
+            });
         }
     });
 }(App.Routes));

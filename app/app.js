@@ -4,25 +4,17 @@
  */
 
 var express = require('express')
+  , config = require('./config')
   , mongoose = require('mongoose') 
   , MongoStore = require('connect-mongo')(express)
   , routes = require('./routes')
-  , connect = require('./connect')
-  , sessionDB = ''
-  , app
-  , config;
+  , userModel = require('./models/user')
+  , bookmarkModel = require('./models/bookmark')
+  , dbSession = ''
+  , app;
 
 
 app = module.exports = express.createServer();
-
-config = {
-    db: {
-        db: 'sessions',
-        host: 'localhost'
-    },
-    
-    secret: '076ee61d63aa10a125ea872411e433b9'
-};
 
 
 // Configuration
@@ -42,8 +34,8 @@ app.configure(function() {
 });
 
 
-sessionDB = 'mongodb://' + config.db.host + '/' + config.db.db;
-sessionDB = mongoose.createConnection(sessionDB);
+dbSession = 'mongodb://' + config.db.host + '/' + config.db.db;
+mongoose.createConnection(dbSession);
 
 app.configure('development', function () {
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
@@ -57,7 +49,9 @@ app.configure('production', function(){
 /*
     Get Routes
 */
-app.get('/', routes.index);
+app.get('/',  function (req, res) {
+    routes.index(req, res, bookmarkModel);
+});
 
 app.get('/home', function (req, res) {
     res.redirect('/');
@@ -87,33 +81,7 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/bookmarks', function (req, res) {
-    var bookmarks = [
-        {
-            date: '',
-            url: 'http://mongoosejs.com',
-            title: 'mongoose',
-            notes: 'A mongodb framework for node',
-            tags: ['javascript', 'node', 'mongodb']
-            
-        },
-        {
-            date: '',
-            url: 'http://stackoverflow.com',
-            title: 'stackoverflow',
-            notes: 'Network for programmers',
-            tags: ['programmers', 'code', 'answers']
-            
-        },
-        {
-            date: '',
-            url: 'http://expressjs.com/',
-            title: 'Expressjs',
-            notes: 'A node.js framework',
-            tags: ['javascript', 'node', 'express']
-            
-        }
-    ];
-    res.send(bookmarks);
+    routes.bookmarks(req, res, bookmarkModel);
 });
 
 
@@ -122,44 +90,28 @@ app.get('/bookmarks', function (req, res) {
     Post Routes - process requests
 */
 app.post('/register', function (req, res) {
-    routes.register(req, res, connect);   
+    routes.register(req, res, userModel);   
 });
 
 app.post('/settings', function (req, res) {
-    routes.update(req, res, connect);
+    routes.update(req, res, userModel);
 });
 
 app.post('/login', function (req, res) {   
-   routes.login(req, res, connect); 
+   routes.login(req, res, userModel); 
 });
 
-app.post('/bookmarks', function (req, res) {
-    var bookmarks = [
-        {
-            url: 'http://mongoosejs.com',
-            title: 'mongoose',
-            notes: 'A mongodb framework for node',
-            tag: ['javascript', 'node', 'mongodb']
-            
-        },
-        {
-            url: 'http://stackoverflow.com',
-            title: 'stackoverflow',
-            notes: 'Network for programmers',
-            tag: ['programmers', 'code', 'answers']
-            
-        },
-        {
-            url: 'http://expressjs.com/',
-            title: 'Expressjs',
-            notes: 'A node.js framework',
-            tag: ['javascript', 'node', 'express']
-            
-        }
-    ];
-    res.send(bookmarks);
+app.post('/bookmarks/add', function (req, res) {
+    routes.addbookmark(req, res, bookmarkModel);
 });
 
+app.put('/bookmarks/:id', function (req, res) {
+    routes.updatebookmark(req, res, bookmarkModel);
+});
+
+app.delete('/bookmarks/:id', function (req, res) {
+    routes.deletebookmark(req, res, bookmarkModel);
+});
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
