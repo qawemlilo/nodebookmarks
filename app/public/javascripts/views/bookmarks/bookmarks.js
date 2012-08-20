@@ -15,10 +15,10 @@
             
             $('.dropdown-toggle').dropdown();
             
-            this.collection = new Collections.Bookmarks();
+            this.collection = new Collections.Bookmarks;
             
-            this.collection.bind('add', this.addBookmark);
-            this.collection.bind('reset', this.viewAllBookmarks);
+            this.collection.on('add', this.addBookmark);
+            this.collection.on('reset', this.viewAllBookmarks);
             
             Collections.Bookmarks = this.collection;
         },
@@ -29,14 +29,14 @@
                 model: bookmarkModel
             });
             
-            $(this.el).append(bookmarkView.el);
+            this.$el.append(bookmarkView.el);
         },
         
 
         viewAllBookmarks: function () {
             var $this = this;
             
-            $(this.el).empty();
+            $this.$el.empty();
             this.collection.forEach(this.addBookmark);
             
             return this;
@@ -65,7 +65,7 @@
                 return $this.hasTag(tags, tag);
             });
             
-            $(this.el).empty();
+            this.$el.empty();
             tagCollection.forEach(this.addBookmark);
             
             return this;

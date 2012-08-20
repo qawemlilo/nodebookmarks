@@ -22,16 +22,17 @@
         loadSettings: function () {
             var settings;
             
-            if (!Views.Settings.el) {
+            if (!Views.Settings.fired) {
                 settings = new Views.Settings();
                 Views.Settings = settings;
             }
             else {
+                console.log('reloading');
                 settings = Views.Settings;
             }
             
             $('#content-body').fadeOut(function () {
-                $('#content-body').empty().append(settings.el);
+                $('#content-body').html(settings.el);
                 $('#content-body').fadeIn();
             }); 
         },

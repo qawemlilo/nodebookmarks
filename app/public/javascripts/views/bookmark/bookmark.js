@@ -31,7 +31,6 @@
         
         editTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
         
-        
         bookmarkTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
         
         
@@ -75,7 +74,7 @@
             model.date = this.formatDate(model.date);
             bookmarkTemplate = this.bookmarkTemplate.render(model);
                 
-            $(this.el).append(bookmarkTemplate);
+            this.$el.append(bookmarkTemplate);
             
             return this;
         },
@@ -83,9 +82,9 @@
         unrender: function () {
             var $this = this;
             
-            $(this.el).css('background', '#ffff99');
-            $(this.el).fadeOut(function () {
-                $($this.el).remove();
+            this.$el.css('background', '#ffff99');
+            this.$el.fadeOut(function () {
+                $this.$el.remove();
             });
         },
         
@@ -96,8 +95,8 @@
             
             var formObj = {}, 
                 $this = this, 
-                editForm = $(this.el).find('.bookmark-edit-form'),
-                editFormDiv = $(this.el).find('.bookmark-edit'),
+                editForm = this.$('.bookmark-edit-form'),
+                editFormDiv = this.$('.bookmark-edit'),
                 formValues = editForm.serializeArray(),
                 successHandler,
                 errorHandler;
@@ -126,7 +125,7 @@
                     editFormDiv.remove();
                     $this.activeEditor = false;
                         
-                    $($this.el).find('.bookmark-main').fadeIn(function () {
+                    $this.$('.bookmark-main').fadeIn(function () {
                         Views.Bookmarks.shout.call($this, response.msg, 5);
                     });
                 });
@@ -140,7 +139,7 @@
                     editFormDiv.remove();
                     $this.activeEditor = false;
                         
-                    $($this.el).find('.bookmark-main').fadeIn(function () {
+                    $this.$('.bookmark-main').fadeIn(function () {
                         Views.Bookmarks.shout.call($this, response.msg, 5);
                     });
                 });
@@ -180,9 +179,9 @@
             
             var $this = this;
             
-            $(this.el).find('.bookmark-edit-form').fadeOut(function () {
-                $($this.el).find('.bookmark-edit-form').remove();
-                $($this.el).find('.bookmark-main').fadeIn();
+            this.$('.bookmark-edit-form').fadeOut(function () {
+                $this.$('.bookmark-edit-form').remove();
+                $this.$('.bookmark-main').fadeIn();
                 $this.activeEditor = false;
             });
         },
@@ -203,33 +202,33 @@
             
             editTemplate = this.editTemplate.render(model);
             
-            $($this.el).find('.bookmark-main').fadeOut(function () {
-                $($this.el).find('.bookmark-middle-td').hide().append(editTemplate).fadeIn();
+            this.$('.bookmark-main').fadeOut(function () {
+                $this.$('.bookmark-middle-td').hide().append(editTemplate).fadeIn();
                 $this.activeEditor = true;
             });
         },
         
         
         hideEdit: function () {
-            $(this.el).find('.edit').addClass('hidden');
+            this.$('.edit').addClass('hidden');
         },
         
         
         update: function (view) {
             if (view === 'title') {
-                $(this.el).find('.bookmark-url').html(this.model.get('title'));   
+                this.$('.bookmark-url').html(this.model.get('title'));   
             }
             
             if (view === 'notes') {
-                $(this.el).find('.bookmark-notes').html(this.model.get('notes'));   
+                this.$('.bookmark-notes').html(this.model.get('notes'));   
             }
 
             if (view === 'url') {
-                $(this.el).find('.bookmark-url').attr({'href': this.model.get('url')});   
+                this.$('.bookmark-url').attr({'href': this.model.get('url')});   
             }
             
             if (view === 'tags') {
-                var div = $(this.el).find('.bookmark-tags');
+                var div = this.$('.bookmark-tags');
                 
                 div.find('.label').remove();
                 
@@ -262,6 +261,26 @@
             var newdate = new Date(parseInt(date)).toString().substring(4, 16);
             
             return newdate;
+        },
+        
+        assign : function (selector, view) {
+            var selectors;
+            
+            if (_.isObject(selector)) {
+                selectors = selector;
+            }
+            else {
+                selectors = {};
+                selectors[selector] = view;
+            }
+            
+            if (!selectors) {
+                return;
+            }
+            
+            _.each(selectors, function (view, selector) {
+                view.setElement(this.$(selector)).render();
+            }, this);
         }        
     });
 }(App.Views, App.Models, jQuery));

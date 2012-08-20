@@ -14,9 +14,7 @@
         
         
         initialize: function () {
-            var $this = this;
-            
-            _.bindAll(this, 'render');           
+            _.bindAll(this, 'render', 'getAllTags', 'getDistinctTags');           
  
             this.render();
         },
@@ -27,7 +25,7 @@
 
             controlsTemplate = this.controlsTemplate.render({tags: tags});
                 
-            $(this.el).append(controlsTemplate);
+            this.$el.append(controlsTemplate);
             
             return this;
         },
@@ -60,6 +58,26 @@
             });
             
             return tags;
+        },
+        
+        assign : function (selector, view) {
+            var selectors;
+            
+            if (_.isObject(selector)) {
+                selectors = selector;
+            }
+            else {
+                selectors = {};
+                selectors[selector] = view;
+            }
+            
+            if (!selectors) {
+                return;
+            }
+            
+            _.each(selectors, function (view, selector) {
+                view.setElement(this.$(selector)).render();
+            }, this);
         }
     });
 }(App.Views, App.Models, App.Collections, jQuery));

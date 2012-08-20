@@ -5,11 +5,11 @@ var trim = function(str) {
     @App - application namespace
 */
 
-(function (window) {
+(function (window, Backbone) {
   var App = {
 
     init: function (page, bookmarks) {
-        var bookmarksView, router, controls, settings;
+        var bookmarksView, router, controls;
         
         router = new App.Routes.AppRouter(); 
         
@@ -44,6 +44,7 @@ var trim = function(str) {
   };
   
   window.App = App;
-}(window));
+  
+}(window, Backbone));
 
 

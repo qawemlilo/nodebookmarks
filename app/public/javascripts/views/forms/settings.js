@@ -15,6 +15,8 @@
         
         errors: 0,
         
+        fired: false,
+        
         
         settingsTemplate: new EJS({url: '/javascripts/views/forms/tmpl/settings.ejs'}),
         
@@ -22,14 +24,14 @@
         events: {
             'submit #settings-form': 'updateUser',
             
-            'blur #settings-form #name': 'validateName',
+            'blur #name': 'validateName',
             
-            'blur settings-form #email': 'validateSettingsEmail'
+            'blur #email': 'validateSettingsEmail'
         },
         
         
         initialize: function () {
-            _.bindAll(this, 'render', 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail', 'shout');
+            _.bindAll(this, 'render', 'reload', 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail', 'shout');
             
             var $this = this, user = new Models.User();
             
@@ -37,10 +39,13 @@
                 success: function (model, res){
                     Models.User = model;
                     $this.render(res);
+                    $this.fired = true;
                 }, 
                 error: function (model, res){
                     $this.render(res.model);
-                    $this.shout(res.msg, 10); 
+                    $this.shout(res.msg, 10);
+                    
+                    $this.fired = true;
                 }
             });
         },
@@ -49,7 +54,16 @@
         render: function (user) {
             var settingsTemplate = this.settingsTemplate.render(user);
                 
-            $(this.el).append(settingsTemplate);
+            this.$el.append($(settingsTemplate));
+
+            return this;
+        }, 
+        
+
+        reload: function () {
+            var settingsTemplate = this.settingsTemplate.render(Models.User.toJSON());
+                
+            this.$el.empty().append($(settingsTemplate));
 
             return this;
         },        
