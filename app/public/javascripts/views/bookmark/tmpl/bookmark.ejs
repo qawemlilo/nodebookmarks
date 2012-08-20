@@ -1,6 +1,6 @@
 ﻿<td class='bookmark-left-td'>
     <div class='bookmark-date'>
-        <div class='bookmark-date-text'><%= date %> </div>
+        <div class='bookmark-date-text'><%= date %></div>
     </div>
 </td>
   
@@ -11,8 +11,9 @@
         </div>
         <div class='bookmark-notes'><%= notes %></div>
         <div class='bookmark-tags'>
+            <i class="icon-tags"></i>
             <% for (var i = 0; i < tags.length; i++) { %>
-                <span class='tag'><%= tags[i] %></span>
+                <span class='label'><%= tags[i].toLowerCase() %></span>
             <% }; %>
         </div>
         <div class='bookmark-main-edit'>

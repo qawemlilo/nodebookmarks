@@ -1,24 +1,7 @@
+
+div(style='margin-bottom: 20px', id='controls', class='btn-toolbar')
+     
 div#home
-  table#bookmarks-table
+  table(id='bookmarks-table', class='table')
 
 div#settings
-
-  h1 Account Settings
-  
-  form(action='/settings', id='settings-form', name='settings-form', method='post')
-    fieldset
-      h1 Edit Account Info
-      p
-        label(for='name') Name
-        br 
-        input(name='name', type='text', class='input', value='#{user.name}', id='name', style='width: 300px; color: #000')
-      p
-        label(for='email') Email
-        br 
-        input(name='email', type='text', class='input', value='#{user.email}', id='email', style='width: 300px; color: #000')
-      p
-        label(for='password') New Password
-        br 
-        input(name='password', type='password', class='input', value='', id='password', style='width: 300px; color: #000')
-      p
-        input(name='submit', type='submit', class='button white', value='Save', id='submit')

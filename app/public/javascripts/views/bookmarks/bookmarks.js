@@ -11,12 +11,14 @@
         
         
         initialize: function () {
-            _.bindAll(this, 'addBookmark', 'addBookmarks');
+            _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'filterTags', 'hasTag');
+            
+            $('.dropdown-toggle').dropdown();
             
             this.collection = new Collections.Bookmarks();
             
             this.collection.bind('add', this.addBookmark);
-            this.collection.bind('reset', this.addBookmarks);
+            this.collection.bind('reset', this.viewAllBookmarks);
             
             Collections.Bookmarks = this.collection;
         },
@@ -28,11 +30,74 @@
             });
             
             $(this.el).append(bookmarkView.el);
-        }, 
+        },
+        
 
-        addBookmarks: function (bookmarkModel) {    
+        viewAllBookmarks: function () {
+            var $this = this;
+            
+            $(this.el).empty();
             this.collection.forEach(this.addBookmark);
-            console.log(this.collection.models);
-        }         
+            
+            return this;
+        },
+        
+        
+        hasTag: function (tags, testTag) {
+            var yes = false;  
+              
+            tags.forEach(function (tag) {
+                if (trim(tag) === testTag) {
+                    yes = true;   
+                }
+            });
+            
+            return yes; 
+        },
+        
+        
+        filterTags: function (tag) {
+            var tagCollection, $this = this;
+            
+            tagCollection = this.collection.filter(function (bookmark) {
+                var tags = bookmark.get('tags');
+                
+                return $this.hasTag(tags, tag);
+            });
+            
+            $(this.el).empty();
+            tagCollection.forEach(this.addBookmark);
+            
+            return this;
+        },
+
+        /*
+            @Details - Displays notifications to the user
+            @Params -  String msg - text to be displayed
+                       Number x - seconds before msg is cleared, default max
+        */
+        shout: function (msg, x) {
+            if ($("#appMessage")) {
+                $("#appMessage").fadeOut(function () {
+                    $("#appMessage").remove();
+                });
+            }
+            
+            var elem = $('<div>', {'id': 'appMessage', html: msg});
+            
+            elem.click(function () {
+                $(this).fadeOut(function () {
+                    $(this).remove();
+                });
+            });
+            
+            if (x) {
+                setTimeout(function () {
+                    elem.click();
+                }, x * 1000);
+            }
+            
+            elem.hide().appendTo('body').slideDown();
+        }        
     });
 }(App.Views, App.Models, App.Collections, jQuery));

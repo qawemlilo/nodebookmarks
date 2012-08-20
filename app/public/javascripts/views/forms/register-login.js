@@ -16,6 +16,12 @@
         registerErrors: 0,
         
         
+        registerTemplate: new EJS({url: '/javascripts/views/forms/tmpl/register.ejs'}),
+        
+        
+        loginTemplate: new EJS({url: '/javascripts/views/forms/tmpl/login.ejs'}),
+        
+        
         events: {
             'submit #register-form': 'registerUser',
             
@@ -35,6 +41,21 @@
         
         initialize: function () {
             _.bindAll(this, 'registerUser', 'loginUser', 'validateName', 'validateRegisterEmail', 'validateLoginEmail', 'validatePassword', 'shout');
+            
+            this.render();
+        },
+        
+        
+        render: function () {
+            var loginTemplate, registerTemplate;
+                
+            registerTemplate = this.registerTemplate.render({});
+            loginTemplate = this.loginTemplate.render({});
+                
+            $(this.el).append(registerTemplate);
+            $(loginTemplate).hide().appendTo(this.el);
+            
+            return this;
         },
         
         

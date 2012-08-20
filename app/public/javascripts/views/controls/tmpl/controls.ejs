@@ -1,0 +1,33 @@
+<div class="btn-group">
+    <button class="btn btn-large"> <i class='icon-eye-open'></i> Limit</button>
+    <button data-toggle="dropdown" class="btn btn-large dropdown-toggle">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="/#limit/10">10</a></li>
+        <li><a href="/#limit/20">20</a></li>
+        <li><a href="/#limit/50">50</a></li>
+        <li class="divider"></li>
+        <li><a href="/#limit/all">All</a></li>
+    </ul>
+</div>
+
+<div class="btn-group">
+    <button class="btn btn-large btn-info"> <i class='icon-tags icon-white'></i> Tags</button>
+    <button data-toggle="dropdown" class="btn btn-large btn-info dropdown-toggle">
+        <span class="caret"></span>
+    </button>
+    <ul class='dropdown-menu bookmark-menu-tags'>
+        <% tags.forEach(function (tag) { %>
+            <li>
+                <a href='/#tags/<%= tag %>'><%= tag %></a>
+            </li>
+        <% }) %>
+        <li class="divider"></li>
+        <li><a href="/#reset">Clear Filter</a></li>
+    </ul>
+</div>
+
+<div class="btn-group pull-right">
+    <button class="btn btn-large"> <i class='icon-bookmark'></i> New Bookmark</button>
+</div>

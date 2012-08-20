@@ -1,22 +1,30 @@
-
+var trim = function(str) {
+	return str.replace(/^\s+|\s+$/,'');
+};
 /*
     @App - application namespace
 */
-var App = {
+
+(function (window) {
+  var App = {
 
     init: function (page, bookmarks) {
-        new App.Routes.AppRouter(); 
+        var bookmarksView, router, controls, settings;
+        
+        router = new App.Routes.AppRouter(); 
         
         if (page === 'index') {
             App.Views.Form = new App.Views.Form();
         }
         
         if (page === 'home') {
-            App.Views.Settings = new App.Views.Settings();
-            
-            var bookmarksView = new App.Views.Bookmarks();
-
+            bookmarksView = new App.Views.Bookmarks();
             bookmarksView.collection.add(bookmarks);
+            
+            controls = new App.Views.Controls();          
+            
+            App.Views.Bookmarks = bookmarksView;
+            App.Views.Controls = controls;
         }
         
         Backbone.history.start();
@@ -33,4 +41,9 @@ var App = {
     
     
     Collections: {}
-};
+  };
+  
+  window.App = App;
+}(window));
+
+

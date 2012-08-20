@@ -1,0 +1,37 @@
+<form class='well form-horizontal' method='post' name='settings-form' id='settings-form' action='/settings'>
+   <fieldset>
+     <legend>Edit Account</legend>
+     
+      <div class='control-group'>
+        <label class='control-label' for='name'>Name</label>
+          <div class='controls'>
+            <input type='text' class='span3' id='name' value='<%= name %>' name='name'>
+          </div>
+        </div>
+        
+        <div class='control-group'>
+          <label class='control-label' for='email'>Email</label>
+           
+          <div class='controls'>
+            <input type='text' class='span3' id='email' value='<%= email %>' name='email'>
+          </div>
+        </div>
+        
+        <div class='control-group'>
+          <label class='control-label' for='password'>Password</label>
+           
+          <div class='controls'>
+            <input type='password' class='span3' id='password' value='' name='password'>
+          </div>
+        </div>
+        
+        <div class='control-group'>
+          <label class='control-label'></label>
+           
+          <div class='controls'>
+            <input type='submit' class='btn' id='submit' value='Save' name='submit'>
+            <button class='btn cancel'>Cancel</button>
+          </div>
+        </div>
+    </fieldset>
+</form>

@@ -3,15 +3,19 @@
       @Register View - $default loads registration for
       @Login View - loads login form
 */
-(function(Views, Models) {
+(function(Views, Models, $) {
 "use strict";
     Views.Bookmark = Backbone.View.extend({
     
         tagName: 'tr',
         
+        
         className: 'bookmark',
         
+        
         events: {
+            'dblclick': 'loadEditor',
+            
             'click .bookmark-main-edit .bookmark-edit-link': 'loadEditor',
             
             'click .bookmark-main-edit .bookmark-delete': 'deleteBookmark',
@@ -20,6 +24,9 @@
             
             'submit .bookmark-edit-form': 'saveEdit'
         },
+        
+        
+        activeEditor: false,
         
         
         editTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
@@ -65,7 +72,7 @@
             var model = this.model.toJSON(),
                 bookmarkTemplate;
                 
-            model.date = new Date(parseInt(model.date)).toString().substring(4, 16);
+            model.date = this.formatDate(model.date);
             bookmarkTemplate = this.bookmarkTemplate.render(model);
                 
             $(this.el).append(bookmarkTemplate);
@@ -85,6 +92,7 @@
         
         saveEdit: function (e) {
             e.preventDefault();
+            var cleantags = [];
             
             var formObj = {}, 
                 $this = this, 
@@ -101,18 +109,25 @@
             });
             
             formObj.tags = formObj.tags.split(',') || [formObj.tags];
+            
+            formObj.tags.forEach(function (rawTag) {
+                cleantags.push(trim(rawTag));
+            });
+             
+            formObj.tags = cleantags;
 
             this.model.set(formObj);
-            
-            console.log(this.model);
 
             successHandler = function (model, response) {
+                var prevAttributes = $this.model.previousAttributes(); 
+                $this.model.set(prevAttributes);
+                
                 editFormDiv.fadeOut(function () {
                     editFormDiv.remove();
+                    $this.activeEditor = false;
                         
                     $($this.el).find('.bookmark-main').fadeIn(function () {
-                        Views.Settings.shout.call($this, response.msg, 5);
-                        $($this.el).css('background', 'white');
+                        Views.Bookmarks.shout.call($this, response.msg, 5);
                     });
                 });
             };
@@ -123,10 +138,10 @@
                 
                 editFormDiv.fadeOut(function () {
                     editFormDiv.remove();
+                    $this.activeEditor = false;
                         
                     $($this.el).find('.bookmark-main').fadeIn(function () {
-                        Views.Settings.shout.call($this, response.msg, 5);
-                        $($this.el).css('background', 'white');
+                        Views.Bookmarks.shout.call($this, response.msg, 5);
                     });
                 });
             };
@@ -138,21 +153,21 @@
         deleteBookmark: function (e) {
             e.preventDefault();
             
-            var sure = confirm('Are you sure you want to delete this bookmark?'), 
-                $this = this,
+            var $this = this,
                 errorHandler,
                 successHandler;
                 
-            if (!sure) {
-                return false;
-            }   
+            if (!confirm('Are you sure you want to delete this bookmark?')) {
+                return;
+            } 
+               
             successHandler = function (model, response) {
                 $this.unrender();
-                Views.Settings.shout.call($this, response.msg, 5);
+                Views.Bookmarks.shout.call($this, response.msg, 5);
             };
             
             errorHandler = function (model, response) {
-                Views.Settings.shout.call($this, response.msg, 5);
+                Views.Bookmarks.shout.call($this, response.msg, 5);
             };
             
             this.model.destroy({success: successHandler, error: errorHandler});
@@ -160,21 +175,26 @@
         
         
         cancelEdit: function (e) {
-            e.preventDefault();
+            
+            if(e) e.preventDefault();
             
             var $this = this;
             
             $(this.el).find('.bookmark-edit-form').fadeOut(function () {
                 $($this.el).find('.bookmark-edit-form').remove();
                 $($this.el).find('.bookmark-main').fadeIn();
-                $($this.el).removeClass('highlight');
+                $this.activeEditor = false;
             });
         },
         
         
         loadEditor: function (e) {
             e.preventDefault();
-
+            
+            if (this.activeEditor) {
+                return;
+            }
+            
             var $this = this, 
                 model = this.model.toJSON(),
                 editTemplate;
@@ -185,7 +205,7 @@
             
             $($this.el).find('.bookmark-main').fadeOut(function () {
                 $($this.el).find('.bookmark-middle-td').hide().append(editTemplate).fadeIn();
-                $($this.el).addClass('highlight');
+                $this.activeEditor = true;
             });
         },
         
@@ -211,11 +231,11 @@
             if (view === 'tags') {
                 var div = $(this.el).find('.bookmark-tags');
                 
-                div.empty();
+                div.find('.label').remove();
                 
                 (this.model.get('tags')).forEach(function (tag) {
                     var span = $('<span>', {
-                        'class': 'tag',
+                        'class': 'label',
                         'html': tag.toLowerCase() 
                     });
                     
@@ -235,6 +255,13 @@
             });
             
             return formObj;
+
+        },
+
+        formatDate: function (date) {
+            var newdate = new Date(parseInt(date)).toString().substring(4, 16);
+            
+            return newdate;
         }        
     });
-}(App.Views, App.Models));
+}(App.Views, App.Models, jQuery));

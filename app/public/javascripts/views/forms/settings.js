@@ -7,24 +7,52 @@
 "use strict";
     Views.Settings = Backbone.View.extend({
     
-        el: $('#settings'),
+        tagName: 'div',
         
+        
+        id: 'settings',
+       
         
         errors: 0,
+        
+        
+        settingsTemplate: new EJS({url: '/javascripts/views/forms/tmpl/settings.ejs'}),
         
         
         events: {
             'submit #settings-form': 'updateUser',
             
-            'blur #name': 'validateName',
+            'blur #settings-form #name': 'validateName',
             
-            'blur #email': 'validateSettingsEmail'
+            'blur settings-form #email': 'validateSettingsEmail'
         },
         
         
         initialize: function () {
-            _.bindAll(this, 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail', 'shout');
+            _.bindAll(this, 'render', 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail', 'shout');
+            
+            var $this = this, user = new Models.User();
+            
+            user.fetch({
+                success: function (model, res){
+                    Models.User = model;
+                    $this.render(res);
+                }, 
+                error: function (model, res){
+                    $this.render(res.model);
+                    $this.shout(res.msg, 10); 
+                }
+            });
         },
+        
+        
+        render: function (user) {
+            var settingsTemplate = this.settingsTemplate.render(user);
+                
+            $(this.el).append(settingsTemplate);
+
+            return this;
+        },        
         
         
         /*
@@ -43,8 +71,7 @@
                 
             data = $this.getFormObject('settings-form');  
 
-            user = new Models.User();
-            user.setUrl('settings');
+            user = Models.User;
             user.save(data, 
             {
                 success: function (model, res) {
@@ -53,10 +80,10 @@
                     $('#name').attr('value', model.get('name'));
                     $('#name').val(model.get('name'));
                     
-                    $this.shout('Account settings saved!');
+                    $this.shout(res.msg, 5);
                 },
-                error: function () {
-                    $this.shout('Error, account settings not saved!');
+                error: function (model, res) {
+                    $this.shout(res.msg, 5);
                 }                
             });
         },

@@ -8,7 +8,9 @@
     Routes.AppRouter = Backbone.Router.extend({
         routes: {
             'login': 'loadLogin',
-            'register': 'loadRegister'
+            'register': 'loadRegister',
+            'index': 'loadRegister',
+            '': 'loadRegister'
         },
         
         loadLogin: function () {

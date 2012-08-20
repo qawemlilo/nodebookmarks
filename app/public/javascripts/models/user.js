@@ -10,7 +10,7 @@
             password:''
         },
         
-        url: 'register',
+        url: 'user',
         
         setUrl: function (url) {
             this.url = url;

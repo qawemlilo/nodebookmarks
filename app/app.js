@@ -46,9 +46,19 @@ app.configure('production', function(){
 });
 
 
-/*
+
+
+
+/**************
+
     Get Routes
+    
+***************/
+
+/*
+    Global Get Requests
 */
+
 app.get('/',  function (req, res) {
     routes.index(req, res, bookmarkModel);
 });
@@ -61,16 +71,26 @@ app.get('/login', function (req, res) {
     res.redirect('/#login');
 });
 
-app.get('/settings',function (req, res) {
+
+/*
+    User model 'get' requests
+*/
+
+app.get('/user', function (req, res) {
     var user = req.session.user;
+
     
+    //User logged in, backbone fetch request
     if (user) {
         res.send({password: '', name: user.name, email: user.email});
     }
+    
+    // User session has expired 
     else {
-        res.send({});
-    }
+        res.send(500, {model: {password: '', name: '', email: ''}, msg: 'Your session has expired, please login'});
+    }   
 });
+
 
 app.get('/logout', function (req, res) {
     if (req.session.user) {
@@ -80,38 +100,88 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
+
+/*
+    Bookmark model 'get' requests
+*/
+
 app.get('/bookmarks', function (req, res) {
     routes.bookmarks(req, res, bookmarkModel);
 });
 
 
 
-/*
-    Post Routes - process requests
-*/
-app.post('/register', function (req, res) {
-    routes.register(req, res, userModel);   
-});
 
-app.post('/settings', function (req, res) {
-    routes.update(req, res, userModel);
-});
+
+/*****************
+
+    Post Routes
+    
+*****************/
+
+/*
+        User model 'post' requests
+*/
 
 app.post('/login', function (req, res) {   
    routes.login(req, res, userModel); 
 });
 
+
+app.post('/user', function (req, res) {
+    var user = req.session.user;
+    
+    //User logged, update details
+    if (user) {
+        routes.update(req, res, userModel);
+    }
+    
+    // User not logged, register the user
+    else {
+        routes.register(req, res, userModel);
+    }
+});
+
+
+/*
+        Bookmark model requests
+*/
+
+// New bookmark
 app.post('/bookmarks/add', function (req, res) {
     routes.addbookmark(req, res, bookmarkModel);
 });
 
+
+
+/*****************
+
+    Put Routes
+    
+*****************/
+
+// Update bookmark
 app.put('/bookmarks/:id', function (req, res) {
     routes.updatebookmark(req, res, bookmarkModel);
 });
 
+
+
+/*****************
+
+    Delete Routes
+    
+*****************/
+
+// Delete bookmark
 app.delete('/bookmarks/:id', function (req, res) {
     routes.deletebookmark(req, res, bookmarkModel);
 });
 
+
+
+
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
+
