@@ -24,6 +24,11 @@ div.navbar .navbar-inner {
  color: #333;
 }
 
+div.navbar {
+ border-bottom: 2px solid #FF6600;
+ margin-bottom: 30px;
+}
+
 .navbar .brand, div.navbar .navbar-inner {
  color: #333;
  text-shadow: none;
@@ -144,6 +149,7 @@ div a.bookmark-url {
 ******************/
 form.well {
   background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.25);
 }
 
 #login-form {
@@ -176,12 +182,8 @@ form input.warning {
  border: 1px solid red !important; 
 }
 
-form.bookmark-edit-form .save {
-  color: green;
-}
-
-form.bookmark-edit-form .cancel {
-  color: #FF6600;
+form.bookmark-edit-form .save, form.bookmark-edit-form .cancel {
+  color: #000;
 }
 
 form input.span3 {
@@ -196,7 +198,7 @@ form input.span3 {
 **************/
 
 footer  {
- border-top: 1px solid #FF6600;
+ border-top: 2px solid #FF6600;
  margin-top: 40px;
  margin-bottom: 40px;
  padding-top: 0.83em;

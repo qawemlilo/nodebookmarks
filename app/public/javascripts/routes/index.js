@@ -5,7 +5,7 @@
 */
 (function(Routes) {
 "use strict";
-    Routes.AppRouter = Backbone.Router.extend({
+    Routes.Router = Backbone.Router.extend({
         routes: {
             'login': 'loadLogin',
             'register': 'loadRegister',

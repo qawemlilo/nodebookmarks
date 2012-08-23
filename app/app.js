@@ -165,6 +165,14 @@ app.put('/bookmarks/:id', function (req, res) {
     routes.updatebookmark(req, res, bookmarkModel);
 });
 
+app.put('/bookmarks/add', function (req, res) {
+    routes.addbookmark(req, res, bookmarkModel);
+});
+
+app.put('/bookmarks', function (req, res) {
+    routes.addbookmark(req, res, bookmarkModel);
+});
+
 
 
 /*****************

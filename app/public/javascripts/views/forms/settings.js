@@ -7,15 +7,13 @@
 "use strict";
     Views.Settings = Backbone.View.extend({
     
-        tagName: 'div',
-        
-        
-        id: 'settings',
+        el: $('#settings'),
        
         
         errors: 0,
         
-        fired: false,
+        
+        user: {},
         
         
         settingsTemplate: new EJS({url: '/javascripts/views/forms/tmpl/settings.ejs'}),
@@ -31,31 +29,19 @@
         
         
         initialize: function () {
-            _.bindAll(this, 'render', 'reload', 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail', 'shout');
+            _.bindAll(this, 'render', 'reload', 'createUser', 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail', 'shout');
             
-            var $this = this, user = new Models.User();
-            
-            user.fetch({
-                success: function (model, res){
-                    Models.User = model;
-                    $this.render(res);
-                    $this.fired = true;
-                }, 
-                error: function (model, res){
-                    $this.render(res.model);
-                    $this.shout(res.msg, 10);
-                    
-                    $this.fired = true;
-                }
-            });
+            return this;
         },
         
         
-        render: function (user) {
-            var settingsTemplate = this.settingsTemplate.render(user);
+        render: function () {
+            this.createUser(function (user) { 
+                var settingsTemplate = this.settingsTemplate.render(user);
                 
-            this.$el.append($(settingsTemplate));
-
+                this.$el.append($(settingsTemplate))
+            }.bind(this));
+            
             return this;
         }, 
         
@@ -85,7 +71,7 @@
                 
             data = $this.getFormObject('settings-form');  
 
-            user = Models.User;
+            user = new Models.User();
             user.save(data, 
             {
                 success: function (model, res) {
@@ -99,6 +85,20 @@
                 error: function (model, res) {
                     $this.shout(res.msg, 5);
                 }                
+            });
+        },
+        
+        
+        createUser: function (fn) {
+            var user = new Models.User();
+            
+            user.fetch({
+                success: function (model, res){
+                    fn(res);
+                }, 
+                error: function (model, res){
+                    fn({name: '', email: '', password: ''});
+                }
             });
         },
         

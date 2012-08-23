@@ -3,7 +3,7 @@
       @Register View - $default loads registration for
       @Login View - loads login form
 */
-(function(Views, Models) {
+(function(Views, Models, Routes) {
 "use strict";
     Views.Form = Backbone.View.extend({
     
@@ -41,6 +41,8 @@
         
         initialize: function () {
             _.bindAll(this, 'registerUser', 'loginUser', 'validateName', 'validateRegisterEmail', 'validateLoginEmail', 'validatePassword', 'shout');
+            
+            this.router = new Routes.Router();
             
             this.render();
         },
@@ -301,4 +303,4 @@
             elem.hide().appendTo('body').slideDown();
         }            
     });
-}(App.Views, App.Models));
+}(App.Views, App.Models, App.Routes));

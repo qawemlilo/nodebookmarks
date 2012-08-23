@@ -131,11 +131,11 @@ exports.addbookmark = function (req, res, bookmarkModel) {
         bookmarkObj.tags = req.body.tags;
         bookmarkObj.date = req.body.date;
         
-        bookmarkModel.add(bookmarkObj,  function (error,  bookmarks) {
+        bookmarkModel.add(bookmarkObj,  function (error,  bookmark) {
             if (error) {
                 res.send(500, {error: true, msg: 'An error occured, Bookmark not saved'}); 
             } else {
-               res.send({error: false, msg: 'Bookmarks saved'});   
+               res.send({error: false, msg: 'Bookmarks saved', model: bookmark});   
             }
         });
         

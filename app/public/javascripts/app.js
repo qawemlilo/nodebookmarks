@@ -9,24 +9,18 @@ var trim = function(str) {
   var App = {
 
     init: function (page, bookmarks) {
-        var bookmarksView, router, controls;
-        
-        router = new App.Routes.AppRouter(); 
-        
-        if (page === 'index') {
-            App.Views.Form = new App.Views.Form();
-        }
-        
+    
         if (page === 'home') {
-            bookmarksView = new App.Views.Bookmarks();
-            bookmarksView.collection.add(bookmarks);
+            var app = new App.Views.App({collection: bookmarks});
+            App.Views.App = app;
+        }
+        if (page === 'index') {
+            var form = new App.Views.Form();
             
-            controls = new App.Views.Controls();          
-            
-            App.Views.Bookmarks = bookmarksView;
-            App.Views.Controls = controls;
+            App.Views.Form = form;
         }
         
+
         Backbone.history.start();
     },
     

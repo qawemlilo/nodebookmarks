@@ -30,7 +30,7 @@ Bookmark =  db.model('Bookmark', BookmarkSchema);
 exports.add = function (bookmarkObj, fn) {
     var bookmark = new Bookmark(bookmarkObj);
     bookmark.save(function (err) {
-        fn(err);    
+        fn(err, bookmark);    
     });
 };
 

@@ -10,8 +10,11 @@
         el: $('#bookmarks-table'),
         
         
+        paginator: {},
+        
+        
         initialize: function () {
-            _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'filterTags', 'hasTag');
+            _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'goTo', 'filterTags', 'hasTag');
             
             $('.dropdown-toggle').dropdown();
             
@@ -23,8 +26,15 @@
             Collections.Bookmarks = this.collection;
         },
         
+        
+        render: function () {
+            this.viewAllBookmarks();
 
-        addBookmark: function (bookmarkModel) {    
+            return this;
+        },
+        
+
+        addBookmark: function (bookmarkModel) { 
             var bookmarkView = new Views.Bookmark({
                 model: bookmarkModel
             });
@@ -32,14 +42,42 @@
             this.$el.append(bookmarkView.el);
         },
         
+        
+        newBookmark: function (bookmarkModel) {    
+            var bookmarkView = new Views.Bookmark({
+                model: bookmarkModel
+            });
+            console.log(bookmarkModel.url);
+            this.$el.prepend(bookmarkView.el);
+            bookmarkView.loadEditor();
+        },
+        
 
         viewAllBookmarks: function () {
-            var $this = this;
-            
-            $this.$el.empty();
-            this.collection.forEach(this.addBookmark);
+            this.$el.fadeOut(function () {
+                this.$el.empty();
+                this.count = 0;
+                this.collection.forEach(this.addBookmark);
+                this.$el.fadeIn();
+            }.bind(this));
             
             return this;
+        },
+        
+        
+        goTo: function (num) {
+            var yes = false, $this = this;
+            
+            $this.count = 0;
+            $this.$el.empty();
+            
+            for (var i = 0; i < this.limit; i++) {
+                (function (x) {
+                    $this.addBookmark($this.collection.at(x));
+                }(i));
+            };
+            
+            return this; 
         },
         
         
@@ -57,16 +95,19 @@
         
         
         filterTags: function (tag) {
-            var tagCollection, $this = this;
+            var tagCollection;
             
             tagCollection = this.collection.filter(function (bookmark) {
                 var tags = bookmark.get('tags');
                 
-                return $this.hasTag(tags, tag);
-            });
+                return this.hasTag(tags, tag);
+            }.bind(this));
             
-            this.$el.empty();
-            tagCollection.forEach(this.addBookmark);
+            this.$el.fadeOut(function () {
+                this.$el.empty();
+                tagCollection.forEach(this.addBookmark);
+                this.$el.fadeIn();
+            }.bind(this));
             
             return this;
         },

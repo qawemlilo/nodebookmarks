@@ -13,10 +13,13 @@
         controlsTemplate: new EJS({url: '/javascripts/views/controls/tmpl/controls.ejs'}),
         
         
+        events: {
+            'click .btn-group .new-bookmark': 'newBookmark'
+        },
+        
+        
         initialize: function () {
-            _.bindAll(this, 'render', 'getAllTags', 'getDistinctTags');           
- 
-            this.render();
+            _.bindAll(this, 'render', 'getAllTags', 'getDistinctTags');
         },
         
 
@@ -41,6 +44,8 @@
                 }
             });
             
+            uniqueTags
+            
             return uniqueTags;
         },
         
@@ -60,24 +65,14 @@
             return tags;
         },
         
-        assign : function (selector, view) {
-            var selectors;
+        newBookmark: function (e) {
+            e.preventDefault();
             
-            if (_.isObject(selector)) {
-                selectors = selector;
-            }
-            else {
-                selectors = {};
-                selectors[selector] = view;
-            }
+            var model = new Models.Bookmark();
             
-            if (!selectors) {
-                return;
-            }
+            model.setUrl('/bookmarks/add');
             
-            _.each(selectors, function (view, selector) {
-                view.setElement(this.$(selector)).render();
-            }, this);
+            Views.Bookmarks.newBookmark(model);
         }
     });
 }(App.Views, App.Models, App.Collections, jQuery));

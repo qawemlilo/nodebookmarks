@@ -107,6 +107,9 @@
                 }
             });
             
+            
+
+            
             formObj.tags = formObj.tags.split(',') || [formObj.tags];
             
             formObj.tags.forEach(function (rawTag) {
@@ -116,6 +119,7 @@
             formObj.tags = cleantags;
 
             this.model.set(formObj);
+            if(this.model.isNew()) alert('new');
 
             successHandler = function (model, response) {
                 var prevAttributes = $this.model.previousAttributes(); 
@@ -188,7 +192,7 @@
         
         
         loadEditor: function (e) {
-            e.preventDefault();
+            if (e) e.preventDefault();
             
             if (this.activeEditor) {
                 return;
