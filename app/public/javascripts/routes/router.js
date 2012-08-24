@@ -40,7 +40,7 @@
         
         
         reset: function (tag) {
-            Views.App.viewAllBookmarks(); 
+            Views.App.reset(); 
         }
     });
 }(App.Views, App.Routes));

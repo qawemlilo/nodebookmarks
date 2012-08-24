@@ -47,16 +47,10 @@
             
             this.bookmarks.collection.add(this.collection);
             
-            var pages = (this.bookmarks.collection.models.length / this.bookmarks.limit);
-            
-            this.pages = new Views.Pages();
-            this.pages.pages = pages;
-            
             this.assign({
                 '#settings': this.settings,
                 '#controls': this.controls, 
-                '#bookmarks-table': this.bookmarks,
-                '#pagination': this.pages
+                '#bookmarks-table': this.bookmarks
             });
             
             return this;
