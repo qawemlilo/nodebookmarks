@@ -18,18 +18,17 @@
             
             $('.dropdown-toggle').dropdown();
             
-            this.collection = new Collections.Bookmarks;
-            
             this.collection.on('add', this.addBookmark);
             this.collection.on('reset', this.viewAllBookmarks);
-            
+            this.collection.on('remove', function (model) {
+                this.collection.updateOrigModels(model.cid);
+            }.bind(this));
+
             Collections.Bookmarks = this.collection;
         },
         
         
         render: function () {
-            this.viewAllBookmarks();
-
             return this;
         },
         
@@ -97,7 +96,7 @@
         filterTags: function (tag) {
             var tagCollection;
             
-            tagCollection = this.collection.filter(function (bookmark) {
+            tagCollection = this.collection.origModels.filter(function (bookmark) {
                 var tags = bookmark.get('tags');
                 
                 return this.hasTag(tags, tag);

@@ -3,9 +3,17 @@
 */
 (function(Models, Collections) {
 "use strict";
-    Collections.Bookmarks = Backbone.Collection.extend({
+    Collections.Bookmarks = Backbone.Paginator.extend({
+    
         model: Models.Bookmark,
         
-        url: '/bookmarks'
+        
+        url: '/bookmarks',
+        
+        
+        perPage: 1,
+        
+        
+        currentPage: 1
     });
 }(App.Models, App.Collections));

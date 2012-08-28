@@ -14,7 +14,8 @@
         
         
         events: {
-            'click .btn-group .new-bookmark': 'newBookmark'
+            'click .btn-group .new-bookmark': 'newBookmark',
+            'click .btn-group .limit a': 'changeCount'
         },
         
         
@@ -53,7 +54,7 @@
         getAllTags: function () {
             var tags = [];
             
-            Collections.Bookmarks.forEach(function (bookmark) {
+            Collections.Bookmarks.origModels.forEach(function (bookmark) {
                 var subtags = bookmark.get('tags');
                 
                 subtags.forEach(function (tag){
@@ -73,6 +74,15 @@
             model.setUrl('/bookmarks/add');
             
             Views.Bookmarks.newBookmark(model);
-        }
+        },
+        
+        
+         changeCount: function (e) {
+             e.preventDefault();
+             var num = $(e.target).text();
+             
+             Views.Pagination.changeCount(num);
+             Views.Pagination.reRender();
+         }
     });
 }(App.Views, App.Models, App.Collections, jQuery));

@@ -261,11 +261,13 @@
 
         },
 
+
         formatDate: function (date) {
             var newdate = new Date(parseInt(date)).toString().substring(4, 16);
             
             return newdate;
         },
+        
         
         assign : function (selector, view) {
             var selectors;

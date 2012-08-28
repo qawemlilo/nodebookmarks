@@ -26,7 +26,7 @@ div.navbar .navbar-inner {
 
 div.navbar {
  border-bottom: 2px solid #FF6600;
- margin-bottom: 30px;
+ margin-bottom: 10px;
 }
 
 .navbar .brand, div.navbar .navbar-inner {
@@ -119,7 +119,7 @@ div.bookmark-date:after {
 }
 
 div.bookmark-main-edit, div.bookmark-tags  {
-  padding-top: 3px;
+  padding-top: 2px;
 }
 
 div.bookmark-tags .label {

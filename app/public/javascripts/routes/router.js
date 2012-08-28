@@ -13,6 +13,8 @@
             
             'tags/:tag': 'filterTags',
             
+            'pages/:page': 'goTo',
+            
             'reset': 'reset',
             
             'index': 'loadHome'

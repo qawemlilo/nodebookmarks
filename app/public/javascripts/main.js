@@ -28,29 +28,37 @@
         controls: {},
         
         
+        pagination: {},
+        
+        
         initialize: function () {
             _.bindAll(this, 'loadSettings', 'filterTags', 'reset', 'loadBookmarks', 'goTo', 'assign');
-            
+
             this.$('#bookmarks-table, #settings').hide();
             
             this.router = new App.Routes.Router();
-            
             this.controls = new Views.Controls();
-            this.bookmarks = new Views.Bookmarks();
+            this.bookmarks = new Views.Bookmarks({
+                collection: new Collections.Bookmarks(this.collection)
+            });
+            this.pagination = new Views.Pagination({
+                collection: this.bookmarks.collection
+            });
             this.settings = new Views.Settings();
-            
             this.settings.user = this.user;
             
             Views.Controls = this.controls;
             Views.Bookmarks = this.bookmarks;
             Views.Settings = this.settings;
-            
-            this.bookmarks.collection.add(this.collection);
+            Views.Pagination = this.pagination;
+
+            this.bookmarks.collection.pager();
             
             this.assign({
                 '#settings': this.settings,
                 '#controls': this.controls, 
-                '#bookmarks-table': this.bookmarks
+                '#bookmarks-table': this.bookmarks,
+                '#pagination': this.pagination
             });
             
             return this;
@@ -99,7 +107,7 @@
         
         
         goTo: function (num) {
-            this.bookmarks.goTo(num);              
+            this.pagination.gotoPage(num);              
         },
         
         

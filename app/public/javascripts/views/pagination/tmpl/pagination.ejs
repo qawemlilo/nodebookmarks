@@ -1,0 +1,15 @@
+<% if (totalPages > 1) { %>
+<ul>
+   <% if (totalPages > 3) { %> <li><a class='first' href="#">Start</a></li> <% } %>
+    <% if (totalGroups > 1 && currentGroup > 1) { %> <li><a class='previ' href="#"><< Prev</a></li><% } else { %>
+        <li class='active'><a href="#"><< Prev</a></li>
+    <% } %>
+    <% for(var i = (currentGroup * 9) - 8; i <= counter; i++) { %>
+        <li <% if (i === +currentPage) { %> class='active' <% } %> ><a class='page' href="#pages/<%= i %>"> <%= i %> </a>
+    <% } %>
+    <% if (totalGroups > 1 && currentGroup < totalGroups) { %> <li><a class='next' href="#">Next >></a></li> <% } else { %>
+        <li class='active'><a href="#">Next >></a></li>
+    <% } %>
+    <% if (totalPages > 3) { %> <li><a class='last' href="#">End</a></li> <% } %>
+</ul>
+<% } %>
