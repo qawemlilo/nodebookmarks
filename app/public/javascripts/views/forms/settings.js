@@ -29,7 +29,7 @@
         
         
         initialize: function () {
-            _.bindAll(this, 'render', 'reload', 'createUser', 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail', 'shout');
+            _.bindAll(this, 'render', 'reload', 'createUser', 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail');
             
             return this;
         },
@@ -65,7 +65,7 @@
             var user, data, $this = this;
             
             if ($this.errors > 0) {
-                $this.shout('Please correct all fields marked with a red border', 10);
+                $.shout('Please correct all fields marked with a red border', 10);
                 return;
             }
                 
@@ -80,10 +80,10 @@
                     $('#name').attr('value', model.get('name'));
                     $('#name').val(model.get('name'));
                     
-                    $this.shout(res.msg, 5);
+                    $.shout(res.msg, 5);
                 },
                 error: function (model, res) {
-                    $this.shout(res.msg, 5);
+                    $.shout(res.msg, 5);
                 }                
             });
         },
@@ -171,37 +171,6 @@
                 emailField.removeClass('warning');
                 
             }
-        },
-        
-        
-        
-        /*
-            @Details - Displays notifications to the user
-            @Params -  String msg - text to be displayed
-                       Number x - seconds before msg is cleared, default max
-        */
-        shout: function (msg, x) {
-            if ($("#appMessage")) {
-                $("#appMessage").fadeOut(function () {
-                    $("#appMessage").remove();
-                });
-            }
-            
-            var elem = $('<div>', {'id': 'appMessage', html: msg});
-            
-            elem.click(function () {
-                $(this).fadeOut(function () {
-                    $(this).remove();
-                });
-            });
-            
-            if (x) {
-                setTimeout(function () {
-                    elem.click();
-                }, x * 1000);
-            }
-            
-            elem.hide().appendTo('body').slideDown();
-        }            
+        }           
     });
 }(App.Views, App.Models));

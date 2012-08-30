@@ -4,7 +4,8 @@
       @Login View - loads login form
 */
 (function(Views, Models, $) {
-"use strict";
+    "use strict";
+    
     Views.Bookmark = Backbone.View.extend({
     
         tagName: 'tr',
@@ -31,6 +32,7 @@
         
         editTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
         
+        
         bookmarkTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
         
         
@@ -41,76 +43,71 @@
 
             this.model.bind('change:publik', function () {
                 $this.update('publik');
-            });
+            })
 
-            this.model.bind('change:url', function () {
+            .bind('change:url', function () {
                 $this.update('url');
-            });
+            })
             
-            this.model.bind('change:title', function () {
+            .bind('change:title', function () {
                 $this.update('title');
-            });
+            })
 
-            this.model.bind('change:notes', function () {
+            .bind('change:notes', function () {
                 $this.update('notes');
-            });            
+            })            
             
-            this.model.bind('change:starred', function () {
+            .bind('change:starred', function () {
                 $this.update('starred');
-            });
+            })
 
-            this.model.bind('change:tags', function () {
+            .bind('change:tags', function () {
                 $this.update('tags');
             });            
  
             this.render();
+            return this;
         },
         
 
         render: function () {
-            var model = this.model.toJSON(),
-                bookmarkTemplate;
+            var model = this.model.toJSON(), bookmarkTemplate;
                 
-            model.date = this.formatDate(model.date);
-            bookmarkTemplate = this.bookmarkTemplate.render(model);
-                
+            model.date = this._formatDate(model.date);
+            bookmarkTemplate = this.bookmarkTemplate.render(model);   
             this.$el.append(bookmarkTemplate);
             
             return this;
         },
         
+        
         unrender: function () {
-            var $this = this;
-            
             this.$el.css('background', '#ffff99');
             this.$el.fadeOut(function () {
-                $this.$el.remove();
-            });
+                this.$el.remove();
+            }.bind(this));
+            
+            return this;
         },
         
         
         saveEdit: function (e) {
             e.preventDefault();
-            var cleantags = [];
             
-            var formObj = {}, 
-                $this = this, 
+            var cleantags = [], formObj = {}, $this = this, successHandler, errorHandler, 
                 editForm = this.$('.bookmark-edit-form'),
                 editFormDiv = this.$('.bookmark-edit'),
-                formValues = editForm.serializeArray(),
-                successHandler,
-                errorHandler;
+                formValues = editForm.serializeArray();
             
             formValues.forEach(function (fieldObj) {
                 if (fieldObj.name !== 'submit') {
                     formObj[fieldObj.name] = fieldObj.value;
                 }
             });
-            
-            
 
             
             formObj.tags = formObj.tags.split(',') || [formObj.tags];
+            formObj.publik = !(!!formObj.publik);
             
             formObj.tags.forEach(function (rawTag) {
                 cleantags.push(trim(rawTag));
@@ -119,7 +116,6 @@
             formObj.tags = cleantags;
 
             this.model.set(formObj);
-            if(this.model.isNew()) alert('new');
 
             successHandler = function (model, response) {
                 var prevAttributes = $this.model.previousAttributes(); 
@@ -130,7 +126,7 @@
                     $this.activeEditor = false;
                         
                     $this.$('.bookmark-main').fadeIn(function () {
-                        Views.Bookmarks.shout.call($this, response.msg, 5);
+                        $.shout(response.msg, 5);
                     });
                 });
             };
@@ -144,7 +140,7 @@
                     $this.activeEditor = false;
                         
                     $this.$('.bookmark-main').fadeIn(function () {
-                        Views.Bookmarks.shout.call($this, response.msg, 5);
+                        $.shout(response.msg, 5);
                     });
                 });
             };
@@ -156,65 +152,57 @@
         deleteBookmark: function (e) {
             e.preventDefault();
             
-            var $this = this,
-                errorHandler,
-                successHandler;
+            var errorHandler, successHandler;
                 
             if (!confirm('Are you sure you want to delete this bookmark?')) {
-                return;
+                return false;
             } 
                
             successHandler = function (model, response) {
-                $this.unrender();
-                Views.Bookmarks.shout.call($this, response.msg, 5);
-            };
+                this.unrender();
+                $.shout(response.msg, 5);
+            }.bind(this);
             
             errorHandler = function (model, response) {
-                Views.Bookmarks.shout.call($this, response.msg, 5);
-            };
+                $.shout(response.msg, 5);
+            }.bind(this);
             
             this.model.destroy({success: successHandler, error: errorHandler});
         },
         
         
-        cancelEdit: function (e) {
-            
-            if(e) e.preventDefault();
-            
-            var $this = this;
+        cancelEdit: function (e) { 
+            if (e) {
+                e.preventDefault();
+            }
             
             this.$('.bookmark-edit-form').fadeOut(function () {
-                $this.$('.bookmark-edit-form').remove();
-                $this.$('.bookmark-main').fadeIn();
-                $this.activeEditor = false;
-            });
+                this.$('.bookmark-edit-form').remove();
+                this.$('.bookmark-main').fadeIn();
+                this.activeEditor = false;
+            }.bind(this));
         },
         
         
         loadEditor: function (e) {
-            if (e) e.preventDefault();
-            
-            if (this.activeEditor) {
-                return;
+            if (e) {
+                e.preventDefault();
             }
             
-            var $this = this, 
-                model = this.model.toJSON(),
-                editTemplate;
+            if (this.activeEditor) {
+                return false;
+            }
+            
+            var model = this.model.toJSON(), editTemplate;
             
             model.tags = model.tags.length > 1 ? model.tags.join(',') : model.tags[0];
             
             editTemplate = this.editTemplate.render(model);
             
             this.$('.bookmark-main').fadeOut(function () {
-                $this.$('.bookmark-middle-td').hide().append(editTemplate).fadeIn();
-                $this.activeEditor = true;
-            });
-        },
-        
-        
-        hideEdit: function () {
-            this.$('.edit').addClass('hidden');
+                this.$('.bookmark-middle-td').hide().append(editTemplate).fadeIn();
+                this.activeEditor = true;
+            }.bind(this));
         },
         
         
@@ -243,50 +231,31 @@
                     });
                     
                     div.append(span);
-                });                    
+                });
+                
+
+            }
+            
+            if (view === 'publik') {
+                var div = this.$('.bookmark-tags'), privacy;
+                
+                div.find('#label').remove();
+                
+                privacy = $('<span>', {
+                    'id': 'label',
+                    'html': this.model.get('publik') ? 'Public' : 'Private',
+                    'class': this.model.get('publik') ? 'label label-important' : 'label label-info'
+                });
+                
+                div.append(privacy);  
             }
         },
-        
-
-        getFormObject: function (arr) {
-            var formObj = {};
-            
-            arr.forEach(function (fieldObj) {
-                if (fieldObj.name !== 'submit') {
-                    formObj[fieldObj.name] = fieldObj.value;
-                }
-            });
-            
-            return formObj;
-
-        },
 
 
-        formatDate: function (date) {
+        _formatDate: function (date) {
             var newdate = new Date(parseInt(date)).toString().substring(4, 16);
             
             return newdate;
-        },
-        
-        
-        assign : function (selector, view) {
-            var selectors;
-            
-            if (_.isObject(selector)) {
-                selectors = selector;
-            }
-            else {
-                selectors = {};
-                selectors[selector] = view;
-            }
-            
-            if (!selectors) {
-                return;
-            }
-            
-            _.each(selectors, function (view, selector) {
-                view.setElement(this.$(selector)).render();
-            }, this);
         }        
     });
 }(App.Views, App.Models, jQuery));

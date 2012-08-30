@@ -34,17 +34,24 @@
         initialize: function () {
             _.bindAll(this, 'loadSettings', 'filterTags', 'reset', 'loadBookmarks', 'goTo', 'assign');
 
-            this.$('#bookmarks-table, #settings').hide();
-            
+            this.$('#bookmarks-table, #settings, #pagination').hide();
+
             this.router = new App.Routes.Router();
-            this.controls = new Views.Controls();
+            
             this.bookmarks = new Views.Bookmarks({
                 collection: new Collections.Bookmarks(this.collection)
             });
+            
+            this.controls = new Views.Controls({
+                collection: this.bookmarks.collection
+            });
+            
             this.pagination = new Views.Pagination({
                 collection: this.bookmarks.collection
             });
+            
             this.settings = new Views.Settings();
+            
             this.settings.user = this.user;
             
             Views.Controls = this.controls;
@@ -66,7 +73,7 @@
 
         
         loadSettings: function () {
-            this.$('#bookmarks-table, #controls').fadeOut(function () {
+            this.$('#bookmarks-table, #controls, #pagination').fadeOut(function () {
                 this.$('#settings').fadeIn();
                 this.activeView = 'settings';
             }.bind(this));
@@ -82,7 +89,7 @@
             
             this.$('#bookmarks-table').fadeOut(function () {
                 this.$('#bookmarks-table').empty();
-                this.bookmarks.collection.forEach(this.bookmarks.addBookmark);
+                this.pagination.reset();
                 this.$('#bookmarks-table, #controls').fadeIn();
                 this.activeView = 'home';
             }.bind(this));
@@ -98,7 +105,7 @@
             }
             
             this.$('#settings').fadeOut(function () {
-                this.$('#controls, #bookmarks-table').fadeIn();
+                this.$('#controls, #bookmarks-table, #pagination').fadeIn();
                 this.activeView = 'home';
             }.bind(this));
             
@@ -113,7 +120,7 @@
         
         filterTags: function (tag) {
             this.$('#bookmarks-table').fadeOut(function () {
-               this.bookmarks.filterTags(tag);
+               this.bookmarks.collection.filterTags(tag);
                this.$('#bookmarks-table').fadeIn();
                this.activeView = 'tags';
             }.bind(this));              

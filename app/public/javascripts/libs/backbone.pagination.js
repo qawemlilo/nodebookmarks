@@ -8,17 +8,20 @@ Backbone.Paginator = (function (Backbone, _, $) {
     var Paginator = Backbone.Collection.extend({
     
         initialize: function () {
-            this.sortColumn = "";
-            this.filterFields = "";
+            this.filteredModels = '';
+            this.filteredTag = '';
+            this.currentPage = 1;
+            this.currentGroup = 1;
         },
         
         
-        nextPage: function () {
-            if (this.currentPage + 1 <= this.totalPages) {
-              this.currentPage += 1;
-              this.pager();
-            }
-        },
+        showPreNext: true,
+        
+        
+        showFirstLast: true,
+        
+        
+        groupLimit: 9, 
         
         
         nextGroup: function () {
@@ -34,118 +37,176 @@ Backbone.Paginator = (function (Backbone, _, $) {
               --this.currentGroup;
               this.pager();
             }
-        },
-        
-        
-        previousPage: function () {
-            this.currentPage = --this.currentPage || 1;
-            this.pager();
-        },
+        }, 
         
         
         goTo: function ( page ) {
-            if(page !== undefined){
+            if (page !== undefined) {
                 this.currentPage = parseInt(page, 10);
+                this.currentGroup = Math.ceil(page / this.groupLimit);
                 this.pager();
-	    }
-	},
+	        }
+	    },
+        
+        
+        resetFilteredModels: function () {
+            this.filteredModels = '';
+            this.filteredTag = '';
+            this.currentPage = 1;
+            this.currentGroup = 1;
+            this.pager();
+	    },
 	
 	
-    pager: function () {
-        var self = this,
-            disp = this.perPage,
-            start = (self.currentPage - 1) * disp,
-            stop = start + disp;
+        pager: function () {
+            var self = this,
+                disp = this.perPage,
+                start = (self.currentPage - 1) * disp,
+                stop = start + disp;
                 
-        if (self.origModels === undefined) {
-            self.origModels = self.models;
-	    }
+            if (self.origModels === undefined) {
+                self.origModels = self.models;
+	        }
 	    
-	    self.models = self.origModels;
+	        self.models = self.origModels;
+	        
+            if (self.filteredModels) {
+                self.models = self.filteredModels;
+	        }
 	    
-	    self.reset(self.models.slice(start, stop));
-	},
+	        self.reset(self.models.slice(start, stop));
+	    },
 	
 	
-	howManyPer: function ( perPage ) {
-	    if (perPage !== undefined) {
-	        var lastPerPage = this.perPage;
-	        this.perPage = parseInt(perPage, 10);
-	        this.currentPage = Math.ceil( ( lastPerPage * ( this.currentPage - 1 ) + 1 ) / perPage);
-	        this.pager();
-	    }
-	},
+	    howManyPer: function ( perPage ) {
+	        if (perPage !== undefined) {
+	            var lastPerPage = this.perPage;
+	            this.perPage = parseInt(perPage, 10);
+	            this.currentPage = Math.ceil( ( lastPerPage * ( this.currentPage - 1 ) + 1 ) / perPage);
+	            this.pager();
+	        }
+	    },
     
     
-	updateOrigModels: function ( cid ) {
-	    var self = this;
+	    removeFromOGModels: function ( cid ) {
+	        var self = this;
 
-        $.each(self.origModels, function (i, model) {
-            if (model.cid === cid) {
-                self.origModels.splice(i, 1);
-                return false;
-            }
-        });
-	},
+            $.each(self.origModels, function (i, model) {
+                if (model.cid === cid) {
+                    self.origModels.splice(i, 1);
+                    return false;
+                }
+            });
+	    },
 	
 
-    filterTags: function (tag) {
-        var tagCollection;
+        filterTags: function (tag) {
+            var tagCollection, self = this;
             
-        tagCollection = this.collection.origModels.filter(function (bookmark) {
-            var tags = bookmark.get('tags');
+            tagCollection = self.origModels.filter(function (bookmark) {
+                var tags = bookmark.get('tags');
                 
-            return this.hasTag(tags, tag);
-        }.bind(this));
+                return self._hasTag(tags, tag);
+            });
             
-        this.$el.fadeOut(function () {
-            this.$el.empty();
-            tagCollection.forEach(this.addBookmark);
-            this.$el.fadeIn();
-        }.bind(this));
+            self.currentPage = 1;
+            self.currentGroup = 1;
+            self.filteredTag = tag;
+            self.filteredModels = tagCollection;
             
-        return this;
-    },
+            self.pager();
+        },
+        
+        
+        _hasTag: function (tags, testTag) {
+            var yes = false;  
+              
+            tags.forEach(function (tag) {
+                if (tag === testTag) {
+                    yes = true;   
+                }
+            });
+            
+            return yes; 
+        },
 	
 	
-	info: function () {
-	    var self = this,
+	    info: function () {
+	        var self = this,
 	        info = {},
-	        totalRecords = self.origModels ? self.origModels.length : self.length,
+	        totalRecords = this.filteredModels ? this.filteredModels.length : (self.origModels !== undefined) ? self.origModels.length : self.length,
 	        totalPages = Math.ceil(totalRecords / self.perPage),
-	        totalGroups = Math.ceil(totalPages / 9),
-	        currentGroup = self.currentGroup || 1;
+	        totalGroups = Math.ceil(totalPages / this.groupLimit),
+	        currentGroup = self.currentGroup || 1,
+            groupLimit = self.groupLimit;
 	        
 	        self.totalPages = totalPages;
 	        self.totalGroups = totalGroups;
 	        self.currentGroup = currentGroup;
 	        
-	    info = {
-	        totalRecords: totalRecords,
-	        currentPage: self.currentPage,
-	        perPage: this.perPage,
-	        totalPages: totalPages,
-	        lastPage: totalPages,
-	        previous: false,
-	        next: false,
-	        currentGroup: this.currentGroup || 1,
-	        totalGroups: totalGroups,
-	        counter: (this.currentGroup * 9) > totalPages ? totalPages : (this.currentGroup * 9)
-	    };
+	        info = {
+                showFirstLast: self.showFirstLast,
+                showPreNext: self.showPreNext,
+	            totalRecords: totalRecords,
+	            currentPage: self.currentPage,
+	            perPage: this.perPage,
+	            totalPages: totalPages,
+	            lastPage: totalPages,
+	            previous: false,
+	            next: false,
+	            currentGroup: this.currentGroup || 1,
+	            totalGroups: totalGroups,
+	            counterLimit: (this.currentGroup * groupLimit) > totalPages ? totalPages : (this.currentGroup * groupLimit),
+                counter: (this.currentGroup * groupLimit) - (groupLimit - 1),
+                groupLimit: groupLimit,
+                filteredTag: this.filteredTag
+	        };
 	        
 	        
-	    if (self.currentPage > 1) {
-	        info.previous = self.currentPage - 1;
-	    }
+	        if (self.currentGroup > 1) {
+	            info.previous = true;
+	        }
 	        
-	    if (self.currentPage < info.totalPages) {
-	        info.next = self.currentPage + 1;
-	    }
+	        if (self.currentGroup < info.totalGroups) {
+	            info.next = true;
+	        }
 	    
-	    self.information = info;
+	        self.information = info;
 	        
-	    return info;
-	}	
+	        return info;
+	    },
+        
+
+        getTags: function (arr) {
+            var alltags = this._buildTags(), uniqueTags = [], tempTags = {};
+            
+            alltags.forEach(function (tag) {
+                if (!tempTags.hasOwnProperty(tag)) {
+                    tempTags[tag] = true;
+                    uniqueTags.push(tag);
+                }
+            });
+            
+            uniqueTags.sort();
+            
+            return uniqueTags;
+        },
+        
+        
+        _buildTags: function () {
+            var tags = [];
+            
+            this.origModels.forEach(function (bookmark) {
+                var subtags = bookmark.get('tags');
+                
+                subtags.forEach(function (tag){
+                    tag = trim(tag);
+                    tags.push(tag);
+                }); 
+            });
+            
+            return tags;
+        },        
     });
     
     return Paginator;

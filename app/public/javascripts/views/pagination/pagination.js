@@ -9,6 +9,7 @@
     
         el: $('#pagination'),
         
+        
         paginationTemplate: new EJS({url: '/javascripts/views/pagination/tmpl/pagination.ejs'}),
         
         
@@ -17,40 +18,30 @@
         
         events: {
             'click a.next': 'gotoNext',
-            'click a.previ': 'gotoPrev',
-            'click a.first': 'gotoFirst',
-            'click a.last': 'gotoLast'
+            'click a.previ': 'gotoPrev'
         },
         
         
         initialize: function () {
-            _.bindAll(this, 'gotoFirst', 'gotoLast', 'changeCount', 'gotoNext', 'gotoPage', 'gotoPrev');
+            _.bindAll(this, 'changeCount', 'gotoNext', 'gotoPage', 'gotoPrev');
              
             this.collection.on('reset', this.render, this);
-            
-            this.data = this.collection.info();
+            this.collection.on('remove', function (model) {
+                this.collection.removeFromOGModels(model.cid);
+                this.render();
+                Views.Controls.render();
+            }.bind(this));            
          },
          
          
         render: function () {
-           var html = this.paginationTemplate.render(this.data);
-           this.$el.html(html);
+            this.data = this.collection.info();
             
-           return this;
-        },
-         
-         
-         
-        reRender: function () {
-           this.data = this.collection.info();
-           this.render();
-           return this;
-        },
-         
-         
-        gotoFirst: function () {
-            this.collection.goTo(1);
-            this.reRender();
+            var html = this.paginationTemplate.render(this.data);
+            
+            this.$el.html(html).fadeIn();
+            
+            return this;
         },
          
          
@@ -58,7 +49,6 @@
             e.preventDefault();
             
             this.collection.previousGroup();
-            this.reRender();
         },
          
          
@@ -66,25 +56,26 @@
             e.preventDefault();
              
             this.collection.nextGroup();
-            this.reRender();
-        },
-         
-         
-        gotoLast: function () {
-            this.collection.goTo(this.collection.information.lastPage);
-            this.reRender();
         },        
          
          
         gotoPage: function (page) {
+            if (page > this.collection.info().totalPages) {
+                return false;
+            }
+            
             this.collection.goTo(page);
-            this.reRender();
+        },
+        
+        
+        reset: function (page) {
+            this.collection.resetFilteredModels();
         },
 
          
         changeCount: function (num) {
             this.collection.howManyPer(num);
-            this.reRender();
+            location.hash = '#pages/' + this.collection.currentPage;
         }
     });
 }(App.Views, App.Models, jQuery));

@@ -20,51 +20,19 @@
         
         
         initialize: function () {
-            _.bindAll(this, 'render', 'getAllTags', 'getDistinctTags');
+            _.bindAll(this, 'render');
         },
         
 
         render: function () {
-            var bookmarks = Collections.Bookmarks, controlsTemplate, tags = this.getDistinctTags();
+            var controlsTemplate, tags = this.collection.getTags();
 
-            controlsTemplate = this.controlsTemplate.render({tags: tags});
-                
-            this.$el.append(controlsTemplate);
+            controlsTemplate = this.controlsTemplate.render({tags: tags}); 
+            this.$el.html(controlsTemplate);
             
             return this;
         },
         
-        
-        getDistinctTags: function (arr) {
-            var alltags = this.getAllTags(), uniqueTags = [], tempTags = {};
-            
-            alltags.forEach(function (tag) {
-                if (!tempTags.hasOwnProperty(tag)) {
-                    tempTags[tag] = true;
-                    uniqueTags.push(tag);
-                }
-            });
-            
-            uniqueTags
-            
-            return uniqueTags;
-        },
-        
-        
-        getAllTags: function () {
-            var tags = [];
-            
-            Collections.Bookmarks.origModels.forEach(function (bookmark) {
-                var subtags = bookmark.get('tags');
-                
-                subtags.forEach(function (tag){
-                    tag = trim(tag);
-                    tags.push(tag);
-                }); 
-            });
-            
-            return tags;
-        },
         
         newBookmark: function (e) {
             e.preventDefault();
@@ -77,12 +45,11 @@
         },
         
         
-         changeCount: function (e) {
-             e.preventDefault();
-             var num = $(e.target).text();
+        changeCount: function (e) {
+            e.preventDefault();
+            var num = $(e.target).text();
              
-             Views.Pagination.changeCount(num);
-             Views.Pagination.reRender();
-         }
+            Views.Pagination.changeCount(num);
+        }
     });
 }(App.Views, App.Models, App.Collections, jQuery));

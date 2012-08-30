@@ -40,7 +40,7 @@
         
         
         initialize: function () {
-            _.bindAll(this, 'registerUser', 'loginUser', 'validateName', 'validateRegisterEmail', 'validateLoginEmail', 'validatePassword', 'shout');
+            _.bindAll(this, 'registerUser', 'loginUser', 'validateName', 'validateRegisterEmail', 'validateLoginEmail', 'validatePassword');
             
             this.router = new Routes.Router();
             
@@ -72,7 +72,7 @@
             var newMember, data, $this = this;
             
             if ($this.registerErrors > 0) {
-                $this.shout('Please correct all fields marked with a red border', 10);
+                $.shout('Please correct all fields marked with a red border', 10);
                 return;
             }
                 
@@ -91,13 +91,13 @@
                             $('#login-form').fadeIn('slow');
                         });
                     
-                        $this.shout(res.msg);
+                        $.shout(res.msg, 10);
                     } else {
-                        $this.shout('Account not created, your form contains errors');
+                        $.shout('Account not created, your form contains errors', 10);
                     }
                 },
                 error: function () {
-                    $this.shout('Account not created, your form contains errors');
+                    $.shout('Account not created, your form contains errors', 10);
                 }                
             });
         },
@@ -110,7 +110,7 @@
             var newMember, data, $this = this;
             
             if ($this.loginErrors > 0) {
-                $this.shout('Please correct all fields marked with a red border', 10);
+                $.shout('Please correct all fields marked with a red border', 10);
                 return;
             }
                 
@@ -124,14 +124,14 @@
                     if (!res.error) {
                         window.location.href = 'http://localhost:3000'; 
                     } else {
-                        $this.shout(res.msg);
+                        $.shout(res.msg, 10);
                         $('#login-email').addClass('warning');
                         $('#login-password').addClass('warning');
                     }
                 },
                 
                 error: function () {
-                    $this.shout('Login error');
+                    $.shout('Login error', 10);
                 }                
             });
         },
@@ -269,38 +269,6 @@
                 passwordField.removeClass('warning');
                 
             }
-        },        
-        
-        
-        
-        
-        /*
-            @Details - Displays notifications to the user
-            @Params -  String msg - text to be displayed
-                       Number x - seconds before msg is cleared, default max
-        */
-        shout: function (msg, x) {
-            if ($("#appMessage")) {
-                $("#appMessage").fadeOut(function () {
-                    $("#appMessage").remove();
-                });
-            }
-            
-            var elem = $('<div>', {'id': 'appMessage', html: msg});
-            
-            elem.click(function () {
-                $(this).fadeOut(function () {
-                    $(this).remove();
-                });
-            });
-            
-            if (x) {
-                setTimeout(function () {
-                    elem.click();
-                }, x * 1000);
-            }
-            
-            elem.hide().appendTo('body').slideDown();
-        }            
+        }           
     });
 }(App.Views, App.Models, App.Routes));

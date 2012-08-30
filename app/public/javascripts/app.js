@@ -1,6 +1,30 @@
 var trim = function(str) {
 	return str.replace(/^\s+|\s+$/,'');
 };
+
+$.shout = function (msg, x) {
+    if ($("#appMessage")) {
+        $("#appMessage").fadeOut(function () {
+            $("#appMessage").remove();
+        });
+    }
+            
+    var elem = $('<div>', {'id': 'appMessage', html: msg});
+            
+    elem.click(function () {
+        $(this).fadeOut(function () {
+            $(this).remove();
+        }.bind(this));
+    });
+            
+    if (x) {
+        setTimeout(function () {
+            elem.click();
+        }, x * 1000);
+    }
+            
+    elem.hide().appendTo('body').slideDown();
+};
 /*
     @App - application namespace
 */

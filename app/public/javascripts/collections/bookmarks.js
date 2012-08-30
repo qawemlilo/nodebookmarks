@@ -11,7 +11,16 @@
         url: '/bookmarks',
         
         
-        perPage: 1,
+        perPage: 10,
+        
+        
+        //showFirstLast: false,
+        
+        
+        //showPreNext: false,
+        
+        
+        groupLimit: 9,
         
         
         currentPage: 1
