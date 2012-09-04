@@ -4,98 +4,83 @@
       @Login View - loads login form
 */
 (function(Views, Models) {
-"use strict";
+    "use strict";
+    
     Views.Settings = Backbone.View.extend({
     
         el: $('#settings'),
-       
-        
-        errors: 0,
-        
-        
-        user: {},
         
         
         settingsTemplate: new EJS({url: '/javascripts/views/forms/tmpl/settings.ejs'}),
         
         
         events: {
-            'submit #settings-form': 'updateUser',
-            
-            'blur #name': 'validateName',
-            
-            'blur #email': 'validateSettingsEmail'
+            'submit #settings-form': 'updateUser'
         },
         
         
         initialize: function () {
-            _.bindAll(this, 'render', 'reload', 'createUser', 'updateUser', 'getFormObject', 'validateName', 'validateSettingsEmail');
+            _.bindAll(this, 'render', 'getUserData', 'updateUser', 'updateForm');
+            
+            this.model = new Models.User();
+            this.model.task = 'update';
+            this.model.on('change', this.updateForm);
+ 
+            Models.User = this.model;
             
             return this;
         },
         
         
         render: function () {
-            this.createUser(function (user) { 
-                var settingsTemplate = this.settingsTemplate.render(user);
+            this.getUserData(function (data) { 
+                var settingsTemplate = this.settingsTemplate.render(data);
                 
-                this.$el.append($(settingsTemplate))
+                this.$el.append(settingsTemplate)
             }.bind(this));
             
             return this;
-        }, 
-        
+        },
 
-        reload: function () {
-            var settingsTemplate = this.settingsTemplate.render(Models.User.toJSON());
-                
-            this.$el.empty().append($(settingsTemplate));
 
-            return this;
-        },        
+        updateForm: function () {
+            $('#email').attr('value', this.model.get('email'));
+            $('#name').attr('value', this.model.get('name'));
+        },
         
         
-        /*
-            @Details - Event handler for registartion form submition
-            @Event - submit
-        */
         updateUser: function (e) {    
             e.preventDefault();
             
-            var user, data, $this = this;
+            var data = this.formToObject('settings-form');  
             
-            if ($this.errors > 0) {
-                $.shout('Please correct all fields marked with a red border', 10);
-                return;
-            }
-                
-            data = $this.getFormObject('settings-form');  
-
-            user = new Models.User();
-            user.save(data, 
-            {
+            this.model.save(data, {
                 success: function (model, res) {
-                    $('#email').attr('value', model.get('email'));
-                    $('#email').val(model.get('email'));
-                    $('#name').attr('value', model.get('name'));
-                    $('#name').val(model.get('name'));
+                    if ($('#email').hasClass('warning')) {
+                        $('#email').removeClass('warning');
+                    }    
+                    if ($('#name').hasClass('warning')) {
+                        $('#name').removeClass('warning');
+                    }
                     
-                    $.shout(res.msg, 5);
+                    $.shout(res.msg, 10);
                 },
+                
                 error: function (model, res) {
-                    $.shout(res.msg, 5);
-                }                
+                    $.shout(res.msg || res, 10);
+                },
+
+                wait: true                
             });
         },
         
         
-        createUser: function (fn) {
-            var user = new Models.User();
-            
-            user.fetch({
+        getUserData: function (fn) {
+            this.model.fetch({
                 success: function (model, res){
                     fn(res);
-                }, 
+                },
+                
                 error: function (model, res){
                     fn({name: '', email: '', password: ''});
                 }
@@ -104,73 +89,16 @@
         
         
         
-        /*
-            @Details - Creates a key-value object from a form.
-            @Params -  Array @fields : ids of associative fields
-        */
-        getFormObject: function (id) {
+        formToObject: function (id) {
             var formObj = {}, arr = $('#' + id).serializeArray();
 
-            $.each(arr, function (i, fieldObj) {
+            _.each(arr, function (i, fieldObj) {
                 if (fieldObj.name !== 'submit') {
                     formObj[fieldObj.name] = fieldObj.value;
                 }
             });
             
             return formObj;
-        },
-        
-        
-
-        /*
-            @Details - Validates email field
-            @Event -  blur
-        */
-        validateEmail: function (email) {
-            var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-            
-            return pattern.test(email);
-        },
-        
-        
-        /*
-            @Details - Validates password field
-            @Event -  blur
-        */
-        validateName: function () {    
-            var nameField = $('#name'),
-                nameValue = nameField.val();
-            
-            if ((!nameValue || nameValue.length < 3) && !nameField.hasClass('warning')) {
-            
-                this.errors += 1;
-                nameField.addClass('warning');  
-                
-            } else if (nameValue && nameValue.length >= 3 && nameField.hasClass('warning')) {
-            
-                this.errors -= 1;
-                nameField.removeClass('warning');
-                
-            }
-        },
-        
-        
-        
-        validateSettingsEmail: function () {    
-            var emailField = $('#email'),
-                emailValue = emailField.val();
-            
-            if (!this.validateEmail(emailValue) && !emailField.hasClass('warning')) {
-            
-                this.errors += 1;
-                emailField.addClass('warning');
-                
-            } else if (this.validateEmail(emailValue) && emailField.hasClass('warning')) {
-            
-                this.errors -= 1;
-                emailField.removeClass('warning');
-                
-            }
         }           
     });
 }(App.Views, App.Models));

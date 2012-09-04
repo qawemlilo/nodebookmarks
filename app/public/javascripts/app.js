@@ -1,68 +1,40 @@
-var trim = function(str) {
-	return str.replace(/^\s+|\s+$/,'');
-};
-
-$.shout = function (msg, x) {
-    if ($("#appMessage")) {
-        $("#appMessage").fadeOut(function () {
-            $("#appMessage").remove();
-        });
-    }
-            
-    var elem = $('<div>', {'id': 'appMessage', html: msg});
-            
-    elem.click(function () {
-        $(this).fadeOut(function () {
-            $(this).remove();
-        }.bind(this));
-    });
-            
-    if (x) {
-        setTimeout(function () {
-            elem.click();
-        }, x * 1000);
-    }
-            
-    elem.hide().appendTo('body').slideDown();
-};
 /*
-    @App - application namespace
+    @Namespace - application namespace
 */
-
 (function (window, Backbone) {
-  var App = {
+    "use strict";
 
-    init: function (page, bookmarks) {
-    
-        if (page === 'home') {
-            var app = new App.Views.App({collection: bookmarks});
-            App.Views.App = app;
-        }
-        if (page === 'index') {
-            var form = new App.Views.Form();
+    var App = {
+       
+        init: function (page, bookmarks) {
+            var index, controller;
+        
+            if (page === 'home') {
+                controller = new App.Views.Controller({collection: bookmarks});
+                App.Views.Controller = controller;
+            }
+            if (page === 'index') {
+                index = new App.Views.Index();
             
-            App.Views.Form = form;
-        }
+                App.Views.Index = index;
+            }
         
 
-        Backbone.history.start();
-    },
+            Backbone.history.start();
+        },
     
     
-    Views: {},
+        Views: {},
     
     
-    Routes: {},
+        Routes: {},
     
     
-    Models: {},
+        Models: {},
     
     
-    Collections: {}
-  };
+        Collections: {}
+    };
   
-  window.App = App;
-  
+    window.App = App;
 }(window, Backbone));
-
-

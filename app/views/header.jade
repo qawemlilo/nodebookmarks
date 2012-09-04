@@ -1,19 +1,12 @@
-div.navbar
-  div.navbar-inner
-    div.container
-      a(data-target='.nav-collapse', data-toggle='collapse', class='btn btn-navbar')
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-        
-      a(href='/#index', class='brand') Node Bookmarks
-      
-      nav
-        ul(class='nav pull-right')
-          if(loggedIn)
-            li: a(href='/#settings') Account Settings
-            li: a(href='/logout') Log out
-          if(!loggedIn)
-            li: a(class='active', href='/#index') Home
-            li: a(href='/#tour', title='Tour') Tour
-            li: a(href='/#login', title='Login') Login 
+div(id='navigation', class='container')
+  a(href='/#index', class='pull-left brand') 
+    h1 Bookmarks Manager
+  nav
+    ul(class='nav nav-pills pull-right')
+      if(loggedIn)
+        li: a(href='/#settings') Account Settings
+        li: a(href='/logout') Log out
+      if(!loggedIn)
+        li: a(href='/#index') Home
+        li: a(href='/#demo', title='Tour') Demo
+        li: a(href='/#login', title='Login') Login 

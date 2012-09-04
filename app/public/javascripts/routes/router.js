@@ -3,9 +3,9 @@
     #login - calls loadLogin() method which loads login form
     #register - calls loadRegister() method which loads registration form
 */
-(function(Views, Routes) {
+(function(views, routes) {
 "use strict";
-    Routes.Router = Backbone.Router.extend({
+    routes.Router = Backbone.Router.extend({
         routes: {
             'settings': 'loadSettings',
             
@@ -13,7 +13,7 @@
             
             'tags/:tag': 'filterTags',
             
-            'pages/:page': 'goTo',
+            'page/:num': 'goTo',
             
             'reset': 'reset',
             
@@ -22,27 +22,27 @@
         
         
         loadSettings: function () {
-            Views.App.loadSettings(); 
+            views.Controller.loadSettings(); 
         },
         
         
         goTo: function (num) {
-            Views.App.goTo(num); 
+            views.Controller.goTo(num); 
         },
         
         
         loadHome: function () {
-            Views.App.loadBookmarks(); 
+            views.Controller.loadBookmarks(); 
         },
         
         
         filterTags: function (tag) {
-            Views.App.filterTags(tag);              
+            views.Controller.filterTags(tag);              
         },
         
         
         reset: function (tag) {
-            Views.App.reset(); 
+            views.Controller.reset(); 
         }
     });
 }(App.Views, App.Routes));

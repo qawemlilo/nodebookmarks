@@ -3,23 +3,21 @@
       @Register View - $default loads registration for
       @Login View - loads login form
 */
-(function(Views, Models, Collections, $) {
+(function(views, collections, $) {
     "use strict";
     
-    Views.Bookmarks = Backbone.View.extend({
+    views.Bookmarks = Backbone.View.extend({
     
         el: $('#bookmarks-table'),
         
         
         initialize: function () {
-            _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'bookmarksHeader', 'render', 'newBookmark');
+            _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'bookmarksHeader', 'render');
             
             $('.dropdown-toggle').dropdown();
             
             this.collection.on('add', this.addBookmark);
             this.collection.on('reset', this.viewAllBookmarks);
-
-            Collections.Bookmarks = this.collection;
         },
         
         
@@ -29,7 +27,7 @@
         
 
         addBookmark: function (bookmarkModel) { 
-            var bookmarkView = new Views.Bookmark({
+            var bookmarkView = new views.Bookmark({
                 model: bookmarkModel
             });
             
@@ -58,16 +56,6 @@
             this.$el.append(header);
         },
         
-        
-        newBookmark: function (bookmarkModel) {    
-            var bookmarkView = new Views.Bookmark({
-                model: bookmarkModel
-            });
-
-            this.$el.prepend(bookmarkView.el);
-            bookmarkView.loadEditor();
-        },
-        
 
         viewAllBookmarks: function () {
             this.$el.fadeOut(function () {
@@ -80,4 +68,4 @@
             return this;
         }        
     });
-}(App.Views, App.Models, App.Collections, jQuery));
+}(App.Views, App.Collections, jQuery));

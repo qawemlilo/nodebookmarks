@@ -1,13 +1,10 @@
 
-/**
- * Module dependencies.
- */
-
 var express = require('express')
   , config = require('./config')
   , mongoose = require('mongoose') 
   , MongoStore = require('connect-mongo')(express)
-  , routes = require('./routes')
+  , userRoute = require('./routes/user')
+  , bookmarkRoute = require('./routes/bookmark')
   , userModel = require('./models/user')
   , bookmarkModel = require('./models/bookmark')
   , dbSession = ''
@@ -26,7 +23,7 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(express.session({
         secret: config.secret,
-        maxAge: new Date(Date.now() + 3600000),
+        //maxAge: new Date(Date.now() + 3600000),
         store: new MongoStore(config.db)
     }));
     app.use(app.router);
@@ -51,16 +48,13 @@ app.configure('production', function(){
 
 /**************
 
-    Get Routes
+    Get Methods
     
 ***************/
 
-/*
-    Global Get Requests
-*/
 
 app.get('/',  function (req, res) {
-    routes.index(req, res, bookmarkModel);
+    userRoute.index(req, res, bookmarkModel);
 });
 
 app.get('/home', function (req, res) {
@@ -70,11 +64,6 @@ app.get('/home', function (req, res) {
 app.get('/login', function (req, res) {
     res.redirect('/#login');
 });
-
-
-/*
-    User model 'get' requests
-*/
 
 app.get('/user', function (req, res) {
     var user = req.session.user;
@@ -100,13 +89,8 @@ app.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-
-/*
-    Bookmark model 'get' requests
-*/
-
 app.get('/bookmarks', function (req, res) {
-    routes.bookmarks(req, res, bookmarkModel);
+    bookmarkRoute.bookmarks(req, res, bookmarkModel);
 });
 
 
@@ -115,16 +99,12 @@ app.get('/bookmarks', function (req, res) {
 
 /*****************
 
-    Post Routes
+    Post Methods
     
 *****************/
 
-/*
-        User model 'post' requests
-*/
-
 app.post('/login', function (req, res) {   
-   routes.login(req, res, userModel); 
+   userRoute.login(req, res, userModel); 
 });
 
 
@@ -133,57 +113,45 @@ app.post('/user', function (req, res) {
     
     //User logged, update details
     if (user) {
-        routes.update(req, res, userModel);
+        userRoute.update(req, res, userModel);
     }
     
     // User not logged, register the user
     else {
-        routes.register(req, res, userModel);
+        userRoute.register(req, res, userModel);
     }
 });
 
 
-/*
-        Bookmark model requests
-*/
-
 // New bookmark
-app.post('/bookmarks/add', function (req, res) {
-    routes.addbookmark(req, res, bookmarkModel);
+app.post('/bookmarks', function (req, res) {
+    bookmarkRoute.addbookmark(req, res, bookmarkModel);
 });
 
 
 
 /*****************
 
-    Put Routes
+    Put Methods
     
 *****************/
-
 // Update bookmark
+
 app.put('/bookmarks/:id', function (req, res) {
-    routes.updatebookmark(req, res, bookmarkModel);
-});
-
-app.put('/bookmarks/add', function (req, res) {
-    routes.addbookmark(req, res, bookmarkModel);
-});
-
-app.put('/bookmarks', function (req, res) {
-    routes.addbookmark(req, res, bookmarkModel);
+    bookmarkRoute.updatebookmark(req, res, bookmarkModel);
 });
 
 
 
 /*****************
 
-    Delete Routes
+    Delete
     
 *****************/
 
 // Delete bookmark
 app.delete('/bookmarks/:id', function (req, res) {
-    routes.deletebookmark(req, res, bookmarkModel);
+    bookmarkRoute.deletebookmark(req, res, bookmarkModel);
 });
 
 

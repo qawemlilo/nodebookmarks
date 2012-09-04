@@ -3,9 +3,9 @@
     #login - calls loadLogin() method which loads login form
     #register - calls loadRegister() method which loads registration form
 */
-(function(Routes) {
+(function(routes) {
 "use strict";
-    Routes.Router = Backbone.Router.extend({
+    routes.Router = Backbone.Router.extend({
         routes: {
             'login': 'loadLogin',
             'register': 'loadRegister',

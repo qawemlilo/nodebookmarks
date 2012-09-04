@@ -3,9 +3,11 @@
       @Register View - $default loads registration for
       @Login View - loads login form
 */
-(function(Views, Models, $) {
-"use strict";
-    Views.Pagination = Backbone.View.extend({
+(function(views, $) {
+
+    "use strict";
+    
+    views.Pagination = Backbone.View.extend({
     
         el: $('#pagination'),
         
@@ -18,7 +20,7 @@
         
         events: {
             'click a.next': 'gotoNext',
-            'click a.previ': 'gotoPrev'
+            'click a.prev': 'gotoPrev'
         },
         
         
@@ -29,7 +31,7 @@
             this.collection.on('remove', function (model) {
                 this.collection.removeFromOGModels(model.cid);
                 this.render();
-                Views.Controls.render();
+                views.Controls.render();
             }.bind(this));            
          },
          
@@ -49,6 +51,7 @@
             e.preventDefault();
             
             this.collection.previousGroup();
+            this.render();
         },
          
          
@@ -56,6 +59,7 @@
             e.preventDefault();
              
             this.collection.nextGroup();
+            this.render();
         },        
          
          
@@ -78,4 +82,4 @@
             location.hash = '#pages/' + this.collection.currentPage;
         }
     });
-}(App.Views, App.Models, jQuery));
+}(App.Views, jQuery));

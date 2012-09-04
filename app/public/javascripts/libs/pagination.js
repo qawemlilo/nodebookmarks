@@ -1,11 +1,11 @@
 /*
     @Models - @User - holds user data and route url
 */
-Backbone.Paginator = (function (Backbone, _, $) {
+Backbone.Pagination = (function (Backbone, _, $) {
 
     "use strict";
     
-    var Paginator = Backbone.Collection.extend({
+    var Pagination = Backbone.Collection.extend({
     
         initialize: function () {
             this.filteredModels = '';
@@ -21,13 +21,24 @@ Backbone.Paginator = (function (Backbone, _, $) {
         showFirstLast: true,
         
         
+        sortOrder: 'desc',
+        
+        
         groupLimit: 9, 
         
+
+        changeSortOder: function (direction) {
+            if (direction) {
+                this.sortOrder = direction;
+            }
+            
+            this.pager();
+        },
+
         
         nextGroup: function () {
             if (this.currentGroup + 1 <= this.totalGroups) {
               ++this.currentGroup;
-              this.pager();
             }
         },
         
@@ -35,7 +46,6 @@ Backbone.Paginator = (function (Backbone, _, $) {
         previousGroup: function () {
             if (this.currentGroup - 1 > 0) {
               --this.currentGroup;
-              this.pager();
             }
         }, 
         
@@ -73,6 +83,8 @@ Backbone.Paginator = (function (Backbone, _, $) {
             if (self.filteredModels) {
                 self.models = self.filteredModels;
 	        }
+            
+            self.models = self.sortModels(self.models, self.sortOrder);
 	    
 	        self.reset(self.models.slice(start, stop));
 	    },
@@ -83,6 +95,7 @@ Backbone.Paginator = (function (Backbone, _, $) {
 	            var lastPerPage = this.perPage;
 	            this.perPage = parseInt(perPage, 10);
 	            this.currentPage = Math.ceil( ( lastPerPage * ( this.currentPage - 1 ) + 1 ) / perPage);
+                this.currentGroup = Math.ceil(this.currentPage / this.groupLimit);
 	            this.pager();
 	        }
 	    },
@@ -103,10 +116,10 @@ Backbone.Paginator = (function (Backbone, _, $) {
         filterTags: function (tag) {
             var tagCollection, self = this;
             
-            tagCollection = self.origModels.filter(function (bookmark) {
+            tagCollection = _.filter(self.origModels, function (bookmark) {
                 var tags = bookmark.get('tags');
                 
-                return self._hasTag(tags, tag);
+                return self.hasTag(tags, tag);
             });
             
             self.currentPage = 1;
@@ -118,14 +131,14 @@ Backbone.Paginator = (function (Backbone, _, $) {
         },
         
         
-        _hasTag: function (tags, testTag) {
+        hasTag: function (tags, testTag) {
             var yes = false;  
               
-            tags.forEach(function (tag) {
+            _.each(tags, function (tag) {
                 if (tag === testTag) {
                     yes = true;   
                 }
-            });
+            }, this);
             
             return yes; 
         },
@@ -178,14 +191,14 @@ Backbone.Paginator = (function (Backbone, _, $) {
         
 
         getTags: function (arr) {
-            var alltags = this._buildTags(), uniqueTags = [], tempTags = {};
+            var alltags = this.buildTags(), uniqueTags = [], tempTags = {};
             
-            alltags.forEach(function (tag) {
+            _.each(alltags, function (tag) {
                 if (!tempTags.hasOwnProperty(tag)) {
                     tempTags[tag] = true;
                     uniqueTags.push(tag);
                 }
-            });
+            }, this);
             
             uniqueTags.sort();
             
@@ -193,21 +206,40 @@ Backbone.Paginator = (function (Backbone, _, $) {
         },
         
         
-        _buildTags: function () {
-            var tags = [];
+        buildTags: function () {
+            var tags = [], models = this.origModels || this.models;
             
-            this.origModels.forEach(function (bookmark) {
+            _.each(models, function (bookmark) {
                 var subtags = bookmark.get('tags');
                 
-                subtags.forEach(function (tag){
+                _.each(subtags, function (tag) {
                     tag = trim(tag);
                     tags.push(tag);
-                }); 
-            });
+                }, this); 
+            }, this);
             
             return tags;
-        },        
+        },
+        
+
+        sortModels: function (models, direction) {
+            
+            var sortedmodels, 
+            
+            sortFn = function (a, b) {
+                if (direction === 'desc') {
+                    return b.get('date') - a.get('date');
+                }
+                    
+                return a.get('date') - b.get('date');
+            };
+            
+            sortedmodels = models.sort(sortFn);
+            
+            return sortedmodels;
+        }
+        
     });
     
-    return Paginator;
+    return Pagination;
 }(Backbone, _, jQuery));

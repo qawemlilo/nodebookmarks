@@ -3,10 +3,10 @@
       @Register View - $default loads registration for
       @Login View - loads login form
 */
-(function(Views, Models, $) {
+(function(views, Models, $) {
     "use strict";
     
-    Views.Bookmark = Backbone.View.extend({
+    views.Bookmark = Backbone.View.extend({
     
         tagName: 'tr',
         
@@ -41,27 +41,27 @@
             
             _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark');
 
-            this.model.bind('change:publik', function () {
+            this.model.on('change:publik', function () {
                 $this.update('publik');
             })
 
-            .bind('change:url', function () {
+            .on('change:url', function () {
                 $this.update('url');
             })
             
-            .bind('change:title', function () {
+            .on('change:title', function () {
                 $this.update('title');
             })
 
-            .bind('change:notes', function () {
+            .on('change:notes', function () {
                 $this.update('notes');
             })            
             
-            .bind('change:starred', function () {
+            .on('change:starred', function () {
                 $this.update('starred');
             })
 
-            .bind('change:tags', function () {
+            .on('change:tags', function () {
                 $this.update('tags');
             });            
  
@@ -71,9 +71,12 @@
         
 
         render: function () {
-            var model = this.model.toJSON(), bookmarkTemplate;
+            var model = this.model.toJSON(), bookmarkTemplate, date = this.formatDate(model.date);
                 
-            model.date = this._formatDate(model.date);
+            model.day = date.day;
+            model.month = date.month;
+            model.year = date.year;
+            
             bookmarkTemplate = this.bookmarkTemplate.render(model);   
             this.$el.append(bookmarkTemplate);
             
@@ -82,7 +85,7 @@
         
         
         unrender: function () {
-            this.$el.css('background', '#ffff99');
+            this.$el.addClass('highlight');
             this.$el.fadeOut(function () {
                 this.$el.remove();
             }.bind(this));
@@ -99,7 +102,7 @@
                 editFormDiv = this.$('.bookmark-edit'),
                 formValues = editForm.serializeArray();
             
-            formValues.forEach(function (fieldObj) {
+            _.each(formValues, function (fieldObj) {
                 if (fieldObj.name !== 'submit') {
                     formObj[fieldObj.name] = fieldObj.value;
                 }
@@ -109,20 +112,15 @@
             formObj.tags = formObj.tags.split(',') || [formObj.tags];
             formObj.publik = !(!!formObj.publik);
             
-            formObj.tags.forEach(function (rawTag) {
+            _.each(formObj.tags, function (rawTag) {
                 cleantags.push(trim(rawTag));
             });
              
             formObj.tags = cleantags;
 
-            this.model.set(formObj);
-
             successHandler = function (model, response) {
-                var prevAttributes = $this.model.previousAttributes(); 
-                $this.model.set(prevAttributes);
-                
                 editFormDiv.fadeOut(function () {
-                    editFormDiv.remove();
+                    editFormDiv.empty().hide();
                     $this.activeEditor = false;
                         
                     $this.$('.bookmark-main').fadeIn(function () {
@@ -132,20 +130,17 @@
             };
             
             errorHandler = function (model, response) {
-                var prevAttributes = $this.model.previousAttributes(); 
-                $this.model.set(prevAttributes);
-                
                 editFormDiv.fadeOut(function () {
-                    editFormDiv.remove();
+                    editFormDiv.empty().hide();
                     $this.activeEditor = false;
                         
                     $this.$('.bookmark-main').fadeIn(function () {
-                        $.shout(response.msg, 5);
+                        $.shout(response.msg || 'Error occured, bookmark not updated', 5);
                     });
                 });
             };
                     
-            this.model.save(null, {success: successHandler, error: errorHandler});
+            this.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
         },
         
         
@@ -164,20 +159,18 @@
             }.bind(this);
             
             errorHandler = function (model, response) {
-                $.shout(response.msg, 5);
+                $.shout(response.msg  || 'Error occured, bookmark not deleted', 5);
             }.bind(this);
             
-            this.model.destroy({success: successHandler, error: errorHandler});
+            this.model.destroy({success: successHandler, error: errorHandler, wait: true});
         },
         
         
         cancelEdit: function (e) { 
-            if (e) {
-                e.preventDefault();
-            }
+            e.preventDefault();
             
-            this.$('.bookmark-edit-form').fadeOut(function () {
-                this.$('.bookmark-edit-form').remove();
+            this.$('.bookmark-edit').fadeOut(function () {
+                this.$('.bookmark-edit').empty();
                 this.$('.bookmark-main').fadeIn();
                 this.activeEditor = false;
             }.bind(this));
@@ -185,9 +178,7 @@
         
         
         loadEditor: function (e) {
-            if (e) {
-                e.preventDefault();
-            }
+            e.preventDefault();
             
             if (this.activeEditor) {
                 return false;
@@ -195,18 +186,19 @@
             
             var model = this.model.toJSON(), editTemplate;
             
-            model.tags = model.tags.length > 1 ? model.tags.join(',') : model.tags[0];
+            model.tags = model.tags.length > 1 ? model.tags.join(', ') : model.tags[0];
             
             editTemplate = this.editTemplate.render(model);
             
             this.$('.bookmark-main').fadeOut(function () {
-                this.$('.bookmark-middle-td').hide().append(editTemplate).fadeIn();
+                this.$('.bookmark-edit').html(editTemplate).fadeIn();
                 this.activeEditor = true;
             }.bind(this));
         },
         
         
         update: function (view) {
+            var div, privacy, tags;
             if (view === 'title') {
                 this.$('.bookmark-url').html(this.model.get('title'));   
             }
@@ -220,11 +212,13 @@
             }
             
             if (view === 'tags') {
-                var div = this.$('.bookmark-tags');
+                div = this.$('.bookmark-tags');
                 
-                div.find('.label').remove();
+                div.find('.b-tag').remove();
                 
-                (this.model.get('tags')).forEach(function (tag) {
+                tags = this.model.get('tags');
+                
+                _.each(tags, function (tag) {
                     var span = $('<span>', {
                         'class': 'label',
                         'html': tag.toLowerCase() 
@@ -237,7 +231,7 @@
             }
             
             if (view === 'publik') {
-                var div = this.$('.bookmark-tags'), privacy;
+                div = this.$('.bookmark-tags'); 
                 
                 div.find('#label').remove();
                 
@@ -252,10 +246,15 @@
         },
 
 
-        _formatDate: function (date) {
-            var newdate = new Date(parseInt(date)).toString().substring(4, 16);
+        formatDate: function (date) {
+            var newdate = new Date(parseInt(date, 10)),  obj = {}, 
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            obj.day = newdate.getDay();
+            obj.month = months[newdate.getMonth()];
+            obj.year = newdate.getFullYear();
             
-            return newdate;
+            return obj;
         }        
     });
 }(App.Views, App.Models, jQuery));

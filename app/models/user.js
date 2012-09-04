@@ -54,7 +54,7 @@ User =  db.model('User', UserSchema);
 exports.register = function (obj, fn) {
     var member = new User(obj);
     member.save(function (err) {
-        fn(err);    
+        fn(err, member);    
     });
 };
 

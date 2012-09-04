@@ -3,9 +3,10 @@
       @Register View - $default loads registration for
       @Login View - loads login form
 */
-(function(Views, Collections, $) {
-"use strict";
-    Views.App = Backbone.View.extend({
+(function(views, collections, routes, $) {
+    "use strict";
+    
+    views.Controller = Backbone.View.extend({
     
         el: $('#app-body'),
         
@@ -17,9 +18,6 @@
         
         
         activeView: '',
-                
-        
-        user: {},
         
         
         bookmarks: {},
@@ -36,29 +34,30 @@
 
             this.$('#bookmarks-table, #settings, #pagination').hide();
 
-            this.router = new App.Routes.Router();
+            this.router = new routes.Router();
             
-            this.bookmarks = new Views.Bookmarks({
-                collection: new Collections.Bookmarks(this.collection)
+            this.bookmarks = new views.Bookmarks({
+                collection: new collections.Bookmarks(this.collection)
             });
             
-            this.controls = new Views.Controls({
+            this.controls = new views.Controls({
                 collection: this.bookmarks.collection
             });
             
-            this.pagination = new Views.Pagination({
+            this.pagination = new views.Pagination({
                 collection: this.bookmarks.collection
             });
             
-            this.settings = new Views.Settings();
+            this.settings = new views.Settings(); 
             
-            this.settings.user = this.user;
             
-            Views.Controls = this.controls;
-            Views.Bookmarks = this.bookmarks;
-            Views.Settings = this.settings;
-            Views.Pagination = this.pagination;
+            views.Controls = this.controls;
+            views.Bookmarks = this.bookmarks;
+            views.Settings = this.settings;
+            views.Pagination = this.pagination;
+            collections.Bookmarks = this.bookmarks.collection;
 
+            
             this.bookmarks.collection.pager();
             
             this.assign({
@@ -88,8 +87,9 @@
             }
             
             this.$('#bookmarks-table').fadeOut(function () {
-                this.$('#bookmarks-table').empty();
+                this.$('#bookmarks-table').empty()
                 this.pagination.reset();
+                this.controls.render();
                 this.$('#bookmarks-table, #controls').fadeIn();
                 this.activeView = 'home';
             }.bind(this));
@@ -99,7 +99,7 @@
         
         
         loadBookmarks: function () {
-            if (this.activeView === 'tags') {
+            if (this.activeView === 'filteredTags') {
                 this.reset();
                 return;
             }
@@ -121,8 +121,9 @@
         filterTags: function (tag) {
             this.$('#bookmarks-table').fadeOut(function () {
                this.bookmarks.collection.filterTags(tag);
+               this.controls.render();
                this.$('#bookmarks-table').fadeIn();
-               this.activeView = 'tags';
+               this.activeView = 'filteredTags';
             }.bind(this));              
         },
         
@@ -147,4 +148,4 @@
             }, this);
         }        
     });
-}(App.Views, App.Collections, jQuery));
+}(App.Views, App.Collections, App.Routes, jQuery));

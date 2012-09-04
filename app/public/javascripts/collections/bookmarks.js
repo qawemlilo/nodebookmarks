@@ -1,23 +1,17 @@
 /*
     @Models - @User - holds user data and route url
 */
-(function(Models, Collections) {
+(function(models, collections) {
 "use strict";
-    Collections.Bookmarks = Backbone.Paginator.extend({
+    collections.Bookmarks = Backbone.Pagination.extend({
     
-        model: Models.Bookmark,
+        model: models.Bookmark,
         
         
         url: '/bookmarks',
         
         
-        perPage: 10,
-        
-        
-        //showFirstLast: false,
-        
-        
-        //showPreNext: false,
+        perPage: 8,
         
         
         groupLimit: 9,

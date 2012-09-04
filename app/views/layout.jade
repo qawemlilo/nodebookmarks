@@ -15,14 +15,12 @@ html(class='no-js', lang='en')
     meta(name='description', content='Node-Bookmarks')
     meta(name='viewport', content='width=device-width')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css') 
     script(src='/javascripts/libs/modernizr.js')  
   body
-    div(id='app-body', class='container')
-      section.container
-        header!= partial('header')
+    section(id='app-body', class='container')
+      header!= partial('header')
       
-        div(class='content', id='content-body', role='main')!= body
+      div(class='content', id='content-body', role='main')!= body
       
-        footer!= partial('footer')
+      footer!= partial('footer')

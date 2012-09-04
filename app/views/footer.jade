@@ -9,15 +9,18 @@ nav
     li.first: a(href='/', title='About') About
     li.first: a(href='/', title='Privacy') Privacy
     li.first: a(href='/', title='License') License
-
+    
+    
+script(src='/javascripts/libs/json.js') 
 script(src='/javascripts/libs/jquery.js')
 script(src='/javascripts/libs/underscore.js')
 script(src='/javascripts/libs/backbone.js')
-script(src='/javascripts/libs/backbone.pagination.js')
+script(src='/javascripts/libs/pagination.js')
 script(src='/javascripts/libs/ejs_production.js')
 script(src='/javascripts/libs/bootstrap-transition.js')
 script(src='/javascripts/libs/bootstrap-collapse.js')
 script(src='/javascripts/libs/bootstrap-dropdown.js')
+script(src='/javascripts/libs/script.js')
 script(src='/javascripts/app.js')
 script(src='/javascripts/models/user.js')
 
@@ -38,7 +41,7 @@ if(page === 'home')
   script(src='/javascripts/views/controls/controls.js')
   script(src='/javascripts/routes/router.js')
   script(src='/javascripts/views/pagination/pagination.js')
-  script(src='/javascripts/main.js')
+  script(src='/javascripts/controller.js')
   script(type='text/javascript')
     $(function () {
       var books = !{JSON.stringify(bookmarks)};

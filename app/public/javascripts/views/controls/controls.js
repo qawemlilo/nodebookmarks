@@ -3,9 +3,9 @@
       @Register View - $default loads registration for
       @Login View - loads login form
 */
-(function(Views, Models, Collections, $) {
+(function(views, models, $) {
 "use strict";
-    Views.Controls = Backbone.View.extend({
+    views.Controls = Backbone.View.extend({
     
         el: $('#controls'),
         
@@ -15,7 +15,8 @@
         
         events: {
             'click .btn-group .new-bookmark': 'newBookmark',
-            'click .btn-group .limit a': 'changeCount'
+            'click .btn-group .limit a': 'changeCount',
+            'click .btn-group .sort a': 'sort'
         },
         
         
@@ -27,7 +28,7 @@
         render: function () {
             var controlsTemplate, tags = this.collection.getTags();
 
-            controlsTemplate = this.controlsTemplate.render({tags: tags}); 
+            controlsTemplate = this.controlsTemplate.render({tags: tags, filteredTag: this.collection.filteredTag}); 
             this.$el.html(controlsTemplate);
             
             return this;
@@ -36,12 +37,11 @@
         
         newBookmark: function (e) {
             e.preventDefault();
+            /*
+            var model = new models.NewBookmark();
             
-            var model = new Models.Bookmark();
-            
-            model.setUrl('/bookmarks/add');
-            
-            Views.Bookmarks.newBookmark(model);
+            views.Bookmarks.newBookmark(model);
+            */
         },
         
         
@@ -49,7 +49,16 @@
             e.preventDefault();
             var num = $(e.target).text();
              
-            Views.Pagination.changeCount(num);
+            views.Pagination.changeCount(num);
+        },
+        
+        sort: function (e) {
+            e.preventDefault();
+            
+            var classname = $(e.target).attr('class');
+            
+            if (classname !== this.collection.sortOrder)
+                this.collection.changeSortOder(classname);
         }
     });
-}(App.Views, App.Models, App.Collections, jQuery));
+}(App.Views, App.Models, jQuery));

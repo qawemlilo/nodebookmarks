@@ -1,9 +1,10 @@
 /*
     @Models - @Bookmark - holds bookmark data
 */
-(function(Models) {
-"use strict";
-    Models.Bookmark = Backbone.Model.extend({
+(function(models) {
+    "use strict";
+    
+    models.Bookmark = Backbone.Model.extend({
         defaults: {
             id: '',
             publik: false,
@@ -13,10 +14,6 @@
             notes: 'notes',
             starred: false,
             tags: ['uncategorised']
-        },
-        
-        setUrl: function  (url) {
-            this.url = url;
         }
     });
 }(App.Models));

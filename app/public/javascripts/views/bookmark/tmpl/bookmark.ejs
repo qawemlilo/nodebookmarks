@@ -1,6 +1,13 @@
 ﻿<td class='bookmark-left-td'>
-    <div class='bookmark-date'>
-        <div class='bookmark-date-text'><%= date %></div>
+    <div class='ribbon date'>
+       
+        <div class="top ribbon-piece"><%= year %></div>
+        <div class="middle ribbon-piece"><%= month %></div>
+        <div class="bottom ribbon-piece"><%= day %></div>
+        <div class="tail">
+            <div class="left ribbon-piece"></div>
+            <div class="right ribbon-piece"></div>
+        </div>
     </div>
 </td>
   
@@ -13,7 +20,7 @@
         <div class='bookmark-tags'>
             <i class="icon-tags"></i>
             <% for (var i = 0; i < tags.length; i++) { %>
-                <span class='label'><%= tags[i].toLowerCase() %></span>
+                <span class='label b-tag'><%= tags[i].toLowerCase() %></span>
             <% }; %>
             <% if (publik) { %> <span id='label' class='label label-important'>Public</span> <% } else { %>
                 <span id='label' class='label label-info'>Private</span>
@@ -22,5 +29,7 @@
         <div class='bookmark-main-edit'>
             <a class='bookmark-edit-link' href='#'>Edit</a> | <a class='bookmark-delete' href='#'>Delete</a>
         </div>
+    </div>
+    <div class='bookmark-edit'>
     </div>
 </td>
