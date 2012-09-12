@@ -1,9 +1,10 @@
 /*
-    @Views - Form view with url hash history enabled
-      @Register View - $default loads registration for
-      @Login View - loads login form
+    @Module: App.Views.Controller - initializes application views
+    @Dependencies - jQuery
+                  - Backbone
+                  - UnderScore
 */
-(function(views, collections, routes, $) {
+(function (Backbone, views, collections, routes, $) {
     "use strict";
     
     views.Controller = Backbone.View.extend({
@@ -14,7 +15,7 @@
         router: {},
         
         
-        settings: {},
+        profile: {},
         
         
         activeView: '',
@@ -29,10 +30,14 @@
         pagination: {},
         
         
+        /*
+            @Api:           public
+            @Constructor:   initializes app views 
+        */
         initialize: function () {
-            _.bindAll(this, 'loadSettings', 'filterTags', 'reset', 'loadBookmarks', 'goTo', 'assign');
+            _.bindAll(this, 'loadProfile', 'filterTags', 'loadHome', 'goTo', 'assign');
 
-            this.$('#bookmarks-table, #settings, #pagination').hide();
+            this.$('#profile').hide();
 
             this.router = new routes.Router();
             
@@ -48,12 +53,12 @@
                 collection: this.bookmarks.collection
             });
             
-            this.settings = new views.Settings(); 
+            this.profile = new views.Profile(); 
             
             
             views.Controls = this.controls;
             views.Bookmarks = this.bookmarks;
-            views.Settings = this.settings;
+            views.Profile = this.profile;
             views.Pagination = this.pagination;
             collections.Bookmarks = this.bookmarks.collection;
 
@@ -61,7 +66,7 @@
             this.bookmarks.collection.pager();
             
             this.assign({
-                '#settings': this.settings,
+                '#profile': this.profile,
                 '#controls': this.controls, 
                 '#bookmarks-table': this.bookmarks,
                 '#pagination': this.pagination
@@ -71,60 +76,57 @@
         },
 
         
-        loadSettings: function () {
-            this.$('#bookmarks-table, #controls, #pagination').fadeOut(function () {
-                this.$('#settings').fadeIn();
-                this.activeView = 'settings';
+        /*
+            @Api:       public - displays profile page
+            @returns:   void
+        */
+        loadProfile: function () {
+            this.$('.home-div').fadeOut(function () {
+                this.$('#profile').fadeIn();
+                this.activeView = 'profile';
             }.bind(this));
-            
-            return this;
         },
         
-        
-        reset: function () {
-            if (this.activeView === 'settings') {
-                this.$('#settings').hide();
-            }
-            
-            this.$('#bookmarks-table').fadeOut(function () {
-                this.$('#bookmarks-table').empty()
-                this.pagination.reset();
-                this.controls.render();
-                this.$('#bookmarks-table, #controls').fadeIn();
-                this.activeView = 'home';
-            }.bind(this));
-            
-            return this;
+
+
+        /*
+            @Api:       public - resets and displays bookmarks collection
+            @Returns:   void
+        */        
+        loadHome: function () {            
+            if (this.activeView === 'profile') {
+                this.$('#profile').fadeOut(function () {
+                    this.$('.home-div').fadeIn();
+                }.bind(this)); 
+            }   
+
+            this.pagination.reset();
+            this.controls.render();
+            this.activeView = 'home';
         },
         
-        
-        loadBookmarks: function () {
-            if (this.activeView === 'filteredTags') {
-                this.reset();
-                return;
-            }
-            
-            this.$('#settings').fadeOut(function () {
-                this.$('#controls, #bookmarks-table, #pagination').fadeIn();
-                this.activeView = 'home';
-            }.bind(this));
-            
-            return this;
-        },
-        
-        
+
+
+        /*
+            @Api:       public - loads and displays a page of bookmarks
+            @returns:   void 
+            @param:     (Number) num - page number
+        */        
         goTo: function (num) {
             this.pagination.gotoPage(num);              
         },
         
-        
+
+
+        /*
+            @Api:       public - filters and displays bookmarks containing a tag
+            @Returns:   void 
+            @param:     (String) tag - tag to be filtered
+        */         
         filterTags: function (tag) {
-            this.$('#bookmarks-table').fadeOut(function () {
-               this.bookmarks.collection.filterTags(tag);
-               this.controls.render();
-               this.$('#bookmarks-table').fadeIn();
-               this.activeView = 'filteredTags';
-            }.bind(this));              
+            this.bookmarks.collection.filterTags(tag);
+            this.controls.render();
+            this.activeView = 'filteredTags';              
         },
         
         
@@ -148,4 +150,4 @@
             }, this);
         }        
     });
-}(App.Views, App.Collections, App.Routes, jQuery));
+}(Backbone, App.Views, App.Collections, App.Routes, jQuery));

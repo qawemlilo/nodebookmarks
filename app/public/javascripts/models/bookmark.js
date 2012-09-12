@@ -1,14 +1,15 @@
 /*
-    @Models - @Bookmark - holds bookmark data
+    @Module - App.Models.Bookmark - holds bookmark data
+    @Dependencies - Backbone
 */
-(function(models) {
+(function(Backbone, models) {
     "use strict";
     
     models.Bookmark = Backbone.Model.extend({
         defaults: {
             id: '',
             publik: false,
-            date: new Date().getTime(),
+            date: (new Date()).getTime(),
             url: '#',
             title: 'title',
             notes: 'notes',
@@ -16,4 +17,4 @@
             tags: ['uncategorised']
         }
     });
-}(App.Models));
+}(Backbone, App.Models));

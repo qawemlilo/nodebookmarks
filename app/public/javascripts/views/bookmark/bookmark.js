@@ -1,9 +1,10 @@
 /*
-    @Views - Form view with url hash history enabled
-      @Register View - $default loads registration for
-      @Login View - loads login form
+    @Module: App.Views.Bookmark - renders a bookmark
+    @Dependencies - jQuery
+                  - Backbone
+                  - UnderScore
 */
-(function(views, Models, $) {
+(function (Backbone, views, Template, $) {
     "use strict";
     
     views.Bookmark = Backbone.View.extend({
@@ -30,74 +31,75 @@
         activeEditor: false,
         
         
-        editTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
+        editTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
         
         
-        bookmarkTemplate: new EJS({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
+        bookmarkTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
         
-        
+
+
+        /*
+            @Api:         public - binds change model events and initializes bookmark 
+            @Constructor: 
+        */        
         initialize: function () {
             var $this = this;
             
-            _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark');
+            _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getSanitizedModel');
 
-            this.model.on('change:publik', function () {
-                $this.update('publik');
-            })
-
-            .on('change:url', function () {
-                $this.update('url');
-            })
-            
-            .on('change:title', function () {
-                $this.update('title');
-            })
-
-            .on('change:notes', function () {
-                $this.update('notes');
-            })            
-            
-            .on('change:starred', function () {
-                $this.update('starred');
-            })
-
-            .on('change:tags', function () {
-                $this.update('tags');
-            });            
+            this.model.on('change', function () {
+                var attrs = ['publik', 'url', 'title', 'notes', 'starred', 'tags'], i;
+                
+                for (i = 0; i < attrs.length; i++) {
+                    if (this.model.hasChanged(attrs[i])) {
+                        this.update(attrs[i]);
+                    }
+                }
+            }.bind(this));        
  
             this.render();
+            
             return this;
         },
         
 
+
+        /*
+            @Public
+            @Void: loads template and renders bookmark
+        */        
         render: function () {
-            var model = this.model.toJSON(), bookmarkTemplate, date = this.formatDate(model.date);
-                
-            model.day = date.day;
-            model.month = date.month;
-            model.year = date.year;
+            var model = this.getSanitizedModel(), bookmarkTemplate;
             
             bookmarkTemplate = this.bookmarkTemplate.render(model);   
             this.$el.append(bookmarkTemplate);
-            
-            return this;
         },
         
-        
+
+
+        /*
+            @Private
+            @Void: unrenders bookmark
+        */         
         unrender: function () {
-            this.$el.addClass('highlight');
-            this.$el.fadeOut(function () {
+            this.$el.addClass('highlight')
+            
+            .fadeOut(function () {
                 this.$el.remove();
             }.bind(this));
-            
-            return this;
         },
         
-        
+
+
+        /*
+            @Private
+            @Void: handles the submitted bookmark form data
+            @Param: (Object) e - submit event object
+        */         
         saveEdit: function (e) {
             e.preventDefault();
             
-            var cleantags = [], formObj = {}, $this = this, successHandler, errorHandler, 
+            var cleantags = [], formObj = {}, successHandler, errorHandler, 
                 editForm = this.$('.bookmark-edit-form'),
                 editFormDiv = this.$('.bookmark-edit'),
                 formValues = editForm.serializeArray();
@@ -113,37 +115,36 @@
             formObj.publik = !(!!formObj.publik);
             
             _.each(formObj.tags, function (rawTag) {
-                cleantags.push(trim(rawTag));
+                cleantags.push(rawTag);
             });
              
             formObj.tags = cleantags;
 
             successHandler = function (model, response) {
-                editFormDiv.fadeOut(function () {
-                    editFormDiv.empty().hide();
-                    $this.activeEditor = false;
-                        
-                    $this.$('.bookmark-main').fadeIn(function () {
-                        $.shout(response.msg, 5);
-                    });
-                });
-            };
+                this.activeEditor = false; // unlock editor
+                $.shout(response.msg, 5);
+            }.bind(this);
             
             errorHandler = function (model, response) {
-                editFormDiv.fadeOut(function () {
-                    editFormDiv.empty().hide();
-                    $this.activeEditor = false;
-                        
-                    $this.$('.bookmark-main').fadeIn(function () {
-                        $.shout(response.msg || 'Error occured, bookmark not updated', 5);
-                    });
-                });
-            };
-                    
+                this.activeEditor = false; // unlock editor
+                $.shout(response.msg || 'Error occured, bookmark not updated', 5);
+            }.bind(this);
+            
+            editFormDiv.fadeOut(function () {
+                editFormDiv.empty().hide();
+                this.$('.bookmark-main').fadeIn();
+            }.bind(this));
+            
             this.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
         },
         
-        
+
+
+        /*
+            @Private
+            @Void: handles clicking the delete link
+            @Param: (Object) e - click event object
+        */          
         deleteBookmark: function (e) {
             e.preventDefault();
             
@@ -165,28 +166,41 @@
             this.model.destroy({success: successHandler, error: errorHandler, wait: true});
         },
         
-        
+
+
+        /*
+            @Private
+            @Void: closes the bookmark editor form and displays the bookmark
+            @Param: (Object) e - click event object
+        */          
         cancelEdit: function (e) { 
             e.preventDefault();
             
             this.$('.bookmark-edit').fadeOut(function () {
                 this.$('.bookmark-edit').empty();
                 this.$('.bookmark-main').fadeIn();
-                this.activeEditor = false;
+                this.activeEditor = false; // lock editor
             }.bind(this));
         },
         
-        
+
+
+        /*
+            @Private
+            @Void: handles clicking the edit link and loads the bookmark editing form
+            @Param: (Object) e - click event object
+        */          
         loadEditor: function (e) {
             e.preventDefault();
             
+            // prevent loading of editor while one is active
             if (this.activeEditor) {
                 return false;
             }
             
             var model = this.model.toJSON(), editTemplate;
             
-            model.tags = model.tags.length > 1 ? model.tags.join(', ') : model.tags[0];
+            model.tags = model.tags.length > 1 ? model.tags.join(',') : model.tags[0];
             
             editTemplate = this.editTemplate.render(model);
             
@@ -196,56 +210,72 @@
             }.bind(this));
         },
         
-        
+
+
+        /*
+            @Private
+            @Void: updates the view of a changed bookmark model property
+            @Param: (String) view - bookmark view that has changed
+        */          
         update: function (view) {
-            var div, privacy, tags;
-            if (view === 'title') {
-                this.$('.bookmark-url').html(this.model.get('title'));   
-            }
+            var div, privacy, tags, span;
             
-            if (view === 'notes') {
-                this.$('.bookmark-notes').html(this.model.get('notes'));   
-            }
-
-            if (view === 'url') {
-                this.$('.bookmark-url').attr({'href': this.model.get('url')});   
-            }
+            switch (view) {
             
-            if (view === 'tags') {
-                div = this.$('.bookmark-tags');
+                case 'title':
+                    this.$('.bookmark-url').html(this.model.escape('title'));
+                break;
                 
-                div.find('.b-tag').remove();
                 
-                tags = this.model.get('tags');
+                case 'notes':
+                    this.$('.bookmark-notes').html(this.model.escape('notes'));
+                break;
                 
-                _.each(tags, function (tag) {
-                    var span = $('<span>', {
-                        'class': 'label',
-                        'html': tag.toLowerCase() 
-                    });
+                
+                case 'url':
+                    this.$('.bookmark-url').attr({'href': this.model.escape('url')});
+                break;
+                
+                
+                case 'tags':
+                    div = this.$('.bookmark-tags');
+                    div.find('.b-tag').remove();
+                    tags = this.model.get('tags');
                     
-                    div.append(span);
-                });
+                    _.each(tags, function (tag) {
+                        span = $('<span>', {
+                            'class': 'label',
+                            'html': tag.toLowerCase() 
+                        });
+                        
+                        div.append(span);
+                    });
+                break;
                 
-
-            }
-            
-            if (view === 'publik') {
-                div = this.$('.bookmark-tags'); 
                 
-                div.find('#label').remove();
+                case 'publik':
+                    div = this.$('.bookmark-tags'); 
                 
-                privacy = $('<span>', {
-                    'id': 'label',
-                    'html': this.model.get('publik') ? 'Public' : 'Private',
-                    'class': this.model.get('publik') ? 'label label-important' : 'label label-info'
-                });
+                    div.find('#label').remove();
                 
-                div.append(privacy);  
+                    privacy = $('<span>', {
+                        'id': 'label',
+                        'html': this.model.get('publik') ? 'Public' : 'Private',
+                        'class': this.model.get('publik') ? 'label label-important' : 'label label-info'
+                    });
+                
+                    div.append(privacy);
+                break;
             }
         },
 
 
+
+        /*
+            @Private
+            @Object: formats a time integer to a date and returns an object 
+            @Param: (Number) date - time integer
+        */          
         formatDate: function (date) {
             var newdate = new Date(parseInt(date, 10)),  obj = {}, 
             months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -255,6 +285,30 @@
             obj.year = newdate.getFullYear();
             
             return obj;
+        },
+        
+
+
+        /*
+            @Private
+            @Object: returns a sanitized model object 
+        */          
+        getSanitizedModel: function () {
+            var obj = {}, model = this.model, date = this.formatDate(model.get('date'));
+            
+            obj.url = decodeURIComponent(model.get('url'));
+            obj.notes = model.escape('notes');
+            obj.title = model.escape('title');
+            obj.tags = model.get('tags');
+            obj.publik = model.get('publik');
+            obj.starred = model.get('starred');
+            obj.id = model.get('id');
+                
+            obj.day = date.day;
+            obj.month = date.month;
+            obj.year = date.year;
+            
+            return obj;
         }        
     });
-}(App.Views, App.Models, jQuery));
+}(Backbone, App.Views, EJS, jQuery));

@@ -1,8 +1,12 @@
 /*
-    @Models - @User - holds user data and route url
+    @Plugin: Backbone.Pagination - pagination plugin
+    @Dependencies - jQuery
+                  - Backbone 
+                  - UnderScore 
+    
+    * Note: This plugin is a custom implemenation of Backbone.Paginator By Addy Osmani <http://addyosmani.com>
 */
 Backbone.Pagination = (function (Backbone, _, $) {
-
     "use strict";
     
     var Pagination = Backbone.Collection.extend({
@@ -27,6 +31,10 @@ Backbone.Pagination = (function (Backbone, _, $) {
         groupLimit: 9, 
         
 
+        /*
+            @Public
+            @Void: sets the sortOrder of collection 
+        */
         changeSortOder: function (direction) {
             if (direction) {
                 this.sortOrder = direction;
@@ -34,22 +42,37 @@ Backbone.Pagination = (function (Backbone, _, $) {
             
             this.pager();
         },
-
         
+
+        /*
+            @Public
+            @Void: sets the number for the next group of pages 
+        */   
         nextGroup: function () {
             if (this.currentGroup + 1 <= this.totalGroups) {
               ++this.currentGroup;
             }
         },
         
-        
+
+
+        /*
+            @Public
+            @Void: sets the number for the previous group of pages
+        */        
         previousGroup: function () {
             if (this.currentGroup - 1 > 0) {
               --this.currentGroup;
             }
         }, 
         
-        
+
+
+        /*
+            @Public
+            @Void: sets the page number to go to
+            @Param: (Number) page - page number            
+        */        
         goTo: function ( page ) {
             if (page !== undefined) {
                 this.currentPage = parseInt(page, 10);
@@ -58,7 +81,12 @@ Backbone.Pagination = (function (Backbone, _, $) {
 	        }
 	    },
         
-        
+
+
+        /*
+            @Public
+            @Void: resets collection 
+        */        
         resetFilteredModels: function () {
             this.filteredModels = '';
             this.filteredTag = '';
@@ -67,7 +95,12 @@ Backbone.Pagination = (function (Backbone, _, $) {
             this.pager();
 	    },
 	
-	
+
+
+        /*
+            @Public
+            @Void: checks properties and resets the collection by loading a portion models for public access
+        */	
         pager: function () {
             var self = this,
                 disp = this.perPage,
@@ -89,8 +122,13 @@ Backbone.Pagination = (function (Backbone, _, $) {
 	        self.reset(self.models.slice(start, stop));
 	    },
 	
-	
-	    howManyPer: function ( perPage ) {
+
+        /*
+            @Public
+            @Void: sets number of bookmarks per page and performs a calculation to determine currentPage and currentGroup 
+            @Param: (Number) perPage - number of bookmarks per page
+        */		
+	    setLimit: function ( perPage ) {
 	        if (perPage !== undefined) {
 	            var lastPerPage = this.perPage;
 	            this.perPage = parseInt(perPage, 10);
@@ -100,7 +138,13 @@ Backbone.Pagination = (function (Backbone, _, $) {
 	        }
 	    },
     
-    
+
+
+        /*
+            @Public
+            @Void: updates original models upon bookmark deletion
+            @Param: (Mixed) cid - model unique id
+        */	    
 	    removeFromOGModels: function ( cid ) {
 	        var self = this;
 
@@ -113,6 +157,12 @@ Backbone.Pagination = (function (Backbone, _, $) {
 	    },
 	
 
+    
+        /*
+            @Public
+            @Void: filters models containing tag
+            @Param: (String) tag - tag being filtered
+        */	    
         filterTags: function (tag) {
             var tagCollection, self = this;
             
@@ -130,20 +180,32 @@ Backbone.Pagination = (function (Backbone, _, $) {
             self.pager();
         },
         
-        
-        hasTag: function (tags, testTag) {
-            var yes = false;  
-              
-            _.each(tags, function (tag) {
-                if (tag === testTag) {
-                    yes = true;   
+
+        /*
+            @Private
+            @Boolean: checks if array contains tag
+            @Params: (Array) tags - haystack
+                     (String) tag - needle
+        */	        
+        hasTag: function (tags, tag) {
+            var yes = false, i;  
+             
+            for (i = 0; i < tags.length; i++) {
+                if (tags[i] === tag) {
+                    yes = true;
+                    break;
                 }
-            }, this);
+            }             
             
             return yes; 
         },
 	
-	
+
+
+        /*
+            @Public
+            @Object: calculates, updates and returns current properties
+        */	
 	    info: function () {
 	        var self = this,
 	        info = {},
@@ -190,38 +252,45 @@ Backbone.Pagination = (function (Backbone, _, $) {
 	    },
         
 
-        getTags: function (arr) {
-            var alltags = this.buildTags(), uniqueTags = [], tempTags = {};
-            
-            _.each(alltags, function (tag) {
-                if (!tempTags.hasOwnProperty(tag)) {
-                    tempTags[tag] = true;
-                    uniqueTags.push(tag);
-                }
-            }, this);
+
+        /*
+            @Public
+            @Boolean: checks if array contains tag
+        */        
+        getTags: function () {
+            var tags = this.buildTags(), 
+                uniqueTags = _.uniq(tags);
             
             uniqueTags.sort();
             
             return uniqueTags;
         },
         
-        
+
+
+        /*
+            @Private
+            @Array: combines all collection tags into one array
+        */          
         buildTags: function () {
             var tags = [], models = this.origModels || this.models;
             
             _.each(models, function (bookmark) {
                 var subtags = bookmark.get('tags');
-                
-                _.each(subtags, function (tag) {
-                    tag = trim(tag);
-                    tags.push(tag);
-                }, this); 
+                tags.push(subtags);
             }, this);
             
-            return tags;
+            return _.flatten(tags);
         },
         
 
+
+        /*
+            @Private
+            @Array: sorts the order of models, descending or ascending
+            @Params: (Array) models - models to be sortedmodels
+                     (String) direction - 'desc' or 'asc'
+        */          
         sortModels: function (models, direction) {
             
             var sortedmodels, 

@@ -39,7 +39,7 @@ exports.update = function (id, bookmarkObj, fn) {
     var Model =  db.model('Bookmark'), changed = false;
     
     Model.findById(id, function (err, bookmark) {
-        if (!(!!err) && (!!bookmark)) {
+        if (!(!!err)) {
             
             for (key in bookmarkObj) {
                 bookmark[key] = bookmarkObj[key];
@@ -54,6 +54,9 @@ exports.update = function (id, bookmarkObj, fn) {
                 }
             });
         }
+        else {
+            fn(true, {});
+        }
     });    
 };
 
@@ -62,7 +65,7 @@ exports.remove = function (id, fn) {
     var Model =  db.model('Bookmark');
     
     Model.findOne({_id: id}, function (err, bookmark) {
-        if (!(!!err) && (!!bookmark)) {
+        if (!(!!err)) {
             
             bookmark.remove(function (err) {
                 if (!!err) {

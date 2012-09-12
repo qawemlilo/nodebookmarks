@@ -1,25 +1,28 @@
 /*
-    @Views - Form view with url hash history enabled
-      @Register View - $default loads registration for
-      @Login View - loads login form
+    @Module: App.Views.Index - renders public home page
+    @Dependencies - jQuery
+                  - Backbone 
+                  - EJS
+                  - UnderScore                  
 */
-(function(views, models, routes) {
-"use strict";
+(function(Backbone, views, models, routes, Template, $) {
+    "use strict";
+    
     views.Index = Backbone.View.extend({
     
         el: $('#form-container'),
         
         
-        registerTemplate: new EJS({url: '/javascripts/views/forms/tmpl/register.ejs'}),
+        registerTemplate: new Template({url: '/javascripts/views/forms/tmpl/register.ejs'}),
         
         
-        loginTemplate: new EJS({url: '/javascripts/views/forms/tmpl/login.ejs'}),
+        loginTemplate: new Template({url: '/javascripts/views/forms/tmpl/login.ejs'}),
         
         
         events: {
             'submit #register-form': 'registerUser',
             
-            'submit #login-form': 'loginUser'
+            //'submit #login-form': 'loginUser'
         },
         
         
@@ -31,20 +34,31 @@
             this.render();
         },
         
-        
+
+
+        /*
+            @Api:     private - templates and renders forms
+            @Returns: (Object) this
+        */           
         render: function () {
             var loginTemplate, registerTemplate;
                 
             registerTemplate = this.registerTemplate.render({});
             loginTemplate = this.loginTemplate.render({});
                 
-            $(this.el).append(registerTemplate);
-            $(loginTemplate).hide().appendTo(this.el);
+            this.$el.append(registerTemplate);
+            $(loginTemplate).hide().appendTo(this.$el);
             
             return this;
         },
         
-        
+
+
+        /*
+            @Api:     private - handles submitted form data on registration
+            @Returns: void
+            @Param:   (Object) e - submit event object
+        */           
         registerUser: function (e) {    
             e.preventDefault();
             
@@ -78,7 +92,11 @@
         },
         
         
-        
+        /*
+            @Api:     private - handles submitted form data on login
+            @Returns: void 
+            @Param:   (Object) e - submit event object
+        */         
         loginUser: function (e) {    
             e.preventDefault();
             
@@ -108,7 +126,13 @@
         },
         
         
-        
+
+
+        /*
+            @Api:     private - serializes form to hash
+            @Returns: void
+            @Param:   (String) id - form html id attribute
+        */        
         formToObject: function (id) {
             var formObj = {}, arr = $('#' + id).serializeArray();
             
@@ -118,7 +142,12 @@
                 }
             });
             
+            formObj.title = encodeURIComponent(formObj.title);
+            formObj.url = encodeURIComponent(formObj.url);
+            formObj.notes = encodeURIComponent(formObj.notes);
+            formObj.tags = encodeURIComponent(formObj.tags);
+            
             return formObj;
         }         
     });
-}(App.Views, App.Models, App.Routes));
+}(Backbone, App.Views, App.Models, App.Routes, EJS, jQuery));

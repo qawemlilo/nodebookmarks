@@ -1,16 +1,22 @@
 /*
-    @Views - Form view with url hash history enabled
-      @Register View - $default loads registration for
-      @Login View - loads login form
+    @Module: App.Views.Bookmarks - renders bookmarks collection
+    @Dependencies - jQuery
+                  - Backbone
+                  - UnderScore
 */
-(function(views, collections, $) {
+(function (Backbone, views, $) {
     "use strict";
     
     views.Bookmarks = Backbone.View.extend({
     
         el: $('#bookmarks-table'),
         
-        
+
+
+        /*
+            @Public
+            @Constructor: (Void - chainable) binds collection events
+        */        
         initialize: function () {
             _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'bookmarksHeader', 'render');
             
@@ -18,6 +24,8 @@
             
             this.collection.on('add', this.addBookmark);
             this.collection.on('reset', this.viewAllBookmarks);
+            
+            return this;
         },
         
         
@@ -26,6 +34,12 @@
         },
         
 
+
+        /*
+            @Public
+            @Void: appends a bookmark view the bookmarks table
+            @Param: (Object) bookmarkModel - bookmark model
+        */        
         addBookmark: function (bookmarkModel) { 
             var bookmarkView = new views.Bookmark({
                 model: bookmarkModel
@@ -35,6 +49,12 @@
         },
         
 
+
+        /*
+            @Public
+            @Void: appends a header to the bookmarks table 
+            @Param: (Object) bookmarkModel - bookmark model
+        */ 
         bookmarksHeader: function () { 
             var header = $('<thead>'), tr = $('<tr>'), data = this.collection.info(), html = '', td;
             
@@ -57,6 +77,11 @@
         },
         
 
+
+        /*
+            @Public
+            @Void: appends all bookmarks to the bookmarks table
+        */ 
         viewAllBookmarks: function () {
             this.$el.fadeOut(function () {
                 this.$el.empty();
@@ -64,8 +89,6 @@
                 this.collection.forEach(this.addBookmark);
                 this.$el.fadeIn();
             }.bind(this));
-            
-            return this;
         }        
     });
-}(App.Views, App.Collections, jQuery));
+}(Backbone, App.Views, jQuery));

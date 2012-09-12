@@ -19,17 +19,17 @@ body {
 }
 
 div#navigation {
- padding-top: 10px;
+ padding-top: 5px;
  border-bottom: 2px solid #FF6600;
+ margin-bottom: 10px;
 }
 
-div#settings {
-    margin-top: 30px;
+div#profile {
+    margin-top: 20px;
 }
 
 div#controls{
- margin-top: 20px;
- margin-bottom: 15px;
+ margin-bottom: 10px;
 }
 
 .clear {
@@ -48,14 +48,10 @@ div#controls{
  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#CC0000', endColorstr='#CC0000')";
  -pie-background: linear-gradient(#CC0000, #CC0000 100%);
  behavior: url(PIE.htc);
- -moz-box-shadow: 1px 1px 7px #333;
- -webkit-box-shadow: 1px 1px 7px #333;
- box-shadow: 1px 1px 7px #333;
  height: 25px;
  text-align: center;
  padding: 10px 0px 10px 0px;
  color: #fff;
- font-weight: bold;
 }
 
 
@@ -63,6 +59,11 @@ div#controls{
 /*****************
     Table Styles
 ******************/
+
+table#bookmarks-table {
+ width: 100%;
+ margin-bottom: 0px;
+}
 
 table thead {
  padding: 10px 14px;
@@ -90,7 +91,6 @@ table thead {
 
 table td.bookmark-left-td {
  padding-left: 15px;
- width: 35px;
 }
 
 
@@ -272,7 +272,7 @@ div a.bookmark-url {
 ******************/
 form.well {
   background-color: #fff;
-  border-color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 0, 0, 0.50);
 }
 
 #login-form {
@@ -322,7 +322,7 @@ form input.span3 {
 
 footer  {
  border-top: 2px solid #FF6600;
- margin-top: 40px;
+ margin-top: 20px;
  margin-bottom: 40px;
  padding-top: 0.83em;
 }

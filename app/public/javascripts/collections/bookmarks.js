@@ -1,5 +1,5 @@
 /*
-    @Models - @User - holds user data and route url
+    @Module: Collections::Bookmarks 
 */
 (function(models, collections) {
 "use strict";

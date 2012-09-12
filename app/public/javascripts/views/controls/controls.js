@@ -1,20 +1,23 @@
 /*
-    @Views - Form view with url hash history enabled
-      @Register View - $default loads registration for
-      @Login View - loads login form
+    @Module: App.Views.Controls - renders application controls/menu
+    @Dependencies - jQuery
+                  - Backbone
+                  - UnderScore                  
+                  - EJS                  
 */
-(function(views, models, $) {
-"use strict";
+(function (Backbone, views, Template, $) {
+    "use strict";
+    
     views.Controls = Backbone.View.extend({
     
         el: $('#controls'),
         
         
-        controlsTemplate: new EJS({url: '/javascripts/views/controls/tmpl/controls.ejs'}),
+        controlsTemplate: new Template({url: '/javascripts/views/controls/tmpl/controls.ejs'}),
         
         
         events: {
-            'click .btn-group .new-bookmark': 'newBookmark',
+            //'click .btn-group .new-bookmark': 'newBookmark',
             'click .btn-group .limit a': 'changeCount',
             'click .btn-group .sort a': 'sort'
         },
@@ -25,6 +28,10 @@
         },
         
 
+        /*
+            @Public
+            @Void: loads template and renders controls view
+        */          
         render: function () {
             var controlsTemplate, tags = this.collection.getTags();
 
@@ -34,17 +41,13 @@
             return this;
         },
         
-        
-        newBookmark: function (e) {
-            e.preventDefault();
-            /*
-            var model = new models.NewBookmark();
-            
-            views.Bookmarks.newBookmark(model);
-            */
-        },
-        
-        
+
+
+        /*
+            @Private
+            @Void: handles click events for changing limit of displayed bookmarks per page
+            @Param: (Object) e - click event object
+        */          
         changeCount: function (e) {
             e.preventDefault();
             var num = $(e.target).text();
@@ -52,13 +55,21 @@
             views.Pagination.changeCount(num);
         },
         
+
+
+        /*
+            @Private
+            @Void: handles click events for changing display order of bookmarks
+            @Param: (Object) e - click event object
+        */        
         sort: function (e) {
             e.preventDefault();
             
             var classname = $(e.target).attr('class');
             
-            if (classname !== this.collection.sortOrder)
+            if (classname !== this.collection.sortOrder) {
                 this.collection.changeSortOder(classname);
+            }
         }
     });
-}(App.Views, App.Models, jQuery));
+}(Backbone, App.Views, EJS, jQuery));

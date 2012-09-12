@@ -1,8 +1,11 @@
 /*
-    @Models - @User - holds user data and route url
+    @Module - App.Models.Bookmark - holds user data
+    @Dependencies - Backbone
+                  - jQuery
 */
-(function (models, $) {
-"use strict";
+(function (Backbone, models, $) {
+    "use strict";
+    
     models.User = Backbone.Model.extend({
         defaults: {
             name: '',
@@ -28,6 +31,7 @@
                 
                 return 'Name input is not valid';
             }
+            
             if (!$.validateEmail(attr.email)) {
                 var id = (this.task === 'login') ? '#login-email': '#email';
                 
@@ -35,9 +39,29 @@
                 
                 return 'Email input is not valid';
             }
+            
             if (!$.validatePassword(attr.password)) {
                 return 'Password input is not valid';
             }
+        },
+        
+        
+        update: function (data, options) {
+            var changedAttributes = {}, model = this, attr, update = false;
+            
+            for (attr in data) {
+                if (data[attr] !== model.get(attr)) {
+                    changedAttributes[attr] = data[attr];
+                    update = true;
+                }
+            }
+            
+            if (update) {
+               model.save(changedAttributes, options);
+            }
+            else {
+                $.shout('Nothing to update', 10);
+            }
         }
     });
-}(App.Models, jQuery));
+}(Backbone, App.Models, jQuery));

@@ -36,8 +36,10 @@ exports.update = function (req, res, userModel) {
                 res.send(500, {error: true, msg: 'An error occured, account info not updated'});
             } else {
                 currentuser._id = currentuser._id.toHexString();
-                req.session.user = currentuser; 
-                res.send({error: false, msg: 'Account info successfully updated'});                    
+                req.session.user = currentuser;
+                setTimeout(function () {                
+                    res.send({error: false, msg: 'Account info successfully updated'});
+                }, 2000);                    
             }
         });
     }
@@ -80,11 +82,11 @@ exports.login = function (req, res, userModel) {
     } else {
         userModel.login({email: req.body.email, password: req.body.password}, function (error,  user) {
             if (error) {
-                res.send(500, {error: true, msg: 'Invalid email / password combination'}); 
+                res.redirect('/#login/error'); 
             } else {
                 user._id = user._id.toHexString();
                 req.session.user = user;
-                res.send({error: false, msg: 'Login successful'});  
+                res.redirect('/');  
             }
         });
         

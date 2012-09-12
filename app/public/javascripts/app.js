@@ -1,11 +1,17 @@
 /*
-    @Namespace - application namespace
+    @Namespace: App - application namespace.
 */
 (function (window, Backbone) {
     "use strict";
 
     var App = {
-       
+    
+        /*
+            
+            @Api:   public   
+            @param: (String) page 
+            @param: (Array) bookmarks - collection of bookmarks
+        */
         init: function (page, bookmarks) {
             var index, controller;
         
@@ -37,4 +43,5 @@
     };
   
     window.App = App;
+    
 }(window, Backbone));

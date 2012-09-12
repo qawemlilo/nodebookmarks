@@ -8,14 +8,19 @@
     routes.Router = Backbone.Router.extend({
         routes: {
             'login': 'loadLogin',
+            'login/:error': 'loadLogin',
             'register': 'loadRegister',
             'index': 'loadRegister',
             '': 'loadRegister'
         },
         
-        loadLogin: function () {
+        loadLogin: function (error) {
             $('#register-form').fadeOut(function () {
                 $('#login-form').fadeIn();
+                
+                if (error) {
+                    $.shout('Invalid email / password combination',  10);
+                }
             });
         },
         
