@@ -1,11 +1,11 @@
 div(id='navigation', class='container')
   a(href='/#index', class='pull-left brand') 
-    h1 Bookmarks Manager
+    img(src='/images/logo.png', alt='Bookmark Manager', title='Bookmark Manager')
   nav
     ul(class='nav nav-pills pull-right')
       if(loggedIn)
         li: a(href='/#profile') Profile
-        li: a(href='/logout') Logout
+        li: a(href='/users/logout') Logout
       if(!loggedIn)
         li: a(href='/#index') Home
         li: a(href='/#demo', title='Tour') Demo

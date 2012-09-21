@@ -20,14 +20,12 @@
         
         
         events: {
-            'submit #register-form': 'registerUser',
-            
-            //'submit #login-form': 'loginUser'
+            'submit #register-form': 'registerUser'
         },
         
         
         initialize: function () {
-            _.bindAll(this, 'registerUser', 'loginUser');
+            _.bindAll(this, 'registerUser', 'render');
             
             this.router = new routes.Router();
             
@@ -78,51 +76,17 @@
                         $('#login-form').fadeIn('slow');
                     });
                     
-                    $.shout(res.msg, 10);
+                    $.shout(res.msg, 10, 'success');
                 } else { 
-                    $.shout('Account not created, your form contains errors', 10);
+                    $.shout('Account not created, your form contains errors', 10, 'error');
                 }
             };
                 
             errorHandler = function (model, res) {
-                $.shout(res.msg || res, 10);
+                $.shout(res.msg || res, 10, 'error');
             };
             
             newMember.save(data, {success: successHandler, error: errorHandler});
-        },
-        
-        
-        /*
-            @Api:     private - handles submitted form data on login
-            @Returns: void 
-            @Param:   (Object) e - submit event object
-        */         
-        loginUser: function (e) {    
-            e.preventDefault();
-            
-            var user = new models.User(), 
-                data = this.formToObject('login-form'), 
-                successHandler, errorHandler;
-            
-            user.task = 'login';            
-            user.setUrl('login');
-
-            successHandler = function (model, res) {
-                if (!res.error) {
-                    window.location.href = 'http://localhost:3000'; 
-                } else { 
-                    $('#login-email').addClass('warning');
-                    $('#login-password').addClass('warning');
-                        
-                    $.shout(res.msg, 10);
-                }
-            };
-                
-            errorHandler = function (model, res) {
-                $.shout(res.msg || res, 10);
-            };
-            
-            user.save(data, {success: successHandler, error: errorHandler});
         },
         
         

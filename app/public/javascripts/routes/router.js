@@ -2,7 +2,8 @@
     @Module: Routes::Router - handles app navigation
 */
 (function(views, routes) {
-"use strict";
+    "use strict";
+    
     routes.Router = Backbone.Router.extend({
         routes: {
             'index': 'loadHome',

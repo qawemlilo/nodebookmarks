@@ -64,9 +64,7 @@ exports.updatebookmark = function (req, res, bookmarkModel) {
             if (error) {
                 res.send(500, {error: true, msg: 'An error occured, bookmark not updated'});
             } else {
-                setTimeout(function () {
-                    res.send({error: false, msg: 'Bookmark successfully updated'})
-                }, 5000);                    
+                res.send({error: false, msg: 'Bookmark successfully updated'})               
             }
         });
     }

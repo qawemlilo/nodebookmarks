@@ -17,7 +17,7 @@
         task: '',
         
         
-        url: 'user',
+        urlRoot: 'users',
         
         
         setUrl: function (url) {
@@ -60,7 +60,7 @@
                model.save(changedAttributes, options);
             }
             else {
-                $.shout('Nothing to update', 10);
+                $.shout('Nothing to update', 10, 'success');
             }
         }
     });

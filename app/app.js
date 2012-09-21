@@ -10,9 +10,7 @@ var express = require('express')
   , dbSession = ''
   , app;
 
-
 app = module.exports = express.createServer();
-
 
 // Configuration
 app.configure(function() {
@@ -30,7 +28,6 @@ app.configure(function() {
     app.use(express.static(__dirname + '/public'));
 });
 
-
 dbSession = 'mongodb://' + config.db.host + '/' + config.db.db;
 mongoose.createConnection(dbSession);
 
@@ -38,121 +35,77 @@ app.configure('development', function () {
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
-app.configure('production', function(){
+app.configure('production', function () {
     app.use(express.errorHandler()); 
 });
 
 
 
-
-
 /**************
 
-    Get Methods
+    User Requests
     
 ***************/
 
+// Home, public
+app.get('/',  function (req, res) { userRoute.index(req, res, bookmarkModel); });
 
-app.get('/',  function (req, res) {
-    userRoute.index(req, res, bookmarkModel);
-});
+// Home, logged in
+app.get('/home', function (req, res) { res.redirect('/'); });
 
-app.get('/home', function (req, res) {
-    res.redirect('/');
-});
-
-app.get('/login', function (req, res) {
-    res.redirect('/#login');
-});
-
-app.get('/user', function (req, res) {
+// Get user information
+app.get('/users', function (req, res) {
     var user = req.session.user;
 
-    
-    //User logged in, backbone fetch request
     if (user) {
-        res.send({password: '', name: user.name, email: user.email});
+        res.send({id: user._id, password: '', name: user.name, email: user.email});
     }
-    
-    // User session has expired 
+
     else {
         res.send(500, {model: {password: '', name: '', email: ''}, msg: 'Your session has expired, please login'});
     }   
 });
 
+// Register user
+app.post('/users', function (req, res) { userRoute.register(req, res, userModel); });
 
-app.get('/logout', function (req, res) {
+// Login user
+app.post('/users/login', function (req, res) { userRoute.login(req, res, userModel); });
+
+// Logout user
+app.get('/users/logout', function (req, res) {
     if (req.session.user) {
-       req.session.destroy();
+        req.session.destroy();
     }
-    
     res.redirect('/');
 });
 
-app.get('/bookmarks', function (req, res) {
-    bookmarkRoute.bookmarks(req, res, bookmarkModel);
-});
+// Update user details
+app.put('/users/:id', function (req, res) { userRoute.update(req, res, userModel); });
+
+// Delete user
+app.post('/users/delete', function (req, res) { userRoute.remove(req, res, userModel); });
 
 
 
+/***********************
 
-
-/*****************
-
-    Post Methods
+    Bookmark Requests
     
-*****************/
+***********************/
 
-app.post('/login', function (req, res) {   
-   userRoute.login(req, res, userModel); 
-});
-
-
-app.post('/user', function (req, res) {
-    var user = req.session.user;
-    
-    //User logged, update details
-    if (user) {
-        userRoute.update(req, res, userModel);
-    }
-    
-    // User not logged, register the user
-    else {
-        userRoute.register(req, res, userModel);
-    }
-});
-
+// Get bookmarks
+app.get('/bookmarks', function (req, res) { bookmarkRoute.bookmarks(req, res, bookmarkModel); });
 
 // New bookmark
-app.post('/bookmarks', function (req, res) {
-    bookmarkRoute.addbookmark(req, res, bookmarkModel);
-});
+app.post('/bookmarks', function (req, res) { bookmarkRoute.addbookmark(req, res, bookmarkModel); });
 
-
-
-/*****************
-
-    Put Methods
-    
-*****************/
 // Update bookmark
-
-app.put('/bookmarks/:id', function (req, res) {
-    bookmarkRoute.updatebookmark(req, res, bookmarkModel);
-});
-
-
-
-/*****************
-
-    Delete
-    
-*****************/
+app.put('/bookmarks/:id', function (req, res) { bookmarkRoute.updatebookmark(req, res, bookmarkModel); });
 
 // Delete bookmark
-app.delete('/bookmarks/:id', function (req, res) {
-    bookmarkRoute.deletebookmark(req, res, bookmarkModel);
-});
+app.delete('/bookmarks/:id', function (req, res) { bookmarkRoute.deletebookmark(req, res, bookmarkModel); });
+
 
 
 app.listen(3000);

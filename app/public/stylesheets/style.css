@@ -19,9 +19,17 @@ body {
 }
 
 div#navigation {
- padding-top: 5px;
  border-bottom: 2px solid #FF6600;
  margin-bottom: 10px;
+}
+
+div#pagination {
+ text-align: center;
+ padding: 5px 0px 5px 0px;
+}
+
+div#navigation  nav{
+ padding-top: 15px;
 }
 
 div#profile {
@@ -37,12 +45,11 @@ div#controls{
 }
 
 #appMessage {
- width:100%;
- border-bottom:3px solid #fff !important;
- position:fixed;
- top:0;
- left:0;
- z-index:1000;
+ width: 100%;
+ position: fixed;
+ top: 0;
+ left: 0;
+ z-index: 1000;
  background: #CC0000;
  background: -moz-linear-gradient(top, #CC0000 0%, #CC0000 100%);
  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#CC0000', endColorstr='#CC0000')";
@@ -50,8 +57,22 @@ div#controls{
  behavior: url(PIE.htc);
  height: 25px;
  text-align: center;
- padding: 10px 0px 10px 0px;
+ padding: 15px 0px 15px 0px;
  color: #fff;
+}
+
+#appMessage  .success {
+ background: #5BB75B;
+ background: -moz-linear-gradient(top, #5BB75B 0%, #5BB75B 100%);
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5BB75B', endColorstr='#5BB75B')";
+ -pie-background: linear-gradient(#5BB75B, #5BB75B 100%);
+}
+
+#appMessage  .error {
+ background: #CC0000;
+ background: -moz-linear-gradient(top, #CC0000 0%, #CC0000 100%);
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#CC0000', endColorstr='#CC0000')";
+ -pie-background: linear-gradient(#CC0000, #CC0000 100%);
 }
 
 
@@ -250,6 +271,10 @@ div.bookmark-tags .label {
 }
 
 div.bookmark-notes {
+  color: #828282;
+}
+
+span.hostname {
   color: #828282;
 }
 

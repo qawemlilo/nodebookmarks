@@ -1,3 +1,6 @@
+<form method='post' id='delete' style='width: 100%; text-align: right' name='account' action='/users/delete'>
+    <button type="submit" class="btn btn-large btn-danger">Delete Account</button>
+</form>
 <form id='settings-form' class='well form-horizontal' method='post' name='settings-form' action='#'>
    <fieldset>
      <legend>Edit Account</legend>
@@ -30,7 +33,7 @@
            
           <div class='controls'>
             <input type='submit' class='btn' id='submit' value='Save' name='submit'>
-            <button class='btn cancel'>Cancel</button>
+            <a class='btn cancel' href='/#index'>Cancel</a>
           </div>
         </div>
     </fieldset>

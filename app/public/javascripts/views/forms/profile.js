@@ -17,12 +17,13 @@
         
         
         events: {
-            'submit #settings-form': 'updateUser'
+            'submit #settings-form': 'updateUser',
+            'submit #delete': 'promptUser'
         },
         
       
         initialize: function () {
-            _.bindAll(this, 'render', 'getUserData', 'updateUser', 'updateForm');
+            _.bindAll(this, 'render', 'getUserData', 'updateUser', 'updateForm', 'promptUser');
             
             this.model = new models.User();
             this.model.task = 'update';
@@ -58,6 +59,11 @@
             $('#name').attr('value', this.model.get('name'));
         },
         
+        
+        promptUser: function (e) {
+            return confirm('Are you sure you want to delete your account?');
+        },
+        
 
 
         /*
@@ -78,11 +84,11 @@
                     $('#name').removeClass('warning');
                 }
                 
-                $.shout(res.msg, 10);
+                $.shout(res.msg, 10, 'success');
             };
             
             errorHandler = function (model, res) {
-                $.shout(res.msg || res, 10);
+                $.shout(res.msg || res, 10, 'error');
             };
             
             this.model.save(data, {success: successHandler, error: errorHandler, wait: true});
@@ -97,7 +103,7 @@
         */        
         getUserData: function (next) {
             this.model.fetch({
-                success: function (model, res){
+                success: function (model, res) {
                     next(res);
                 },
                 

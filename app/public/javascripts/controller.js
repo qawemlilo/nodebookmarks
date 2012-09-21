@@ -81,7 +81,7 @@
             @returns:   void
         */
         loadProfile: function () {
-            this.$('.home-div').fadeOut(function () {
+            this.$('.home-div, #bookmarks-table').fadeOut(function () {
                 this.$('#profile').fadeIn();
                 this.activeView = 'profile';
             }.bind(this));
@@ -95,11 +95,17 @@
         */        
         loadHome: function () {            
             if (this.activeView === 'profile') {
-                this.$('#profile').fadeOut(function () {
-                    this.$('.home-div').fadeIn();
+                $('#profile').fadeOut(function () {
+                    $('.home-div').fadeIn();
+                    this.pagination.reset();
+                    this.controls.render();
+                    this.activeView = 'home';
                 }.bind(this)); 
-            }   
-
+                
+                return;
+            }
+            
+            $('.home-div').fadeIn();
             this.pagination.reset();
             this.controls.render();
             this.activeView = 'home';

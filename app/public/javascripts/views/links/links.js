@@ -134,6 +134,8 @@
                 this.$('.bookmark-main').fadeIn();
             }.bind(this));
             
+            $.shout('Working....');
+            
             this.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
         },
         
@@ -293,19 +295,15 @@
             @Object: returns a sanitized model object 
         */          
         getSanitizedModel: function () {
-            var obj = {}, model = this.model, date = this.formatDate(model.get('date')), parser = document.createElement('a');
+            var obj = {}, model = this.model, date = this.formatDate(model.get('date'));
             
             obj.url = decodeURIComponent(model.get('url'));
-            
-            parser.href = obj.url;
-            
             obj.notes = model.escape('notes');
             obj.title = model.escape('title');
             obj.tags = model.get('tags');
             obj.publik = model.get('publik');
             obj.starred = model.get('starred');
             obj.id = model.get('id');
-            obj.hostname = parser.hostname;
                 
             obj.day = date.day;
             obj.month = date.month;

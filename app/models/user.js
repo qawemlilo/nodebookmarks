@@ -81,6 +81,21 @@ exports.login = function (obj, fn) {
 };
 
 
+exports.remove = function (id, fn) {
+    var Model =  db.model('User');
+
+    Model.findById(id, function (err, user) {
+        if (!(!!err) && (!!user)) {
+            user.remove(); 
+            fn(false);            
+        } else {
+            fn(true);
+            return;
+        }
+    });    
+};
+
+
 exports.update = function (id, obj, fn) {
     var Model =  db.model('User'), changed = false;
     
