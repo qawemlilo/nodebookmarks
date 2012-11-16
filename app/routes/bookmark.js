@@ -18,22 +18,22 @@ exports.bookmarks = function (req, res, bookmarkModel) {
 
 
 //Adding a new bookmark
-exports.addbookmark = function (req, res, bookmarkModel) {
+exports.addbookmark = function (req, res, model) {
     if (!req.session.user) {
         res.send(500, {error: true, msg: 'You are not logged in'});
     } else {
-        var bookmarkObj = {};
+        var bookmark = {};
         
-        bookmarkObj.owner = req.session.user._id;
-        bookmarkObj.title = req.body.title;
-        bookmarkObj.url = req.body.url;
-        bookmarkObj.notes = req.body.notes;
-        bookmarkObj.starred = req.body.starred;
-        bookmarkObj.publik = req.body.publik;
-        bookmarkObj.tags = req.body.tags;
-        bookmarkObj.date = req.body.date;
+        bookmark.owner = req.session.user._id;
+        bookmark.title = req.body.title;
+        bookmark.url = req.body.url;
+        bookmark.notes = req.body.notes;
+        bookmark.starred = req.body.starred;
+        bookmark.publik = req.body.publik;
+        bookmark.tags = req.body.tags;
+        bookmark.date = req.body.date;
         
-        bookmarkModel.add(bookmarkObj,  function (error,  bookmark) {
+        model.add(bookmark,  function (error,  bookmark) {
             if (error) {
                 res.send(500, {error: true, msg: 'An error occured, Bookmark not saved'}); 
             } else {
@@ -46,21 +46,21 @@ exports.addbookmark = function (req, res, bookmarkModel) {
 
 
 //Updating a bookmark info
-exports.updatebookmark = function (req, res, bookmarkModel) {
+exports.updatebookmark = function (req, res, model) {
     if (req.session.user) {
         var user = req.session.user,
-            bookmarkObj = {};
+            bookmark = {};
         
-        bookmarkObj.owner = user._id;
-        bookmarkObj.title = req.body.title;
-        bookmarkObj.url = req.body.url;
-        bookmarkObj.notes = req.body.notes;
-        bookmarkObj.starred = req.body.starred;
-        bookmarkObj.publik = req.body.publik;
-        bookmarkObj.tags = req.body.tags;
-        bookmarkObj.date = req.body.date;
+        bookmark.owner = user._id;
+        bookmark.title = req.body.title;
+        bookmark.url = req.body.url;
+        bookmark.notes = req.body.notes;
+        bookmark.starred = req.body.starred;
+        bookmark.publik = req.body.publik;
+        bookmark.tags = req.body.tags;
+        bookmark.date = req.body.date;
         
-        bookmarkModel.update(req.params.id, bookmarkObj, function (error, updatedBookmark) {
+        model.update(req.params.id, bookmark, function (error, updatedBookmark) {
             if (error) {
                 res.send(500, {error: true, msg: 'An error occured, bookmark not updated'});
             } else {
@@ -75,9 +75,9 @@ exports.updatebookmark = function (req, res, bookmarkModel) {
 
 
 // Deleting a bookmark
-exports.deletebookmark = function (req, res, bookmarkModel) {
+exports.deletebookmark = function (req, res, model) {
     if (req.session.user) {
-        bookmarkModel.remove(req.params.id, function (error, updatedBookmark) {
+        model.remove(req.params.id, function (error, updatedBookmark) {
             if (error) {
                 res.send(500, {error: true, msg: 'An error occured, bookmark not deleted'});
             } else {

@@ -1,3 +1,6 @@
+/*
+    Variables
+*/
 var mongoose = require('mongoose'), 
     db = mongoose.createConnection('mongodb://localhost/nodebookmarks'), 
     Schema = mongoose.Schema,
@@ -7,6 +10,10 @@ var mongoose = require('mongoose'),
     BookmarkSchema,
     Bookmark,
     test = [];
+
+
+
+
 
     
 /*
@@ -27,6 +34,11 @@ validEmail = function (emailAddress) {
         
     return pattern.test(emailAddress);
 };
+
+
+
+
+
 
 
 UserSchema = new Schema({
