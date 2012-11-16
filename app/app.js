@@ -40,20 +40,44 @@ app.configure('production', function () {
 });
 
 
+/****************
+
+    Generic API
+    
+*****************/
+
+// Login
+app.post('/users/login', function (req, res) { userRoute.login(req, res, userModel); });
+
+// Logout
+app.get('/users/logout', function (req, res) {
+    if (req.session.user) {
+        req.session.destroy();
+    }
+    res.redirect('/');
+});
+
+// Home
+app.get('/',  function (req, res) { userRoute.index(req, res, bookmarkModel); });
+
+// Home alias
+app.get('/home', function (req, res) { res.redirect('/'); });
+
+
+
+
+
 
 /**************
 
-    User Requests
+    User CRUD
     
 ***************/
 
-// Home, public
-app.get('/',  function (req, res) { userRoute.index(req, res, bookmarkModel); });
+// Register user - CREATE
+app.post('/users', function (req, res) { userRoute.register(req, res, userModel); });
 
-// Home, logged in
-app.get('/home', function (req, res) { res.redirect('/'); });
-
-// Get user information
+// Get user information - READ
 app.get('/users', function (req, res) {
     var user = req.session.user;
 
@@ -66,44 +90,30 @@ app.get('/users', function (req, res) {
     }   
 });
 
-// Register user
-app.post('/users', function (req, res) { userRoute.register(req, res, userModel); });
-
-// Login user
-app.post('/users/login', function (req, res) { userRoute.login(req, res, userModel); });
-
-// Logout user
-app.get('/users/logout', function (req, res) {
-    if (req.session.user) {
-        req.session.destroy();
-    }
-    res.redirect('/');
-});
-
-// Update user details
+// Update user details - UPDATE
 app.put('/users/:id', function (req, res) { userRoute.update(req, res, userModel); });
 
-// Delete user
+// Delete user - DELETE
 app.post('/users/delete', function (req, res) { userRoute.remove(req, res, userModel); });
 
 
 
 /***********************
 
-    Bookmark Requests
+    Bookmark CRUD
     
 ***********************/
 
-// Get bookmarks
-app.get('/bookmarks', function (req, res) { bookmarkRoute.bookmarks(req, res, bookmarkModel); });
-
-// New bookmark
+// New bookmark - CREATE
 app.post('/bookmarks', function (req, res) { bookmarkRoute.addbookmark(req, res, bookmarkModel); });
 
-// Update bookmark
+// Get bookmarks - READ
+app.get('/bookmarks', function (req, res) { bookmarkRoute.bookmarks(req, res, bookmarkModel); });
+
+// Update bookmark - UPDATE
 app.put('/bookmarks/:id', function (req, res) { bookmarkRoute.updatebookmark(req, res, bookmarkModel); });
 
-// Delete bookmark
+// Delete bookmark - DELETE
 app.delete('/bookmarks/:id', function (req, res) { bookmarkRoute.deletebookmark(req, res, bookmarkModel); });
 
 

@@ -93,7 +93,7 @@ exports.getAll = function (id, fn) {
  
             temparray.id = bookmark._id.toHexString() + '';
             temparray.tags = bookmark.tags; 
-            temparray.date = bookmark.date.getTime() + '';
+            temparray.date = bookmark.date.getTime();
             temparray.publik = bookmark.publik;
             temparray.starred = bookmark.starred;
             temparray.notes = bookmark.notes; 
