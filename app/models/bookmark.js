@@ -24,7 +24,35 @@ BookmarkSchema = new Schema({
     tags: {type: Array, default: ['uncategorised']}
 });
 
+
 Bookmark =  db.model('Bookmark', BookmarkSchema);
+
+
+exports.getAll = function (opts, fn) {
+    var DB =  db.model('Bookmark');
+    
+    console.log(opts);
+    
+    DB.find(opts.query, opts.fields, {'skip': opts.skip, 'limit': opts.limit}, function (err, bookmarks) {
+    
+        var cleanbookmarks = bookmarks.map(function (bookmark) {
+            var temparray = {};
+ 
+            temparray.id = bookmark._id.toHexString() + '';
+            temparray.tags = bookmark.tags; 
+            temparray.date = bookmark.date.getTime();
+            temparray.publik = bookmark.publik;
+            temparray.starred = bookmark.starred;
+            temparray.notes = bookmark.notes; 
+            temparray.title = bookmark.title; 
+            temparray.url = bookmark.url;
+
+            return temparray;
+        });
+        
+        fn(err, cleanbookmarks);
+    });
+};
 
 
 exports.add = function (bookmarkObj, fn) {
@@ -80,29 +108,4 @@ exports.remove = function (id, fn) {
             fn(true, {});
         }
     });    
-};
-
-
-exports.getAll = function (id, fn) {
-    var DB =  db.model('Bookmark');
-    
-    DB.find({owner:  id}, function (err, bookmarks) {
-    
-        var cleanbookmarks = bookmarks.map(function (bookmark) {
-            var temparray = {};
- 
-            temparray.id = bookmark._id.toHexString() + '';
-            temparray.tags = bookmark.tags; 
-            temparray.date = bookmark.date.getTime();
-            temparray.publik = bookmark.publik;
-            temparray.starred = bookmark.starred;
-            temparray.notes = bookmark.notes; 
-            temparray.title = bookmark.title; 
-            temparray.url = bookmark.url;
-
-            return temparray;
-        });
-        
-        fn(err, cleanbookmarks);
-    });
 };

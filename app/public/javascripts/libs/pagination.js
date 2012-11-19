@@ -179,26 +179,6 @@ Backbone.Pagination = (function (Backbone, _, $) {
             
             self.pager();
         },
-        
-
-        /*
-            @Private
-            @Boolean: checks if array contains tag
-            @Params: (Array) tags - haystack
-                     (String) tag - needle
-        */	        
-        hasTag: function (tags, tag) {
-            var yes = false, i;  
-             
-            for (i = 0; i < tags.length; i++) {
-                if (tags[i] === tag) {
-                    yes = true;
-                    break;
-                }
-            }             
-            
-            return yes; 
-        },
 	
 
 
@@ -250,6 +230,26 @@ Backbone.Pagination = (function (Backbone, _, $) {
 	        
 	        return info;
 	    },
+        
+
+        /*
+            @Private
+            @Boolean: checks if array contains tag
+            @Params: (Array) tags - haystack
+                     (String) tag - needle
+        */	        
+        hasTag: function (tags, tag) {
+            var yes = false, i;  
+             
+            for (i = 0; i < tags.length; i++) {
+                if (tags[i] === tag) {
+                    yes = true;
+                    break;
+                }
+            }             
+            
+            return yes; 
+        },
         
 
 

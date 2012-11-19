@@ -1,11 +1,24 @@
 // Fetching all bookmarks
-exports.bookmarks = function (req, res, bookmarkModel) {
+exports.getAll = function (req, res, model) {
     if (!req.session.user) {
         res.send({error: false, msg: 'You are not logged in'});
         return;
     } else {
-    
-        bookmarkModel.getAll(req.session.user._id, function (error,  bookmarks) {
+        var options = Object.create({
+            limit: 10,
+            
+            skip: 0,
+            
+            tag: '',
+            
+            fields: [],
+            
+            query: {
+                owner: req.session.user._id
+            }
+        }); 
+        
+        model.getAll(options, function (error,  bookmarks) {
             if (error) {
                 res.send(500, {error: true, msg: 'Bookmarks not found'}); 
             } else {
@@ -18,7 +31,7 @@ exports.bookmarks = function (req, res, bookmarkModel) {
 
 
 //Adding a new bookmark
-exports.addbookmark = function (req, res, model) {
+exports.add = function (req, res, model) {
     if (!req.session.user) {
         res.send(500, {error: true, msg: 'You are not logged in'});
     } else {
@@ -46,7 +59,7 @@ exports.addbookmark = function (req, res, model) {
 
 
 //Updating a bookmark info
-exports.updatebookmark = function (req, res, model) {
+exports.update = function (req, res, model) {
     if (req.session.user) {
         var user = req.session.user,
             bookmark = {};
@@ -75,7 +88,7 @@ exports.updatebookmark = function (req, res, model) {
 
 
 // Deleting a bookmark
-exports.deletebookmark = function (req, res, model) {
+exports.remove = function (req, res, model) {
     if (req.session.user) {
         model.remove(req.params.id, function (error, updatedBookmark) {
             if (error) {

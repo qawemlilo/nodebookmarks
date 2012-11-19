@@ -47,7 +47,9 @@ app.configure('production', function () {
 *****************/
 
 // Login
-app.post('/users/login', function (req, res) { userRoute.login(req, res, userModel); });
+app.post('/users/login', function (req, res) { 
+    userRoute.login(req, res, userModel); 
+});
 
 // Logout
 app.get('/users/logout', function (req, res) {
@@ -58,10 +60,14 @@ app.get('/users/logout', function (req, res) {
 });
 
 // Home
-app.get('/',  function (req, res) { userRoute.index(req, res, bookmarkModel); });
+app.get('/',  function (req, res) { 
+    userRoute.index(req, res, bookmarkModel); 
+});
 
 // Home alias
-app.get('/home', function (req, res) { res.redirect('/'); });
+app.get('/home', function (req, res) { 
+    res.redirect('/'); 
+});
 
 
 
@@ -75,26 +81,45 @@ app.get('/home', function (req, res) { res.redirect('/'); });
 ***************/
 
 // Register user - CREATE
-app.post('/users', function (req, res) { userRoute.register(req, res, userModel); });
+app.post('/users', function (req, res) { 
+    userRoute.register(req, res, userModel); 
+});
 
 // Get user information - READ
 app.get('/users', function (req, res) {
     var user = req.session.user;
 
     if (user) {
-        res.send({id: user._id, password: '', name: user.name, email: user.email});
+        res.send({
+            id: user._id, 
+            password: '', 
+            name: user.name, 
+            email: user.email
+        });
     }
 
     else {
-        res.send(500, {model: {password: '', name: '', email: ''}, msg: 'Your session has expired, please login'});
+        res.send(500, {
+            model: {
+                password: '', 
+                name: '', 
+                email: ''
+            }, 
+            
+            msg: 'Your session has expired, please login'
+        });
     }   
 });
 
 // Update user details - UPDATE
-app.put('/users/:id', function (req, res) { userRoute.update(req, res, userModel); });
+app.put('/users/:id', function (req, res) { 
+    userRoute.update(req, res, userModel); 
+});
 
 // Delete user - DELETE
-app.post('/users/delete', function (req, res) { userRoute.remove(req, res, userModel); });
+app.post('/users/delete', function (req, res) { 
+    userRoute.remove(req, res, userModel); 
+});
 
 
 
@@ -105,16 +130,24 @@ app.post('/users/delete', function (req, res) { userRoute.remove(req, res, userM
 ***********************/
 
 // New bookmark - CREATE
-app.post('/bookmarks', function (req, res) { bookmarkRoute.addbookmark(req, res, bookmarkModel); });
+app.post('/bookmarks', function (req, res) { 
+    bookmarkRoute.add(req, res, bookmarkModel); 
+});
 
 // Get bookmarks - READ
-app.get('/bookmarks', function (req, res) { bookmarkRoute.bookmarks(req, res, bookmarkModel); });
+app.get('/bookmarks', function (req, res) { 
+    bookmarkRoute.getAll(req, res, bookmarkModel); 
+});
 
 // Update bookmark - UPDATE
-app.put('/bookmarks/:id', function (req, res) { bookmarkRoute.updatebookmark(req, res, bookmarkModel); });
+app.put('/bookmarks/:id', function (req, res) { 
+    bookmarkRoute.update(req, res, bookmarkModel); 
+});
 
 // Delete bookmark - DELETE
-app.delete('/bookmarks/:id', function (req, res) { bookmarkRoute.deletebookmark(req, res, bookmarkModel); });
+app.delete('/bookmarks/:id', function (req, res) { 
+    bookmarkRoute.remove(req, res, bookmarkModel); 
+});
 
 
 
