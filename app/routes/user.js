@@ -4,7 +4,21 @@
  */
 exports.index = function (req, res, bookmarkModel) {
     if (req.session.user) {
-        bookmarkModel.getAll(req.session.user._id, function (error,  bookmarks) {
+        var options = Object.create({
+            limit: 100,
+            
+            skip: req.query.skip || 0,
+            
+            tag: '',
+            
+            fields: [],
+            
+            query: {
+                owner: req.session.user._id
+            }
+        }); 
+        
+        bookmarkModel.get(options, function (error,  bookmarks) {
             if (error) {
                 res.render('home', {title: 'Home', page: 'home', loggedIn: true, bookmarks: [], user: req.session.user}); 
             } else {

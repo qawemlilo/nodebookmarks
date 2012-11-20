@@ -28,12 +28,10 @@ BookmarkSchema = new Schema({
 Bookmark =  db.model('Bookmark', BookmarkSchema);
 
 
-exports.getAll = function (opts, fn) {
+exports.get = function (opts, fn) {
     var DB =  db.model('Bookmark');
     
-    console.log(opts);
-    
-    DB.find(opts.query, opts.fields, {'skip': opts.skip, 'limit': opts.limit}, function (err, bookmarks) {
+    DB.find(opts.query, opts.fields, {skip: opts.skip, limit: opts.limit}, function (err, bookmarks) {
     
         var cleanbookmarks = bookmarks.map(function (bookmark) {
             var temparray = {};

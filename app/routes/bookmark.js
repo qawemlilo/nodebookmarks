@@ -5,9 +5,9 @@ exports.getAll = function (req, res, model) {
         return;
     } else {
         var options = Object.create({
-            limit: 10,
+            limit: 100,
             
-            skip: 0,
+            skip: req.query.skip || 0,
             
             tag: '',
             
@@ -18,7 +18,7 @@ exports.getAll = function (req, res, model) {
             }
         }); 
         
-        model.getAll(options, function (error,  bookmarks) {
+        model.get(options, function (error,  bookmarks) {
             if (error) {
                 res.send(500, {error: true, msg: 'Bookmarks not found'}); 
             } else {

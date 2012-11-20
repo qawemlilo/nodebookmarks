@@ -11,7 +11,7 @@
         url: '/bookmarks',
         
         
-        perPage: 8,
+        perPage: 5,
         
         
         groupLimit: 9,
