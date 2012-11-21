@@ -164,7 +164,6 @@
             
             this.model.destroy({success: successHandler, error: errorHandler, wait: true});
         },
-        
 
 
         /*
@@ -276,10 +275,16 @@
             @Param: (Number) date - time integer
         */          
         formatDate: function (date) {
-            var newdate = new Date(parseInt(date, 10)),  obj = {}, 
+            var newdate,  obj = {}, 
             months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            if (date) {
+                newdate = new Date(parseInt(date, 10));
+            }else {
+                newdate = new Date();
+            }
 
-            obj.day = newdate.getDay();
+            obj.day = newdate.getDate();
             obj.month = months[newdate.getMonth()];
             obj.year = newdate.getFullYear();
             

@@ -16,15 +16,22 @@
         controlsTemplate: new Template({url: '/javascripts/views/controls/tmpl/controls.ejs'}),
         
         
+        newBookmarkTemplate: new Template({url: '/javascripts/views/controls/tmpl/new.ejs'}),
+        
+        
         events: {
-            //'click .btn-group .new-bookmark': 'newBookmark',
+            'click .btn-group .new-bookmark': 'newBookmark',
+            
+            'click #new-bookmark-form .cancel': 'clearNewBookmark',
+            
             'click .btn-group .limit a': 'changeCount',
+            
             'click .btn-group .sort a': 'sort'
         },
         
         
         initialize: function () {
-            _.bindAll(this, 'render');
+            _.bindAll(this, 'render', 'newBookmark', 'clearNewBookmark');
         },
         
 
@@ -55,6 +62,35 @@
             views.Pagination.changeCount(num);
         },
         
+        
+        
+        /*
+            @Private
+            @Void: handles click events for changing limit of displayed bookmarks per page
+            @Param: (Object) e - click event object
+        */          
+        newBookmark: function (e) {
+            e.preventDefault();
+            
+            var date = this.formatDate(), bookmarkTemplate = this.newBookmarkTemplate.render(date);
+             
+            $('#pagination').fadeOut(function () {
+                $('#bookmarks-table').fadeOut(function () {
+                    $('#home').prepend(bookmarkTemplate);
+                });                    
+            });
+        },
+        
+        
+        clearNewBookmark: function (e) {
+            e.preventDefault();
+            
+            $('#new-bookmark-table').fadeOut(function () {
+                $('#new-bookmark-table').remove();
+                $('#bookmarks-table, #pagination').fadeIn();
+            });
+        },
+        
 
 
         /*
@@ -70,6 +106,23 @@
             if (classname !== this.collection.sortOrder) {
                 this.collection.changeSortOder(classname);
             }
-        }
+        },
+        
+        
+        /*
+            @Private
+            @Object: formats a time integer to a date and returns an object 
+            @Param: (Number) date - time integer
+        */          
+        formatDate: function () {
+            var newdate = new Date(),  obj = {}, 
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            obj.day = newdate.getDate();
+            obj.month = months[newdate.getMonth()];
+            obj.year = newdate.getFullYear();
+            
+            return obj;
+        },
     });
 }(Backbone, App.Views, EJS, jQuery));
