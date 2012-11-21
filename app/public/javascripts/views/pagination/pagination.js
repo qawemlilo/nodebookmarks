@@ -108,6 +108,7 @@
                             self.collection.origModels.push(bookmark);
                         });
                         
+                        views.Controller.controls.render();
                         self.collection.goTo(page);
                     } 
                 });
