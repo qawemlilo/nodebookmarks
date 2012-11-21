@@ -1,0 +1,34 @@
+﻿<table class="table" style="display: table;">
+  <thead>
+    <tr><th colspan="2">New</th></tr>
+  </thead>
+  <tbody>
+    <tr class="bookmark">
+      <td class="bookmark-left-td">
+       <div class='ribbon date'>
+        <div class="top ribbon-piece"><%= year %></div>
+        <div class="middle ribbon-piece"><%= month %></div>
+        <div class="bottom ribbon-piece"><%= day %></div>
+        <div class="tail">
+          <div class="left ribbon-piece"></div>
+          <div class="right ribbon-piece"></div>
+        </div>
+       </div>
+        </div>
+      </td>
+      <td class="bookmark-middle-td">
+        <div class="bookmark-edit" style="display: block;">
+          <form action="" name="new-bookmark-form" id="new-bookmark-form" class="bookmark-edit-form">
+           <label for="title">Title:</label> <input type="text" value="" name="title" class="span3"><br>
+           <label for="url">Url:</label> <input type="text" value="" name="url" class="span3"><br>
+           <label for="notes">Notes:</label> <textarea rows="3" name="notes" class="input-xlarge" type="text"> </textarea><br>
+           <label for="tags">Tags:</label> <input type="text" value="web development" name="tags" class="span3"><br>
+           <label class="publik"></label> <div><input type="checkbox" checked="checked" name="publik"> Private</div><br>
+           <label for="submit"></label><input type="submit" value="Save" name="submit" class="btn save">
+           <button href="#" class="btn cancel">Cancel</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
