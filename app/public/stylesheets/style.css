@@ -28,6 +28,11 @@ div#pagination {
  padding: 5px 0px 5px 0px;
 }
 
+.pagination a {
+  padding-left: 10px;
+  padding-right: 10px;   
+}
+
 div#navigation  nav{
  padding-top: 15px;
 }

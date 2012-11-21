@@ -5,7 +5,7 @@
                   - EJS 
                   - UnderScore
 */
-(function(Backbone, views, Template, $) {
+(function(Backbone, views, models, Template, $) {
     "use strict";
     
     views.Pagination = Backbone.View.extend({
@@ -93,11 +93,28 @@
             @Param: (Number) page - the number of the page to go to
         */            
         gotoPage: function (page) {
-            if (page > this.collection.info().totalPages) {
-                return false;
-            }
+            var self = this;
             
-            this.collection.goTo(page);
+            if (page >= self.collection.info().totalPages) {
+                self.collection.fetch({
+                    data: {skip: self.collection.info().totalRecords}, 
+                    
+                    type: 'GET', 
+                    
+                    success: function(collection, result, d) {
+                        _.each(result, function (model) {
+                            var bookmark = new models.Bookmark(model);
+                            
+                            self.collection.origModels.push(bookmark);
+                        });
+                        
+                        self.collection.goTo(page);
+                    } 
+                });
+            }
+            else {
+                self.collection.goTo(page);
+            }
         },
         
 
@@ -122,4 +139,4 @@
             location.hash = '#pages/' + this.collection.currentPage;
         }
     });
-}(Backbone, App.Views, EJS, jQuery));
+}(Backbone, App.Views, App.Models, EJS, jQuery));

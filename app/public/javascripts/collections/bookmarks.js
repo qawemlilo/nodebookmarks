@@ -11,10 +11,10 @@
         url: '/bookmarks',
         
         
-        perPage: 5,
+        perPage: 10,
         
         
-        groupLimit: 9,
+        groupLimit: 10,
         
         
         currentPage: 1

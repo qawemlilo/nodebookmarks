@@ -69,6 +69,11 @@ app.get('/home', function (req, res) {
     res.redirect('/'); 
 });
 
+// Demo
+app.get('/demo',  function (req, res) { 
+    userRoute.demo(req, res, bookmarkModel); 
+});
+
 
 
 

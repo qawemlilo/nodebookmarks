@@ -107,24 +107,6 @@ Backbone.Pagination = (function (Backbone, _, $) {
                 start = (self.currentPage - 1) * disp,
                 stop = start + disp;
             
-            if (!!(self.information) && stop >= self.information.totalRecords ) {
-                
-                if (self.origModels) {
-                    self.fetch({data: {skip: self.information.totalRecords}, type: 'GET', success: function(a, c, d) {
-                    _.each(self.models, function (model) {
-                        self.origModels.push(model);
-                        self.information.totalRecords += 1;
-                        alert(self.information.totalRecords);
-                    });
-                        
-                    self.pager();
-                    } });
-                    
-
-                }
-            }
-            else {
-            
             if (self.origModels === undefined) {
                 self.origModels = self.models;
 	        }
@@ -138,7 +120,6 @@ Backbone.Pagination = (function (Backbone, _, $) {
             self.models = self.sortModels(self.models, self.sortOrder);
 	    
 	        self.reset(self.models.slice(start, stop));
-            }
 	    },
 	
 
