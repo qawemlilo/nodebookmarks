@@ -191,6 +191,7 @@
             successHandler = function (model, response) {
                 self.activeNew = false; // unlock
                 
+                self.model.set({'id': response.model.id});
                 collections.Bookmarks.origModels.push(self.model);
                 
                 $.shout('New bookmark saved', 10);
