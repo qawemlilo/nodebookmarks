@@ -82,6 +82,7 @@
         */
         loadAccount: function () {
             this.$('.home-div, #home, #bookmarks-table').fadeOut(function () {
+                this.$('#bookmarks-table').empty();
                 this.$('#profile').fadeIn();
                 this.activeView = 'profile';
             }.bind(this));

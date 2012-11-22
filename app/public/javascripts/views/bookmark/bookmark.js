@@ -200,6 +200,8 @@
             
             errorHandler = function (model, response) {
                 self.activeNew = false; // unlock
+                
+                alert(JSON.stringify(model));
                 $.shout('Error occured, new bookmark not saved', 10);
                 self.$el.fadeOut('slow', function () {
                     self.$el.remove();
@@ -215,9 +217,12 @@
         cancelNew: function (e) { 
             e.preventDefault();
             
-            this.$el.fadeOut().remove();
+            var self = this;
             
-            location.hash = '#bookmarks';
+            self.$el.fadeOut('slow', function () {
+                self.$el.remove();
+                location.hash = '#bookmarks';
+            });
         },
         
 
