@@ -205,7 +205,7 @@ app.post('/bookmarks', function (req, res) {
 
 // Get bookmarks - READ
 app.get('/bookmarks', function (req, res) { 
-    bookmarkRoute.getAll(req, res, bookmarkModel); 
+    bookmarkRoute.get(req, res, bookmarkModel); 
 });
 
 

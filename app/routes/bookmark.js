@@ -1,9 +1,11 @@
 // Fetching all bookmarks
-exports.getAll = function (req, res, model) {
-    if (!req.session.user) {
-        res.send({error: false, msg: 'You are not logged in'});
-        return;
+exports.get = function (req, res, model) {
+    var id; 
+    if (req.session.user) {
+        id = req.session.user._id;
     } else {
+       id = "5024b9236f760ecc03000001";
+    }
         var options = Object.create({
             limit: 100,
             
@@ -14,7 +16,7 @@ exports.getAll = function (req, res, model) {
             fields: [],
             
             query: {
-                owner: req.session.user._id
+                owner: id
             }
         }); 
         
@@ -25,8 +27,7 @@ exports.getAll = function (req, res, model) {
                 res.send(bookmarks);  
             }
         });
-        
-    }
+       
 };
 
 

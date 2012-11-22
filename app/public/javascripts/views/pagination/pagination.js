@@ -102,13 +102,15 @@
                     type: 'GET', 
                     
                     success: function(collection, result, d) {
-                        _.each(result, function (model) {
-                            var bookmark = new models.Bookmark(model);
+                        if (result.length > 0) {
+                            _.each(result, function (model) {
+                                var bookmark = new models.Bookmark(model);
                             
-                            self.collection.origModels.push(bookmark);
-                        });
-  
-                        self.collection.goTo(num);
+                                self.collection.origModels.push(bookmark);
+                            });
+                            
+                            self.collection.goTo(num);
+                        }
                     } 
                 });
             }
