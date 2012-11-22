@@ -4,7 +4,7 @@
                   - Backbone
                   - UnderScore
 */
-(function (Backbone, views, collections, routes, $) {
+(function (Backbone, models, views, collections, routes, $) {
     "use strict";
     
     views.Controller = Backbone.View.extend({
@@ -35,7 +35,7 @@
             @Constructor:   initializes app views 
         */
         initialize: function () {
-            _.bindAll(this, 'loadProfile', 'newBook', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
+            _.bindAll(this, 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
 
             this.$('#profile').hide();
 
@@ -80,7 +80,7 @@
             @Api:       public - displays profile page
             @returns:   void
         */
-        loadProfile: function () {
+        loadAccount: function () {
             this.$('.home-div, #home, #bookmarks-table').fadeOut(function () {
                 this.$('#profile').fadeIn();
                 this.activeView = 'profile';
@@ -113,8 +113,15 @@
         
         
         
-        newBook: function () {            
-
+        newBookmarkView: function () {
+            var self = this,  model;
+            
+            $('#pagination').fadeOut(function () {
+               model = new models.Bookmark();
+                model = model.createUrlRoot('/bookmarks');
+            
+                self.bookmarks.newBookmark(model);
+            });
         },
         
 
@@ -162,4 +169,4 @@
             }, this);
         }        
     });
-}(Backbone, App.Views, App.Collections, App.Routes, jQuery));
+}(Backbone, App.Models, App.Views, App.Collections, App.Routes, jQuery));

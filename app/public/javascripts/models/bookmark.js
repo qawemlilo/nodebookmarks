@@ -7,7 +7,6 @@
     
     models.Bookmark = Backbone.Model.extend({
         defaults: {
-            id: '',
             publik: false,
             date: (new Date()).getTime(),
             url: '#',
@@ -15,6 +14,12 @@
             notes: 'notes',
             starred: false,
             tags: ['uncategorised']
+        },
+        
+        createUrlRoot: function (url) {
+            this.urlRoot = url;
+            
+            return this;
         }
     });
 }(Backbone, App.Models));

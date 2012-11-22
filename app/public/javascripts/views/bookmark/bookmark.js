@@ -4,7 +4,7 @@
                   - Backbone
                   - UnderScore
 */
-(function (Backbone, views, Template, $) {
+(function (Backbone, views, collections, Template, $) {
     "use strict";
     
     views.Bookmark = Backbone.View.extend({
@@ -24,11 +24,18 @@
             
             'click .cancel': 'cancelEdit',
             
-            'submit .bookmark-edit-form': 'saveEdit'
+            'submit .bookmark-edit-form': 'saveEdit',
+            
+            'click #new-bookmark-form .cancel': 'cancelNew',
+            
+            'submit #new-bookmark-form': 'saveNew'
         },
         
         
         activeEditor: false,
+        
+        
+        activeNew: false,
         
         
         editTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
@@ -47,9 +54,10 @@
         initialize: function () {
             var $this = this;
             
-            _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getSanitizedModel');
+            _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelNew', 'newBookmark', 'saveNew', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getSanitizedModel');
 
-            this.model.on('change', function () {
+            if (!!(this.model) && this.model.isNew()) {
+              this.model.on('change', function () {
                 var attrs = ['publik', 'url', 'title', 'notes', 'starred', 'tags'], i;
                 
                 for (i = 0; i < attrs.length; i++) {
@@ -57,7 +65,8 @@
                         this.update(attrs[i]);
                     }
                 }
-            }.bind(this));        
+              }.bind(this)); 
+            }            
             
             return this;
         },
@@ -94,16 +103,13 @@
         
         
         
-        newBookmark: function (e) {
-            e.preventDefault();
-            
-            var date = this.formatDate(), bookmarkTemplate = this.newBookmarkTemplate.render(date);
+        newBookmark: function () {
+            var date = this.formatDate(), newbookmarkTemplate = this.newBookmarkTemplate.render(date);
              
-            $('#pagination').fadeOut(function () {
-                $('#bookmarks-table').fadeOut(function () {
-                    $('#home').prepend(bookmarkTemplate);
-                });                    
-            });
+            this.activeNew = true;
+            this.$el.append(newbookmarkTemplate);
+            
+            return this;
         },
         
         
@@ -156,6 +162,64 @@
             this.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
         },
         
+        
+        
+        /*
+            @Private
+            @Void: handles the submitted bookmark form data
+            @Param: (Object) e - submit event object
+        */         
+        saveNew: function (e) {
+            e.preventDefault();
+            
+            var formObj = {}, 
+                successHandler, 
+                errorHandler, 
+                editForm = this.$('#new-bookmark-form'),
+                formValues = editForm.serializeArray(),
+                self = this;
+
+            _.each(formValues, function (fieldObj) {
+                if (fieldObj.name !== 'submit') {
+                    formObj[fieldObj.name] = fieldObj.value;
+                }
+            });
+
+            
+            formObj.tags = formObj.tags.split(',') || ['uncategorised'];
+            formObj.publik = !(!!formObj.publik);
+
+            successHandler = function (model, response) {
+                self.activeNew = false; // unlock
+                $.shout('New bookmark saved', 10);
+                self.$el.fadeOut('slow', function () {
+                    self.$el.remove();
+                    location.hash = '#bookmarks';
+                });
+            };
+            
+            errorHandler = function (model, response) {
+                self.activeNew = false; // unlock
+                $.shout('Error occured, new bookmark not saved', 10);
+                self.$el.fadeOut('slow', function () {
+                    self.$el.remove();
+                    location.hash = '#bookmarks';
+                });
+            };
+            
+            this.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
+        },
+        
+        
+        
+        cancelNew: function (e) { 
+            e.preventDefault();
+            
+            this.$el.fadeOut().remove();
+            
+            location.hash = '#bookmarks';
+        },
+        
 
 
         /*
@@ -199,6 +263,7 @@
                 this.activeEditor = false; // lock editor
             }.bind(this));
         },
+       
         
 
 
@@ -211,7 +276,7 @@
             e.preventDefault();
             
             // prevent loading of editor while one is active
-            if (this.activeEditor) {
+            if (this.activeEditor || this.activeNew) {
                 return false;
             }
             
@@ -338,4 +403,4 @@
             return obj;
         }        
     });
-}(Backbone, App.Views, EJS, jQuery));
+}(Backbone, App.Views, App.Collections, EJS, jQuery));

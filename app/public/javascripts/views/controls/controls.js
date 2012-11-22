@@ -20,8 +20,6 @@
         
         
         events: {
-            'click .btn-group .new-bookmark': 'newBookmark',
-            
             'click #new-bookmark-form .cancel': 'clearNewBookmark',
             
             'click .btn-group .limit a': 'changeCount',
@@ -31,7 +29,7 @@
         
         
         initialize: function () {
-            _.bindAll(this, 'render', 'newBookmark', 'clearNewBookmark');
+            _.bindAll(this, 'render', 'clearNewBookmark');
         },
         
 
@@ -63,21 +61,6 @@
         },
         
         
-        
-        /*
-            @Private
-            @Void: handles click events for changing limit of displayed bookmarks per page
-            @Param: (Object) e - click event object
-        */          
-        newBookmark: function (e) {
-            e.preventDefault();
-            
-            var date = this.formatDate(), bookmarkTemplate = this.newBookmarkTemplate.render(date);
-             
-            this.$el.html(bookmarkTemplate);
-        },
-        
-        
         clearNewBookmark: function (e) {
             e.preventDefault();
             
@@ -102,23 +85,6 @@
             if (classname !== this.collection.sortOrder) {
                 this.collection.changeSortOder(classname);
             }
-        },
-        
-        
-        /*
-            @Private
-            @Object: formats a time integer to a date and returns an object 
-            @Param: (Number) date - time integer
-        */          
-        formatDate: function () {
-            var newdate = new Date(),  obj = {}, 
-            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-            obj.day = newdate.getDate();
-            obj.month = months[newdate.getMonth()];
-            obj.year = newdate.getFullYear();
-            
-            return obj;
-        },
+        }
     });
 }(Backbone, App.Views, EJS, jQuery));

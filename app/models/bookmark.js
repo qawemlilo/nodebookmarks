@@ -16,7 +16,7 @@ BookmarkSchema = new Schema({
     id: Schema.ObjectId,
     owner: Schema.Types.ObjectId,
     title: {type: String, default: ''},
-    url: {type: String, unique: true},
+    url: {type: String, unique: false},
     notes: {type: String, default: ''},
     starred: {type: Boolean, default: false},
     publik: {type: Boolean, default: false},
@@ -55,8 +55,12 @@ exports.get = function (opts, fn) {
 
 exports.add = function (bookmarkObj, fn) {
     var bookmark = new Bookmark(bookmarkObj);
+
+    
     bookmark.save(function (err) {
-        fn(err, bookmark);    
+        console.log(bookmark);
+        console.log(err);
+        fn(!!(err), bookmark);    
     });
 };
 

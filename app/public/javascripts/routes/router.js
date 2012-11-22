@@ -10,7 +10,7 @@
             
             '': 'loadBookmarks',
             
-            'user/account': 'loadProfile',
+            'user/account': 'loadAccount',
             
             'tags/:tag': 'filterTags',
             
@@ -18,12 +18,12 @@
             
             'bookmarks/page/:num': 'goTo',
             
-            'bookmarks/new': 'newBook'
+            'bookmarks/new': 'newBookmark'
         },
         
         
-        loadProfile: function () {
-            views.Controller.loadProfile(); 
+        loadAccount: function () {
+            views.Controller.loadAccount(); 
         },
         
         
@@ -37,8 +37,8 @@
         },
         
         
-        newBook: function () {
-            views.Controller.newBook(); 
+        newBookmark: function () {
+            views.Controller.newBookmarkView(); 
         },
         
         

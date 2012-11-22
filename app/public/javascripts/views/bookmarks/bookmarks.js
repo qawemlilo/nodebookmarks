@@ -49,6 +49,16 @@
         },
         
 
+        
+        newBookmark: function (bookmarkModel) { 
+            var bookmarkView = new views.Bookmark({
+                model: bookmarkModel
+            });
+            
+            this.$el.html(bookmarkView.newBookmark().el);
+        },
+        
+
 
         /*
             @Public
