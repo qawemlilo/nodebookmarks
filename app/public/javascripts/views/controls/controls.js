@@ -74,11 +74,7 @@
             
             var date = this.formatDate(), bookmarkTemplate = this.newBookmarkTemplate.render(date);
              
-            $('#pagination').fadeOut(function () {
-                $('#bookmarks-table').fadeOut(function () {
-                    $('#home').prepend(bookmarkTemplate);
-                });                    
-            });
+            this.$el.html(bookmarkTemplate);
         },
         
         

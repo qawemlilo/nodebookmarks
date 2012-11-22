@@ -45,7 +45,7 @@
                 model: bookmarkModel
             });
             
-            this.$el.append(bookmarkView.el);
+            this.$el.append(bookmarkView.render().el);
         },
         
 

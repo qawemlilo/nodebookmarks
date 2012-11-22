@@ -36,6 +36,9 @@
         
         bookmarkTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
         
+        
+        newBookmarkTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/new.ejs'}),
+        
 
 
         /*
@@ -55,8 +58,6 @@
                     }
                 }
             }.bind(this));        
- 
-            this.render();
             
             return this;
         },
@@ -72,6 +73,8 @@
             
             bookmarkTemplate = this.bookmarkTemplate.render(model);   
             this.$el.append(bookmarkTemplate);
+            
+            return this;
         },
         
 
@@ -87,6 +90,22 @@
                 this.$el.remove();
             }.bind(this));
         },
+        
+        
+        
+        
+        newBookmark: function (e) {
+            e.preventDefault();
+            
+            var date = this.formatDate(), bookmarkTemplate = this.newBookmarkTemplate.render(date);
+             
+            $('#pagination').fadeOut(function () {
+                $('#bookmarks-table').fadeOut(function () {
+                    $('#home').prepend(bookmarkTemplate);
+                });                    
+            });
+        },
+        
         
 
 
