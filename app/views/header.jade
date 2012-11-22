@@ -1,12 +1,18 @@
 div(id='navigation', class='container')
-  a(href='/#index', class='pull-left brand') 
-    img(src='/images/logo.png', alt='Bookmark Manager', title='Bookmark Manager')
+  if(loggedIn)
+    a(href='/#bookmarks', class='pull-left brand') 
+      img(src='/images/logo.png', alt='Bookmark Manager', title='Bookmark Manager')
+      
+  if(!loggedIn)
+    a(href='/#home', class='pull-left brand') 
+      img(src='/images/logo.png', alt='Bookmark Manager', title='Bookmark Manager')
+      
   nav
     ul(class='nav nav-pills pull-right')
       if(loggedIn)
-        li: a(href='/#profile') Account
+        li: a(href='/#user/account') Account
         li: a(href='/users/logout') Logout
       if(!loggedIn)
-        li: a(href='/#index') Home
+        li: a(href='/#home') Home
         li: a(href='/demo', title='Tour') Demo
-        li: a(href='/#login', title='Login') Login 
+        li: a(href='/#user/login', title='Login') Login 

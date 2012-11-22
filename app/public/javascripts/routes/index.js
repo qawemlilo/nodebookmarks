@@ -7,10 +7,18 @@
 "use strict";
     routes.Router = Backbone.Router.extend({
         routes: {
-            'login': 'loadLogin',
-            'login/:error': 'loadLogin',
-            'register': 'loadRegister',
+            'user/login': 'loadLogin',
+            
+            'user/login/:error': 'loadLogin',
+            
+            'user/register': 'loadRegister',
+            
             'index': 'loadRegister',
+            
+            'home': 'loadRegister',
+            
+            '/': 'loadRegister',
+            
             '': 'loadRegister'
         },
         

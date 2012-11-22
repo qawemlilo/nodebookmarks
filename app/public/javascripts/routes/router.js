@@ -6,17 +6,19 @@
     
     routes.Router = Backbone.Router.extend({
         routes: {
-            'index': 'loadHome',
+            'bookmarks': 'loadBookmarks',
             
-            'bookmarks': 'loadHome',
+            '': 'loadBookmarks',
             
-            'reset': 'loadHome',
-            
-            'profile': 'loadProfile',
+            'user/account': 'loadProfile',
             
             'tags/:tag': 'filterTags',
             
-            'page/:num': 'goTo'            
+            'bookmarks/tags/:tag': 'filterTags',
+            
+            'bookmarks/page/:num': 'goTo',
+            
+            'bookmarks/new': 'newBook'
         },
         
         
@@ -30,8 +32,13 @@
         },
         
         
-        loadHome: function () {
-            views.Controller.loadHome(); 
+        loadBookmarks: function () {
+            views.Controller.loadBookmarks(); 
+        },
+        
+        
+        newBook: function () {
+            views.Controller.newBook(); 
         },
         
         

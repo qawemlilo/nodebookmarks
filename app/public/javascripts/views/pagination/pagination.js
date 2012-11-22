@@ -92,10 +92,10 @@
             @Void: loads a page from the collection and call re-renders pagination
             @Param: (Number) page - the number of the page to go to
         */            
-        gotoPage: function (page) {
-            var self = this;
+        gotoPage: function (num) {
+            var self = this, flag = false;
             
-            if (page >= self.collection.info().totalPages) {
+            if (num >= self.collection.info().totalPages) {
                 self.collection.fetch({
                     data: {skip: self.collection.info().totalRecords}, 
                     
@@ -107,15 +107,13 @@
                             
                             self.collection.origModels.push(bookmark);
                         });
-                        
-                        views.Controller.controls.render();
-                        self.collection.goTo(page);
+  
+                        self.collection.goTo(num);
                     } 
                 });
             }
-            else {
-                self.collection.goTo(page);
-            }
+            
+            self.collection.goTo(num);
         },
         
 

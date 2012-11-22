@@ -133,7 +133,7 @@ exports.login = function (req, res, userModel) {
     } else {
         userModel.login({email: req.body.email, password: req.body.password}, function (error,  user) {
             if (error) {
-                res.redirect('/#login/error'); 
+                res.redirect('/#user/login/error'); 
             } else {
                 user._id = user._id.toHexString();
                 req.session.user = user;

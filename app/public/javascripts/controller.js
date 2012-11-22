@@ -35,7 +35,7 @@
             @Constructor:   initializes app views 
         */
         initialize: function () {
-            _.bindAll(this, 'loadProfile', 'filterTags', 'loadHome', 'goTo', 'assign');
+            _.bindAll(this, 'loadProfile', 'newBook', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
 
             this.$('#profile').hide();
 
@@ -81,7 +81,7 @@
             @returns:   void
         */
         loadProfile: function () {
-            this.$('.home-div, #bookmarks-table').fadeOut(function () {
+            this.$('.home-div, #home, #bookmarks-table').fadeOut(function () {
                 this.$('#profile').fadeIn();
                 this.activeView = 'profile';
             }.bind(this));
@@ -93,10 +93,10 @@
             @Api:       public - resets and displays bookmarks collection
             @Returns:   void
         */        
-        loadHome: function () {            
+        loadBookmarks: function () {            
             if (this.activeView === 'profile') {
                 $('#profile').fadeOut(function () {
-                    $('.home-div').fadeIn();
+                    $('#home, .home-div').fadeIn();
                     this.pagination.reset();
                     this.controls.render();
                     this.activeView = 'home';
@@ -109,6 +109,12 @@
             this.pagination.reset();
             this.controls.render();
             this.activeView = 'home';
+        },
+        
+        
+        
+        newBook: function () {            
+
         },
         
 
