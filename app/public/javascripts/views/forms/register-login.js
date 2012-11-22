@@ -83,7 +83,7 @@
             };
                 
             errorHandler = function (model, res) {
-                $.shout(res.msg || res, 10, 'error');
+                $.shout('Account not created, your form contains errors', 10, 'error');
             };
             
             newMember.save(data, {success: successHandler, error: errorHandler});
