@@ -191,9 +191,10 @@
             successHandler = function (model, response) {
                 self.activeNew = false; // unlock
                 
-                collections.Bookmarks.origModels.push(self.model.model);
+                collections.Bookmarks.origModels.push(self.model);
                 
                 $.shout('New bookmark saved', 10);
+                
                 self.$el.fadeOut('slow', function () {
                     self.$el.remove();
                     location.hash = '#bookmarks';
