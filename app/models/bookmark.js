@@ -31,7 +31,7 @@ Bookmark =  db.model('Bookmark', BookmarkSchema);
 exports.get = function (opts, fn) {
     var DB =  db.model('Bookmark');
     
-    DB.find(opts.query, opts.fields, {skip: opts.skip, limit: opts.limit}, function (err, bookmarks) {
+    DB.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}, function (err, bookmarks) {
     
         var cleanbookmarks = bookmarks.map(function (bookmark) {
             var temparray = {};
@@ -58,9 +58,23 @@ exports.add = function (bookmarkObj, fn) {
 
     
     bookmark.save(function (err) {
-        console.log(bookmark);
-        console.log(err);
-        fn(!!(err), bookmark);    
+        if (!err) {
+            var temparray = {};
+ 
+            temparray.id = bookmark._id.toHexString();
+            temparray.tags = bookmark.tags; 
+            temparray.date = bookmark.date.getTime();
+            temparray.publik = bookmark.publik;
+            temparray.starred = bookmark.starred;
+            temparray.notes = bookmark.notes; 
+            temparray.title = bookmark.title; 
+            temparray.url = bookmark.url;
+            
+            fn(false,  temparray);
+        }
+        else {
+            fn(true, bookmark);
+        }            
     });
 };
 

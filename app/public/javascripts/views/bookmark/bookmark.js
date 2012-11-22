@@ -56,8 +56,8 @@
             
             _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelNew', 'newBookmark', 'saveNew', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getSanitizedModel');
 
-            if (!!(this.model) && this.model.isNew()) {
-              this.model.on('change', function () {
+            
+            this.model.on('change', function () {
                 var attrs = ['publik', 'url', 'title', 'notes', 'starred', 'tags'], i;
                 
                 for (i = 0; i < attrs.length; i++) {
@@ -65,8 +65,7 @@
                         this.update(attrs[i]);
                     }
                 }
-              }.bind(this)); 
-            }            
+            }.bind(this));        
             
             return this;
         },
@@ -191,6 +190,9 @@
 
             successHandler = function (model, response) {
                 self.activeNew = false; // unlock
+                
+                collections.Bookmarks.origModels.push(self.model.model);
+                
                 $.shout('New bookmark saved', 10);
                 self.$el.fadeOut('slow', function () {
                     self.$el.remove();
@@ -201,7 +203,6 @@
             errorHandler = function (model, response) {
                 self.activeNew = false; // unlock
                 
-                alert(JSON.stringify(model));
                 $.shout('Error occured, new bookmark not saved', 10);
                 self.$el.fadeOut('slow', function () {
                     self.$el.remove();
