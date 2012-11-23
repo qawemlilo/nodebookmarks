@@ -31,7 +31,11 @@ app.configure(function() {
     
     app.use(express.session({
         secret: config.secret,
-        //maxAge: new Date(Date.now() + 3600000),
+        
+        cookie: {
+            maxAge: 365 * 24 * 60 * 60 * 1000
+        },
+        
         store: new MongoStore(config.db)
     }));
     
@@ -60,6 +64,9 @@ mongoose.createConnection(dbSession);
 
 
 
+
+
+
 /****************
 
    Configuration
@@ -73,6 +80,8 @@ app.configure('development', function () {
 app.configure('production', function () {
     app.use(express.errorHandler()); 
 });
+
+
 
 
 
@@ -95,7 +104,7 @@ app.post('/users/login', function (req, res) {
 // Logout
 app.get('/users/logout', function (req, res) {
     if (req.session.user) {
-        req.session.destroy();
+        delete req.session.user;
     }
     res.redirect('/');
 });

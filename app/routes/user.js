@@ -137,6 +137,7 @@ exports.login = function (req, res, userModel) {
             } else {
                 user._id = user._id.toHexString();
                 req.session.user = user;
+                req.session.uniqueid = user._id;
                 res.redirect('/');  
             }
         });
