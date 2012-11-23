@@ -31,16 +31,16 @@
     <ul class='dropdown-menu bookmark-menu-tags'>
         <% _.each(tags, function (tag) { %>
             <li>
-                <a href='/#bookmarks/tags/<%= $.trim(tag) %>'><%= $.trim(tag) %></a>
+                <a href='#bookmarks/tags/<%= $.trim(tag) %>'><%= $.trim(tag) %></a>
             </li>
         <% }) %>
         <% if (filteredTag) { %> 
             <li class="divider"></li>
-            <li><a href="/#bookmarks">Clear <%= filteredTag %></a></li>
+            <li><a href="#bookmarks">Clear <%= filteredTag %></a></li>
         <% } %>
     </ul>
 </div>
 
 <div class="btn-group pull-right">
-    <a href="/#bookmarks/new" class="btn btn-large btn-success new-bookmark"> <i class='icon-white icon-plus-sign'></i> New bookmark</a>
+    <a href="#bookmarks/new" class="btn btn-large btn-success new-bookmark"> <i class='icon-white icon-plus-sign'></i> New bookmark</a>
 </div>
