@@ -96,6 +96,7 @@
             var self = this, flag = false;
             
             if (num >= self.collection.info().totalPages) {
+                $.shout('Loading more bookmarks.....', 0, 'info');
                 self.collection.fetch({
                     data: {skip: self.collection.info().totalRecords}, 
                     
@@ -103,6 +104,7 @@
                     
                     success: function(collection, result, d) {
                         if (result.length > 0) {
+                            $.shout('Done!', 2, 'info');
                             _.each(result, function (model) {
                                 var bookmark = new models.Bookmark(model);
                             
@@ -110,6 +112,9 @@
                             });
                             
                             self.collection.goTo(num);
+                        }
+                        else {
+                            $.shout('All bookmarks have been loaded!', 10, 'info');
                         }
                     } 
                 });

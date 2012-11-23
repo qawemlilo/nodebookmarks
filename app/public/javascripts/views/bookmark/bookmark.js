@@ -145,12 +145,12 @@
 
             successHandler = function (model, response) {
                 this.activeEditor = false; // unlock editor
-                $.shout(response.msg, 5);
+                $.shout(response.msg, 10, 'success');
             }.bind(this);
             
             errorHandler = function (model, response) {
                 this.activeEditor = false; // unlock editor
-                $.shout(response.msg || 'Error occured, bookmark not updated', 5);
+                $.shout(response.msg || 'Error occured, bookmark not updated', 10);
             }.bind(this);
             
             editFormDiv.fadeOut(function () {
@@ -194,7 +194,7 @@
                 self.model.set({'id': response.model.id});
                 collections.Bookmarks.origModels.push(self.model);
                 
-                $.shout('New bookmark saved', 10);
+                $.shout('New bookmark saved!', 10, 'success');
                 
                 self.$el.fadeOut('slow', function () {
                     self.$el.remove();
@@ -246,11 +246,11 @@
                
             successHandler = function (model, response) {
                 this.unrender();
-                $.shout(response.msg, 5);
+                $.shout(response.msg, 10, 'success');
             }.bind(this);
             
             errorHandler = function (model, response) {
-                $.shout(response.msg  || 'Error occured, bookmark not deleted', 5);
+                $.shout(response.msg  || 'Error occured, bookmark not deleted', 10);
             }.bind(this);
             
             this.model.destroy({success: successHandler, error: errorHandler, wait: true});

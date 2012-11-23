@@ -55,31 +55,38 @@ div#controls{
  top: 0;
  left: 0;
  z-index: 1000;
- background: #CC0000;
- background: -moz-linear-gradient(top, #CC0000 0%, #CC0000 100%);
- -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#CC0000', endColorstr='#CC0000')";
- -pie-background: linear-gradient(#CC0000, #CC0000 100%);
- behavior: url(PIE.htc);
  height: 25px;
  text-align: center;
- padding: 15px 0px 15px 0px;
+ padding: 20px 0px 20px 0px;
  color: #fff;
+ background-repeat: no-repeat;
+ background-position: 10px center;
+ border-bottom: 1px solid;
 }
 
-#appMessage  .success {
- background: #5BB75B;
- background: -moz-linear-gradient(top, #5BB75B 0%, #5BB75B 100%);
- -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5BB75B', endColorstr='#5BB75B')";
- -pie-background: linear-gradient(#5BB75B, #5BB75B 100%);
+#appMessage.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  background-image:url('../images/success.png');
 }
 
-#appMessage  .error {
- background: #CC0000;
- background: -moz-linear-gradient(top, #CC0000 0%, #CC0000 100%);
- -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#CC0000', endColorstr='#CC0000')";
- -pie-background: linear-gradient(#CC0000, #CC0000 100%);
+#appMessage.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+  background-image: url('../images/error.png');
 }
 
+#appMessage.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+  background-image: url('../images/info.png');
+}
+
+#appMessage.warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+  background-image: url('../images/warning.png');
+}
 
 
 /*****************

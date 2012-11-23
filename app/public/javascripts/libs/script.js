@@ -10,10 +10,8 @@
     
     
     $.shout = function (msg, x, dclass) {
-        if ($("#appMessage")) {
-            $("#appMessage").fadeOut(function () {
-                $("#appMessage").remove();
-            });
+        if ($("#appMessage").length) {
+          $("#appMessage").remove();
         }
             
         var elem = $('<div>', {'id': 'appMessage', 'class': dclass || 'error', html: msg});
