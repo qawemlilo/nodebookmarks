@@ -122,10 +122,14 @@
         saveEdit: function (e) {
             e.preventDefault();
             
-            var cleantags = [], formObj = {}, successHandler, errorHandler, 
+            var cleantags = [], 
+                formObj = {}, 
+                successHandler, 
+                errorHandler, 
                 editForm = this.$('.bookmark-edit-form'),
                 editFormDiv = this.$('.bookmark-edit'),
-                formValues = editForm.serializeArray();
+                formValues = editForm.serializeArray(),
+                errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not updated';
             
             _.each(formValues, function (fieldObj) {
                 if (fieldObj.name !== 'submit') {
@@ -150,7 +154,8 @@
             
             errorHandler = function (model, response) {
                 this.activeEditor = false; // unlock editor
-                $.shout('Error occured, bookmark not updated', 10);
+                
+                $.shout(errmsg, 10);
             }.bind(this);
             
             editFormDiv.fadeOut(function () {
@@ -176,7 +181,8 @@
                 errorHandler, 
                 editForm = this.$('#new-bookmark-form'),
                 formValues = editForm.serializeArray(),
-                self = this;
+                self = this,
+                errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not saved';
 
             _.each(formValues, function (fieldObj) {
                 if (fieldObj.name !== 'submit') {
@@ -205,7 +211,7 @@
             errorHandler = function (model, response) {
                 self.activeNew = false; // unlock
                 
-                $.shout('Error occured, new bookmark not saved', 10);
+                $.shout(errmsg, 10);
                 self.$el.fadeOut('slow', function () {
                     self.$el.remove();
                     location.hash = '#bookmarks';
@@ -238,7 +244,9 @@
         deleteBookmark: function (e) {
             e.preventDefault();
             
-            var errorHandler, successHandler;
+            var errorHandler, 
+                successHandler, 
+                errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not deleted';
                 
             if (!confirm('Are you sure you want to delete this bookmark?')) {
                 return false;
@@ -250,7 +258,7 @@
             }.bind(this);
             
             errorHandler = function (model, response) {
-                $.shout('Error occured, bookmark not deleted', 10);
+                $.shout(errmsg, 10);
             }.bind(this);
             
             this.model.destroy({success: successHandler, error: errorHandler, wait: true});

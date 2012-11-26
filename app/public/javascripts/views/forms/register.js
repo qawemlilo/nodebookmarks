@@ -70,13 +70,9 @@
                 if (!res.error) {
                     $('#login-email').val(model.get('email'));
                     document.forms['register-form'].reset();
+                    window.location.hash = '#user/login'; ;
                     
-                    $('#register-form').fadeOut(function () {
-                        window.location.hash = 'login'; 
-                        $('#login-form').fadeIn('slow');
-                    });
-                    
-                    $.shout(res.msg, 10, 'success');
+                    $.shout(res.msg, 30, 'success');
                 } else { 
                     $.shout('Account not created, your form contains errors', 10, 'error');
                 }

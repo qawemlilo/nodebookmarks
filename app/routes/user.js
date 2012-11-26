@@ -98,7 +98,7 @@ exports.remove = function (req, res, model) {
         if (error) {
             res.send(500);
         } else {
-            res.redirect('/users/logout');                   
+            res.redirect('/user/logout');                   
         }
     });
 };
