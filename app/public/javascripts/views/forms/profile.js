@@ -25,6 +25,10 @@
         initialize: function () {
             _.bindAll(this, 'render', 'getUserData', 'updateUser', 'updateForm', 'promptUser');
             
+            if (App.page === 'demo') {
+                return;
+            }
+            
             this.model = new models.User();
             this.model.task = 'update';
             this.model.on('change', this.updateForm);
@@ -40,6 +44,10 @@
             @Returns: void
         */
         render: function () {
+            if (App.page === 'demo') {
+                return;
+            }
+            
             this.getUserData(function (data) { 
                 var settingsTemplate = this.settingsTemplate.render(data);
                 

@@ -23,7 +23,7 @@
         },
         
         loadLogin: function (error) {
-            $('#register-form').fadeOut(function () {
+            $('#register-form, #punch-line').fadeOut(function () {
                 $('#login-form').fadeIn();
                 
                 if (error) {
@@ -34,7 +34,7 @@
         
         loadRegister: function () {
             $('#login-form').fadeOut(function () {
-                $('#register-form').fadeIn();
+                $('#register-form,  #punch-line').fadeIn();
             });
         }
     });

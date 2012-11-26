@@ -13,7 +13,9 @@ var express = require('express'),
     bookmarkModel = require('./models/bookmark'),
     
     dbSession = '',
-    app;
+    app, 
+    
+    loggedIn;
 
 app = module.exports = express.createServer();
 
@@ -88,6 +90,49 @@ app.configure('production', function () {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*************************
+
+    Middleware
+    
+**************************/
+
+
+loggedIn = function (req, res, next) {
+    if (!req.session.user) {
+        res.send(500);
+    }
+    else {
+        next();
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /****************
 
     Generic API
@@ -95,14 +140,14 @@ app.configure('production', function () {
 *****************/
 
 // Login
-app.post('/users/login', function (req, res) { 
+app.post('/user/login', function (req, res) { 
     userRoute.login(req, res, userModel); 
 });
 
 
 
 // Logout
-app.get('/users/logout', function (req, res) {
+app.get('/user/logout', function (req, res) {
     if (req.session.user) {
         delete req.session.user;
     }
@@ -136,6 +181,12 @@ app.get('/demo',  function (req, res) {
 
 
 
+
+
+
+
+
+
 /**************
 
     User CRUD
@@ -143,49 +194,35 @@ app.get('/demo',  function (req, res) {
 ***************/
 
 // Register user - CREATE
-app.post('/users', function (req, res) { 
+app.post('/user', function (req, res) { 
     userRoute.register(req, res, userModel); 
 });
 
 
 
 // Get user information - READ
-app.get('/users', function (req, res) {
+app.get('/user', loggedIn, function (req, res) {
     var user = req.session.user;
-
-    if (user) {
-        res.send({
-            id: user._id, 
-            password: '', 
-            name: user.name, 
-            email: user.email
-        });
-    }
-
-    else {
-        res.send(500, {
-            model: {
-                password: '', 
-                name: '', 
-                email: ''
-            }, 
-            
-            msg: 'Your session has expired, please login'
-        });
-    }   
+    
+    res.send({
+        id: user._id, 
+        password: '', 
+        name: user.name, 
+        email: user.email
+    });        
 });
 
 
 
 // Update user details - UPDATE
-app.put('/users/:id', function (req, res) { 
+app.put('/user/:id', loggedIn, function (req, res) { 
     userRoute.update(req, res, userModel); 
 });
 
 
 
 // Delete user - DELETE
-app.post('/users/delete', function (req, res) { 
+app.post('/user/delete', loggedIn, function (req, res) { 
     userRoute.remove(req, res, userModel); 
 });
 
@@ -206,7 +243,7 @@ app.post('/users/delete', function (req, res) {
 ***********************/
 
 // New bookmark - CREATE
-app.post('/bookmarks', function (req, res) { 
+app.post('/bookmarks', loggedIn, function (req, res) { 
     bookmarkRoute.add(req, res, bookmarkModel); 
 });
 
@@ -220,14 +257,14 @@ app.get('/bookmarks', function (req, res) {
 
 
 // Update bookmark - UPDATE
-app.put('/bookmarks/:id', function (req, res) { 
+app.put('/bookmarks/:id', loggedIn, function (req, res) { 
     bookmarkRoute.update(req, res, bookmarkModel); 
 });
 
 
 
 // Delete bookmark - DELETE
-app.delete('/bookmarks/:id', function (req, res) { 
+app.delete('/bookmarks/:id', loggedIn, function (req, res) { 
     bookmarkRoute.remove(req, res, bookmarkModel); 
 });
 

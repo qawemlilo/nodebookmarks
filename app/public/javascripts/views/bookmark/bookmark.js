@@ -150,7 +150,7 @@
             
             errorHandler = function (model, response) {
                 this.activeEditor = false; // unlock editor
-                $.shout(response.msg || 'Error occured, bookmark not updated', 10);
+                $.shout('Error occured, bookmark not updated', 10);
             }.bind(this);
             
             editFormDiv.fadeOut(function () {
@@ -250,7 +250,7 @@
             }.bind(this);
             
             errorHandler = function (model, response) {
-                $.shout(response.msg  || 'Error occured, bookmark not deleted', 10);
+                $.shout('Error occured, bookmark not deleted', 10);
             }.bind(this);
             
             this.model.destroy({success: successHandler, error: errorHandler, wait: true});

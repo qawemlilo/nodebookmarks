@@ -14,8 +14,10 @@
         */
         init: function (page, bookmarks) {
             var index, controller;
-        
-            if (page === 'home') {
+            
+            App.page = page;
+            
+            if (page === 'home' || page === 'demo') {
                 controller = new App.Views.Controller({collection: bookmarks});
                 App.Views.Controller = controller;
             }

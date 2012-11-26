@@ -11,7 +11,7 @@ div(id='navigation', class='container')
     ul(class='nav nav-pills pull-right')
       if(loggedIn)
         li: a(href='/#user/account') Account
-        li: a(href='/users/logout') Logout
+        li: a(href='/user/logout') Logout
       if(!loggedIn)
         li: a(href='/#home') Home
         li: a(href='/demo', title='Tour') Demo

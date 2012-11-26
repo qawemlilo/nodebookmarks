@@ -11,7 +11,7 @@
     
     $.shout = function (msg, x, dclass) {
         if ($("#appMessage").length) {
-          $("#appMessage").remove();
+          $("#appMessage").fadeOut().remove();
         }
             
         var elem = $('<div>', {'id': 'appMessage', 'class': dclass || 'error', html: msg});

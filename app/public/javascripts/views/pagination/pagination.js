@@ -102,7 +102,7 @@
                     
                     type: 'GET', 
                     
-                    success: function(collection, result, d) {
+                    success: function(collection, result, opts) {
                         if (result.length > 0) {
                             $.shout('Done!', 2, 'info');
                             _.each(result, function (model) {
@@ -116,7 +116,11 @@
                         else {
                             $.shout('All bookmarks have been loaded!', 10, 'info');
                         }
-                    } 
+                    },
+                    
+                    error: function(collection, xhr, options) {
+                        $.shout('Request failed!', 10, 'warning');
+                    }
                 });
             }
             

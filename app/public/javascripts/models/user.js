@@ -17,7 +17,7 @@
         task: '',
         
         
-        urlRoot: 'users',
+        urlRoot: 'user',
         
         
         setUrl: function (url) {
