@@ -115,6 +115,7 @@
                         }
                         else {
                             $.shout('All bookmarks have been loaded!', 10, 'info');
+                            
                         }
                     },
                     
@@ -122,6 +123,8 @@
                         $.shout('Request failed!', 10, 'warning');
                     }
                 });
+                
+                return;
             }
             
             self.collection.goTo(num);
