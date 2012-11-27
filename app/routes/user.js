@@ -20,13 +20,13 @@ exports.index = function (req, res, model) {
         
         model.get(options, function (error,  bookmarks) {
             if (error) {
-                res.render('home', {title: 'Home', page: 'home', loggedIn: true, bookmarks: [], user: req.session.user}); 
+                res.render('home', {title: 'Bookmark Manager', page: 'home', loggedIn: true, bookmarks: [], user: req.session.user}); 
             } else {
-                res.render('home', {title: 'Home', page: 'home', loggedIn: true, bookmarks: bookmarks, user: req.session.user});                
+                res.render('home', {title: 'Bookmark Manager', page: 'home', loggedIn: true, bookmarks: bookmarks, user: req.session.user});                
             }
         });             
     } else {    
-      res.render('index', {title: 'Home', page: 'index', loggedIn: false});
+      res.render('index', {title: 'Bookmark Manager', page: 'index', loggedIn: false});
     }
 };
 
@@ -54,9 +54,9 @@ exports.demo = function (req, res, model) {
         
     model.get(options, function (error,  bookmarks) {
         if (error) {
-            res.render('demo', {title: 'Demo', page: 'demo', loggedIn: false, bookmarks: [], user: req.session.user}); 
+            res.render('demo', {title: 'Bookmark Manager - Demo', page: 'demo', loggedIn: false, bookmarks: [], user: req.session.user}); 
         } else {
-            res.render('demo', {title: 'Demo', page: 'demo', loggedIn: false, bookmarks: bookmarks, user: req.session.user});                
+            res.render('demo', {title: 'Bookmark Manager - Demo', page: 'demo', loggedIn: false, bookmarks: bookmarks, user: req.session.user});                
         }
     });
 };

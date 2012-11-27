@@ -55,10 +55,46 @@ exports.add = function (req, res, model) {
         if (error) {
             res.send(500); 
         } else {
-            res.send({error: false, msg: 'Bookmarks saved', model: bookmark});   
+            res.send({error: false, msg: 'Bookmark saved', model: bookmark});   
         }
     });
 };
+
+
+
+
+
+
+
+
+
+
+
+//Adding a new bookmark from a remote request
+exports.addRemote = function (req, res, model) {
+    var callback = req.query.callback, bookmark = {};
+    
+    if (!req.session.uniqueid) {
+        res.send(callback + '({"error": true, "msg": "User not registered"});');
+        
+        return;
+    }
+        
+    bookmark.title = req.query.title;
+    bookmark.url = req.query.url;
+    bookmark.owner = req.session.uniqueid;
+        
+    model.add(bookmark,  function (error,  bookmark) {
+        if (error) {
+            res.send(callback + '({"error": true, "msg": "Server error"});');
+        } else {
+            res.send(callback + '({"error": false, "msg": "Bookmark saved", "model":' + JSON.stringify(bookmark) + '});');   
+        }
+    });
+};
+
+
+
 
 
 
@@ -91,6 +127,11 @@ exports.update = function (req, res, model) {
         }
     });
 };
+
+
+
+
+
 
 
 

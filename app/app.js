@@ -25,6 +25,8 @@ app.configure(function() {
     
     app.set('view engine', 'jade');
     
+    app.set( "jsonp callback", true );
+    
     app.use(express.bodyParser());
     
     app.use(express.cookieParser());
@@ -245,6 +247,11 @@ app.post('/user/delete', loggedIn, function (req, res) {
 // New bookmark - CREATE
 app.post('/bookmarks', loggedIn, function (req, res) { 
     bookmarkRoute.add(req, res, bookmarkModel); 
+});
+
+// New bookmark from a remote request - CREATE
+app.get('/bookmark', function (req, res) { 
+    bookmarkRoute.addRemote(req, res, bookmarkModel); 
 });
 
 
