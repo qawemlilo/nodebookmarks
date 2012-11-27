@@ -255,6 +255,12 @@ app.get('/bookmark', function (req, res) {
 });
 
 
+// update bookmark from a remote request - UPDATE
+app.get('/bookmark/:id', function (req, res) { 
+    bookmarkRoute.updateRemote(req, res, bookmarkModel); 
+});
+
+
 
 // Get bookmarks - READ
 app.get('/bookmarks', function (req, res) { 

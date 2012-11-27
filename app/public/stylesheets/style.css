@@ -303,6 +303,23 @@ div a.bookmark-url {
 }
 
 
+a.bookmarkButton {
+	background-color: #ff6600;
+	border:1px solid #0000;
+	color:#fff;
+	font-weight:bold;
+	padding:6px;
+	cursor:move;
+	margin-right: 5px;
+	-moz-border-radius:12px;
+	-webkit-border-radius:12px;
+	border-radius:12px;
+}
+
+.bookmarkButton:hover {
+	color: #ffffff;
+    text-decoration: none;
+}
 
 
 /*****************

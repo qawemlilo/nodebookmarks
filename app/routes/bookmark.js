@@ -43,7 +43,7 @@ exports.add = function (req, res, model) {
     var bookmark = {};
         
     bookmark.owner = req.session.user._id;
-    bookmark.title = req.body.title;
+    bookmark.title = req.body.title || 'Untitled';
     bookmark.url = req.body.url;
     bookmark.notes = req.body.notes;
     bookmark.starred = req.body.starred;
@@ -80,7 +80,7 @@ exports.addRemote = function (req, res, model) {
         return;
     }
         
-    bookmark.title = req.query.title;
+    bookmark.title = req.query.title || 'Untitled';
     bookmark.url = req.query.url;
     bookmark.owner = req.session.uniqueid;
         
@@ -92,6 +92,35 @@ exports.addRemote = function (req, res, model) {
         }
     });
 };
+
+
+
+
+
+
+
+//Updating a bookmark info
+exports.updateRemote = function (req, res, model) {
+    var callback = req.query.callback, bookmark = {}, tags = req.query.tags;
+    
+    if (!req.session.uniqueid || !tags) {
+        res.send(callback + '({"error": true, "msg": "Error occured, bookmark not updated"});');
+        
+        return;
+    }
+
+    bookmark.tags = tags.split(',');
+        
+    model.update(req.params.id, bookmark, function (error, updatedBookmark) {
+        if (error) {
+            res.send(callback + '({"error": true, "msg": "Error occured, bookmark not updated"});');
+        } else {
+            res.send(callback + '({"error": false, "msg": "Tags saved", "model":' + JSON.stringify(bookmark) + '});');              
+        }
+    });
+};
+
+
 
 
 
@@ -111,7 +140,7 @@ exports.update = function (req, res, model) {
         bookmark = {};
         
     bookmark.owner = user._id;
-    bookmark.title = req.body.title;
+    bookmark.title = req.body.title || 'Untitled';
     bookmark.url = req.body.url;
     bookmark.notes = req.body.notes;
     bookmark.starred = req.body.starred;

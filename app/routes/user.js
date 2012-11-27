@@ -126,7 +126,7 @@ exports.register = function (req, res, model) {
             if (error) {
                 res.send(500);
             } else {
-                res.send({error: false, msg: 'Thank you ' + user.name + ' for signing up, you may login now', id: user._id.toHexString()});  
+                res.send({error: false, msg: 'Thank you ' + user.name + ' for registering. You may login after saving your buttons.', id: user._id.toHexString()});  
             }
         });        
     }
