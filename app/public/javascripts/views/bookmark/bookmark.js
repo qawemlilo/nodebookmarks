@@ -137,12 +137,11 @@
                 }
             });
 
-            formObj.tags = formObj.tags.replace(' ', '');
             formObj.tags = formObj.tags.split(',') || [formObj.tags];
             formObj.publik = !(!!formObj.publik);
             
             _.each(formObj.tags, function (rawTag) {
-                cleantags.push(rawTag);
+                cleantags.push(rawTag.trim());
             });
              
             formObj.tags = cleantags;
@@ -182,6 +181,7 @@
                 editForm = this.$('#new-bookmark-form'),
                 formValues = editForm.serializeArray(),
                 self = this,
+                cleantags = [],
                 errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not saved';
 
             _.each(formValues, function (fieldObj) {
@@ -193,6 +193,13 @@
             formObj.tags = formObj.tags.replace(' ', '');
             formObj.tags = formObj.tags.split(',') || ['uncategorised'];
             formObj.publik = !(!!formObj.publik);
+            
+            
+            _.each(formObj.tags, function (rawTag) {
+                cleantags.push(rawTag.trim());
+            });
+             
+            formObj.tags = cleantags;
 
             successHandler = function (model, response) {
                 self.activeNew = false; // unlock

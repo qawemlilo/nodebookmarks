@@ -170,6 +170,13 @@ app.get('/home', function (req, res) {
 
 
 
+// Home alias
+app.get('/privacy', function (req, res) { 
+    res.render('privacy', {title: 'Website Terms and Conditions of Use', page: 'privacy', loggedIn: false});
+});
+
+
+
 // Demo
 app.get('/demo',  function (req, res) { 
     userRoute.demo(req, res, bookmarkModel); 

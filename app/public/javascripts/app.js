@@ -1,6 +1,13 @@
 /*
     @Namespace: App - application namespace.
 */
+
+if (!String.prototype.trim) {
+    String.prototype.trim = function() {   // 
+	    return this.replace(/^\s+|\s+$/g,'');
+    };
+} 
+
 (function (window, Backbone) {
     "use strict";
 

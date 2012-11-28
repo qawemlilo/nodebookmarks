@@ -10,9 +10,10 @@ div(id='navigation', class='container')
   nav
     ul(class='nav nav-pills pull-right')
       if(loggedIn)
+        li: a(href='/#bookmarks') Bookmarks
         li: a(href='/#user/account') Account
         li: a(href='/user/logout') Logout
       if(!loggedIn)
         li: a(href='/#home') Home
-        li: a(href='/demo', title='Tour') Demo
+        li: a(href='/demo', title='Demo') Demo
         li: a(href='/#user/login', title='Login') Login 
