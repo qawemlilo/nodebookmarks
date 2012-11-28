@@ -59,7 +59,7 @@
                     window.location.hash = '#user/login'; 
                     $('#bookmark-links').fadeIn();
                     
-                    $.shout(res.msg, 0, 'success');
+                    $.shout(res.msg, 15, 'success');
                 } else { 
                     $.shout('Account not created, your form contains errors', 10, 'error');
                 }
