@@ -138,6 +138,7 @@ Email: qawemlilo@gmail.com
             margin: '0px'
         });
         input.name = 'tags';
+        input.placeholder = 'e.g python, git, demos';
         
 
         
@@ -163,6 +164,7 @@ Email: qawemlilo@gmail.com
         notes.cols = '10';
         notes.rows = '2';
         notes.name = 'notes';
+        notes.placeholder = '....';
 
         
         
@@ -194,8 +196,8 @@ Email: qawemlilo@gmail.com
         
         
         
-        label.appendChild(document.createTextNode('Tags (e.g python, git, demos)'));
-        noteLabel.appendChild(document.createTextNode('Notes'));
+        label.appendChild(document.createTextNode('Tags: (seperate tags with commas)'));
+        noteLabel.appendChild(document.createTextNode('Notes:'));
         h3.appendChild(document.createTextNode(msg));
         button.appendChild(document.createTextNode('Save'));
         kancel.appendChild(document.createTextNode('Cancel'));

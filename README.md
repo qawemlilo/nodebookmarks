@@ -1,3 +1,3 @@
-# Node-Bookmarks
+# Bookmark Manager
 
-Node-Bookmarks is an elegant App for saving and managing your browser bookmarks.  
+Bookmark Manager is a Rich JavaScript Application that runs a Node.JS backend for managing browser bookmarks.  
