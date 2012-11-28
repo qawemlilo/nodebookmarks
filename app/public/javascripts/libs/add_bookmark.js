@@ -59,13 +59,13 @@ Email: qawemlilo@gmail.com
             boxShadow: '0 0 6px #ccc'
         });
 
-        form.action = 'http://localhost:3003';
+        form.action = 'http://www.bookmarkmanager.co.za/';
         form.method = 'get';
 
         form.onsubmit = function (event) {
             event.preventDefault ? event.preventDefault() : event.returnValue = false;
             
-            var tags = this.elements.tags.value, url = 'http://localhost:3003/bookmark/' + id + '/?callback=echoMessage',
+            var tags = this.elements.tags.value, url = 'http://www.bookmarkmanager.co.za/bookmark/' + id + '/?callback=echoMessage',
                 notes = this.elements.notes.value;
             
             if (tags || notes) {
@@ -219,7 +219,7 @@ Email: qawemlilo@gmail.com
         else {
             a = document.createElement('a');
             
-            a.href = 'http://localhost:3003';
+            a.href = 'http://www.bookmarkmanager.co.za/';
             a.target = '_blank';
             a.appendChild(document.createTextNode('Account not found, register or login'));
             
@@ -239,9 +239,9 @@ Email: qawemlilo@gmail.com
 	    }, 5000);
     };
     
-    window.echoMessage = echoMessage;
+    window.hdasa667asd = echoMessage;
 
-    saveBookmark('http://localhost:3003/bookmark?callback=echoMessage&url='+encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title));  
+    saveBookmark('http://www.bookmarkmanager.co.za/bookmark?callback=hdasa667asd&url='+encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title));  
       
 }(window));
 
