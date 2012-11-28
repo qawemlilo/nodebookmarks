@@ -13,12 +13,6 @@
         el: $('#form-container'),
         
         
-        registerTemplate: new Template({url: '/javascripts/views/forms/tmpl/register.ejs'}),
-        
-        
-        loginTemplate: new Template({url: '/javascripts/views/forms/tmpl/login.ejs'}),
-        
-        
         events: {
             'submit #register-form': 'registerUser'
         },
@@ -39,14 +33,6 @@
             @Returns: (Object) this
         */           
         render: function () {
-            var loginTemplate, registerTemplate;
-                
-            registerTemplate = this.registerTemplate.render({});
-            loginTemplate = this.loginTemplate.render({});
-                
-            this.$el.append(registerTemplate);
-            $(loginTemplate).hide().appendTo(this.$el);
-            
             return this;
         },
         

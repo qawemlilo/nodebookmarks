@@ -137,7 +137,7 @@
                 }
             });
 
-            
+            formObj.tags = formObj.tags.replace(' ', '');
             formObj.tags = formObj.tags.split(',') || [formObj.tags];
             formObj.publik = !(!!formObj.publik);
             
@@ -190,7 +190,7 @@
                 }
             });
 
-            
+            formObj.tags = formObj.tags.replace(' ', '');
             formObj.tags = formObj.tags.split(',') || ['uncategorised'];
             formObj.publik = !(!!formObj.publik);
 

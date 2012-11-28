@@ -75,7 +75,7 @@ exports.addRemote = function (req, res, model) {
     var callback = req.query.callback, bookmark = {};
     
     if (!req.session.uniqueid) {
-        res.send(callback + '({"error": true, "msg": "User not registered"});');
+        res.send(callback + '({"error": true, "msg": "Error, user not registered"});');
         
         return;
     }
@@ -86,9 +86,9 @@ exports.addRemote = function (req, res, model) {
         
     model.add(bookmark,  function (error,  bookmark) {
         if (error) {
-            res.send(callback + '({"error": true, "msg": "Server error"});');
+            res.send(callback + '({"error": true, "msg": "Error, bookmark not saved"});');
         } else {
-            res.send(callback + '({"error": false, "msg": "Bookmark saved", "model":' + JSON.stringify(bookmark) + '});');   
+            res.send(callback + '({"error": false, "msg": "Bookmark saved!", "model":' + JSON.stringify(bookmark) + '});');   
         }
     });
 };
@@ -101,21 +101,25 @@ exports.addRemote = function (req, res, model) {
 
 //Updating a bookmark info
 exports.updateRemote = function (req, res, model) {
-    var callback = req.query.callback, bookmark = {}, tags = req.query.tags;
+    var callback = req.query.callback, 
+        bookmark = {}, 
+        tags = req.query.tags, 
+        notes = req.query.notes;
     
-    if (!req.session.uniqueid || !tags) {
-        res.send(callback + '({"error": true, "msg": "Error occured, bookmark not updated"});');
+    if (!req.session.uniqueid || (!tags && !notes)) {
+        res.send(callback + '({"error": true, "msg": "Error, bookmark not updated"});');
         
         return;
     }
 
     bookmark.tags = tags.split(',');
+    bookmark.notes = notes;
         
     model.update(req.params.id, bookmark, function (error, updatedBookmark) {
         if (error) {
-            res.send(callback + '({"error": true, "msg": "Error occured, bookmark not updated"});');
+            res.send(callback + '({"error": true, "msg": "Error, bookmark not updated"});');
         } else {
-            res.send(callback + '({"error": false, "msg": "Tags saved", "model":' + JSON.stringify(bookmark) + '});');              
+            res.send(callback + '({"error": false, "msg": "Bookmark updated!", "model":' + JSON.stringify(updatedBookmark) + '});');              
         }
     });
 };
