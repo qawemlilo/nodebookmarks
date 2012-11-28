@@ -166,6 +166,8 @@ Backbone.Pagination = (function (Backbone, _, $) {
         filterTags: function (tag) {
             var tagCollection, self = this;
             
+            tag = decodeURIComponent(tag);
+            
             tagCollection = _.filter(self.origModels, function (bookmark) {
                 var tags = bookmark.get('tags');
                 

@@ -54,7 +54,7 @@
         initialize: function () {
             var $this = this;
             
-            _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelNew', 'newBookmark', 'saveNew', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getSanitizedModel');
+            _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelNew', 'newBookmark', 'saveNew', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getCleanModel');
 
             
             this.model.on('change', function () {
@@ -77,7 +77,7 @@
             @Void: loads template and renders bookmark
         */        
         render: function () {
-            var model = this.getSanitizedModel(), bookmarkTemplate;
+            var model = this.getCleanModel(), bookmarkTemplate;
             
             bookmarkTemplate = this.bookmarkTemplate.render(model);   
             this.$el.append(bookmarkTemplate);
@@ -404,7 +404,7 @@
             @Private
             @Object: returns a sanitized model object 
         */          
-        getSanitizedModel: function () {
+        getCleanModel: function () {
             var obj = {}, model = this.model, date = this.formatDate(model.get('date')), parser = document.createElement('a');
             
             obj.url = decodeURIComponent(model.get('url'));

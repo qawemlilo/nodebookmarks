@@ -199,7 +199,7 @@ Email: qawemlilo@gmail.com
         label.appendChild(document.createTextNode('Tags: (seperate tags with commas)'));
         noteLabel.appendChild(document.createTextNode('Notes:'));
         h3.appendChild(document.createTextNode(msg));
-        button.appendChild(document.createTextNode('Save'));
+        button.appendChild(document.createTextNode('Done'));
         kancel.appendChild(document.createTextNode('Cancel'));
 
         
