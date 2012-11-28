@@ -25,7 +25,9 @@
         loadLogin: function (error) {
             $('#register-form, #punch-line').fadeOut(function () {
                 $('#login-form').fadeIn();
-                
+                $('.nav-pills li.active').removeClass('active');
+                $('.nav-pills li.login').addClass('active');
+                    
                 if (error) {
                     $.shout('Invalid email / password combination',  10);
                 }
@@ -35,6 +37,8 @@
         loadRegister: function () {
             $('#login-form').fadeOut(function () {
                 $('#register-form,  #punch-line').fadeIn();
+                $('.nav-pills li.active').removeClass('active');
+                $('.nav-pills li.home').addClass('active');
             });
         }
     });

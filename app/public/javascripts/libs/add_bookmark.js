@@ -62,7 +62,7 @@ Email: qawemlilo@gmail.com
             width: '340px',
             backgroundColor: '#fff',
             border: '1px solid #ccc',
-            'float': 'none',
+            float: 'none',
             color: '#333333',
             padding: '20px',
             fontSize: '16px',
@@ -111,7 +111,7 @@ Email: qawemlilo@gmail.com
             textAlign: 'center',
             fontSize: '18px',
             color: '#51A351',
-            'float': 'none',
+            float: 'none',
             display: 'block',
             fontWeight: 'bold',
             margin: '0px 0px 10px 0px'
@@ -122,7 +122,7 @@ Email: qawemlilo@gmail.com
         setStyle(label, {
             display: 'block',
             textAlign: 'left',
-            'float': 'none',
+            float: 'none',
             color: '#333333',
             fontWeight: 'Normal',
             margin: '0px 0px 5px 0px'
@@ -132,7 +132,7 @@ Email: qawemlilo@gmail.com
             type: 'text',
             border: '1px solid #ccc',
             width: '300px',
-            'float': 'none',
+            float: 'none',
             display: 'block',
             padding: '5px',
             margin: '0px'
@@ -145,7 +145,7 @@ Email: qawemlilo@gmail.com
             display: 'block',
             textAlign: 'left',
             color: '#333333',
-            'float': 'none',
+            float: 'none',
             fontWeight: 'Normal',
             margin: '10px 0px 5px 0px'
         });
@@ -155,9 +155,10 @@ Email: qawemlilo@gmail.com
         setStyle(notes, {
             border: '1px solid #ccc',
             width: '300px',
-            'float': 'none',
+            float: 'none',
             display: 'block',
-            padding: '5px'
+            padding: '5px',
+            margin: '0px'
         });
         notes.cols = '10';
         notes.rows = '2';
@@ -167,14 +168,14 @@ Email: qawemlilo@gmail.com
         
         setStyle(button, {
             textAlign: 'center',
-            'float': 'none',
+            float: 'none',
             margin: '10px 10px 10px 0px'
         });
         button.type = 'submit';
 
         setStyle(kancel, {
             textAlign: 'center',
-            'float': 'none',
+            float: 'none',
             margin: '10px 0px 10px 0px'
         });
         
@@ -193,8 +194,8 @@ Email: qawemlilo@gmail.com
         
         
         
-        label.appendChild(document.createTextNode('Create Tags (e.g python, git, demos)'));
-        noteLabel.appendChild(document.createTextNode('Add Notes'));
+        label.appendChild(document.createTextNode('Tags (e.g python, git, demos)'));
+        noteLabel.appendChild(document.createTextNode('Notes'));
         h3.appendChild(document.createTextNode(msg));
         button.appendChild(document.createTextNode('Save'));
         kancel.appendChild(document.createTextNode('Cancel'));
