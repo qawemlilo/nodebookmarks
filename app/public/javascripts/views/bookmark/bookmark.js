@@ -262,6 +262,7 @@
             successHandler = function (model, response) {
                 this.unrender();
                 $.shout(response.msg, 10, 'success');
+                collections.Bookmarks.refresh();
             }.bind(this);
             
             errorHandler = function (model, response) {

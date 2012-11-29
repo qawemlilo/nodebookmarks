@@ -81,6 +81,21 @@ Backbone.Pagination = (function (Backbone, _, $) {
 	        }
 	    },
         
+        
+        /*
+            @Public
+            @Void: resets collection 
+        */        
+        refresh: function () {
+            if (!this.filteredModels) {
+                this.goTo(this.currentPage);
+            }
+            else {
+                location.hash = '#bookmarks/pages/' + this.currentPage;
+            }
+	    },
+        
+        
 
 
         /*

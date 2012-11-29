@@ -95,7 +95,9 @@
         gotoPage: function (num) {
             var self = this, flag = false;
             
-            if (num >= self.collection.info().totalPages) {
+            //We want to check if we are on the latest page and if its not of 
+            // filtered models
+            if (num >= self.collection.info().totalPages && !self.collection.filteredModels) {
                 $.shout('Loading more bookmarks.....', 0, 'info');
                 self.collection.fetch({
                     data: {skip: self.collection.info().totalRecords}, 
