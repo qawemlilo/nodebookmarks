@@ -67,17 +67,25 @@ div(id='form-container', class='container')
           
           div.controls
             input(type="password", name="password", value="", placeholder="Enter your password", id="login-password", class="span3")
+
             
+        div(style="margin-bottom: 0px", class="control-group")
+          label.control-label
+          
+          div.control-group
+            input(type="submit", name="submit", value="Login", id="login-submit", class="btn") 
+
+        div(style="margin-bottom: 0px", class="control-group")
+          label.control-label
+          
+          div.control-group
+            a(href="#user/register", id="register-link") Register   
+
+
         div.control-group
           label.control-label
           
           div.control-group
-            input(type="submit", name="submit", value="Login", id="login-submit", class="btn")
-            br
-            br
-            a(href="#user/register", style="margin-left: 80px", id="register-link") Register   
-            br
-            br
-            a(href="#user/reset-password", style="margin-left: 80px", id="email-password") Forgot your password?  
+            a(href="#user/reset-password", id="email-password") Forgot your password?              
 
             
