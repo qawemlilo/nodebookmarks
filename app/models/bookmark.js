@@ -83,7 +83,7 @@ exports.update = function (id, bookmarkObj, fn) {
     var Model =  db.model('Bookmark'), changed = false;
     
     Model.findById(id, function (err, bookmark) {
-        if (!(!!err)) {
+        if (!(!!err) && bookmark) {
             
             for (key in bookmarkObj) {
                 bookmark[key] = bookmarkObj[key];
@@ -109,7 +109,7 @@ exports.remove = function (id, fn) {
     var Model =  db.model('Bookmark');
     
     Model.findOne({_id: id}, function (err, bookmark) {
-        if (!(!!err)) {
+        if (!(!!err) && bookmark) {
             
             bookmark.remove(function (err) {
                 if (!!err) {

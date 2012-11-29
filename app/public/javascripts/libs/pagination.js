@@ -87,12 +87,7 @@ Backbone.Pagination = (function (Backbone, _, $) {
             @Void: resets collection 
         */        
         refresh: function () {
-            if (!this.filteredModels) {
-                this.goTo(this.currentPage);
-            }
-            else {
-                location.hash = '#bookmarks/pages/' + this.currentPage;
-            }
+            this.goTo(this.currentPage);
 	    },
         
         
@@ -162,13 +157,24 @@ Backbone.Pagination = (function (Backbone, _, $) {
         */	    
 	    removeFromOGModels: function ( cid ) {
 	        var self = this;
-
+            
+            
             $.each(self.origModels, function (i, model) {
                 if (model.cid === cid) {
                     self.origModels.splice(i, 1);
                     return false;
                 }
             });
+            
+            // if we have filtered models we need to update them as well
+            if (self.filteredModels) {
+                $.each(self.filteredModels, function (i, model) {
+                    if (model.cid === cid) {
+                        self.filteredModels.splice(i, 1);
+                        return false;
+                    }
+                 });            
+            }
 	    },
 	
 
