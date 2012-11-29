@@ -12,14 +12,17 @@ exports.get = function (req, res, model) {
             
         skip: req.query.skip || 0,
             
-        tag: '',
-            
         fields: [],
             
         query: {
             owner: id
         }
-    }); 
+    });
+    
+    if (req.query.tag) {
+        options.query.tags = req.query.tag;
+    }
+     
         
     model.get(options, function (error,  bookmarks) {
         if (error) {

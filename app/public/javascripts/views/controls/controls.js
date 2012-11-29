@@ -5,7 +5,7 @@
                   - UnderScore                  
                   - EJS                  
 */
-(function (Backbone, views, Template, $) {
+(function (Backbone, models, views, Template, $) {
     "use strict";
     
     views.Controls = Backbone.View.extend({
@@ -45,6 +45,52 @@
             
             return this;
         },
+        
+        
+        
+        
+        filterTags: function (tag) {
+            var self = this;
+            
+            //We want to check if we are on the latest page and if its not of 
+            // filtered models
+            if (tag) {
+                $.shout('Loading "' + tag + '" bookmarks.....', 0, 'info');
+                self.collection.fetch({
+                    data: {
+                        skip: self.collection.info().totalRecords,
+                        tag: tag
+                    }, 
+                    
+                    type: 'GET', 
+                    
+                    success: function(collection, result, opts) {
+                        if (result.length > 0) {
+                            $.shout('Done!', 2, 'info');
+                            _.each(result, function (model) {
+                                var bookmark = new models.Bookmark(model);
+                            
+                                self.collection.origModels.push(bookmark);
+                            });
+                            
+                            self.collection.filterTags(tag);
+                            self.render();
+                        }
+                        else {
+                            $.shout('Done!', 2, 'info');
+                            self.collection.filterTags(tag);
+                            self.render();                            
+                        }
+                    },
+                    
+                    error: function(collection, xhr, options) {
+                        $.shout('Request failed!', 5, 'warning');
+                    }
+                });
+            }             
+        },
+        
+        
         
 
 
@@ -87,4 +133,4 @@
             }
         }
     });
-}(Backbone, App.Views, EJS, jQuery));
+}(Backbone, App.Models, App.Views, EJS, jQuery));

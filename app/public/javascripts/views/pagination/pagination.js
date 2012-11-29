@@ -93,14 +93,24 @@
             @Param: (Number) page - the number of the page to go to
         */            
         gotoPage: function (num) {
-            var self = this, flag = false;
+            var self = this, data;
             
             //We want to check if we are on the latest page and if its not of 
             // filtered models
-            if (num >= self.collection.info().totalPages && !self.collection.filteredModels) {
+            if (num >= self.collection.info().totalPages) {
                 $.shout('Loading more bookmarks.....', 0, 'info');
+                
+                data = {
+                    skip: self.collection.info().totalRecords
+                }
+                
+                // if there are some filtered tags
+                if (self.collection.filteredModels) {
+                    data.tag = self.collection.filteredTag; 
+                }
+                
                 self.collection.fetch({
-                    data: {skip: self.collection.info().totalRecords}, 
+                    data: data, 
                     
                     type: 'GET', 
                     
@@ -112,12 +122,15 @@
                             
                                 self.collection.origModels.push(bookmark);
                             });
+
+                            if (self.collection.filteredModels) {
+                                self.collection.filterTags(self.collection.filteredTag);
+                            }
                             
                             self.collection.goTo(num);
                         }
                         else {
                             $.shout('All bookmarks have been loaded!', 10, 'info');
-                            
                         }
                     },
                     

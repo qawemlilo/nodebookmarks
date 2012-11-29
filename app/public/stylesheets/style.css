@@ -390,3 +390,14 @@ footer nav ul li {
  display: inline;
  margin-right: 20px;
 }
+
+
+
+/*
+    Navigation styles
+*/
+
+ul.dropdown-menu {
+  max-height: 400px;
+  overflow-y: auto;
+}

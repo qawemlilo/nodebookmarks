@@ -144,8 +144,7 @@
             @param:     (String) tag - tag to be filtered
         */         
         filterTags: function (tag) {
-            this.bookmarks.collection.filterTags(tag);
-            this.controls.render();
+            this.controls.filterTags(tag);
             this.activeView = 'filteredTags';              
         },
         

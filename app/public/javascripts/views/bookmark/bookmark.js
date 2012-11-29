@@ -149,6 +149,8 @@
             successHandler = function (model, response) {
                 this.activeEditor = false; // unlock editor
                 $.shout(response.msg, 10, 'success');
+                
+                views.Controls.render(); // refresh tags
             }.bind(this);
             
             errorHandler = function (model, response) {
