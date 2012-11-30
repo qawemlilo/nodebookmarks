@@ -15,6 +15,10 @@ div(id='navigation', class='container')
         li.logout: a(href='/user/logout') Logout
       if(!loggedIn)
         li.home: a(href='/#home') Home
+        if(page == 'how-it-works')
+          li.active: a(href='https://docs.google.com/presentation/embed?id=1526mAlTwokhylgD7gikbLBXvfhZyB7DMpZduPYUySzY&start=false&loop=false&delayms=3000', title='How it works', id="how-it-works") How it works
+        else
+          li: a(href='https://docs.google.com/presentation/embed?id=1526mAlTwokhylgD7gikbLBXvfhZyB7DMpZduPYUySzY&start=false&loop=false&delayms=3000', title='How it works', id="how-it-works") How it works
         if(page == 'demo')
           li.active: a(href='/demo', title='Demo') Demo
         else

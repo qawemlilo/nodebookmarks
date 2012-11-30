@@ -53,6 +53,34 @@ exports.get = function (opts, fn) {
 };
 
 
+
+
+
+exports.search = function (opts, fn) {
+    var DB =  db.model('Bookmark');
+    
+    DB.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}).or(opts.find).execFind(function (err, bookmarks) {
+    
+        var cleanbookmarks = bookmarks.map(function (bookmark) {
+            var temparray = {};
+ 
+            temparray.id = bookmark._id.toHexString() + '';
+            temparray.tags = bookmark.tags; 
+            temparray.date = bookmark.date.getTime();
+            temparray.publik = bookmark.publik;
+            temparray.starred = bookmark.starred;
+            temparray.notes = bookmark.notes; 
+            temparray.title = bookmark.title; 
+            temparray.url = bookmark.url;
+
+            return temparray;
+        });
+        
+        fn(err, cleanbookmarks);
+    });
+};
+
+
 exports.add = function (bookmarkObj, fn) {
     var bookmark = new Bookmark(bookmarkObj);
 

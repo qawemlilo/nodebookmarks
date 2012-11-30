@@ -12,8 +12,6 @@
             
             'user/account': 'loadAccount',
             
-            'tags/:tag': 'filterTags',
-            
             'bookmarks/tags/:tag': 'filterTags',
             
             'bookmarks/page/:num': 'goTo',

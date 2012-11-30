@@ -18,7 +18,8 @@ Email: qawemlilo@gmail.com
     
     var saveBookmark, 
         echoMessage, 
-        createForm, 
+        echoUpdateForm,
+        echoLoginForm,
         setStyle,
         callback = 'hdasa667asd';
 
@@ -44,7 +45,185 @@ Email: qawemlilo@gmail.com
     
     
     
-    createForm = function (msg, id) {
+    
+    echoLoginForm = function (msg, id) {
+        var form = document.createElement('form'),
+            h3 = document.createElement('h3'),        
+            label = document.createElement('label'),
+            noteLabel = document.createElement('label'),
+            input = document.createElement('input'),
+            notes = document.createElement('textarea'),
+            button = document.createElement('button'),
+            kancel = document.createElement('button');
+        
+        setStyle(form, {
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            margin: '-150px 0px 0px -200px',
+            width: '340px',
+            backgroundColor: '#fff',
+            border: '1px solid #ccc',
+            float: 'none',
+            color: '#333333',
+            padding: '20px',
+            fontSize: '16px',
+            fontFamily: '"Myriad Pro",Arial,Helvetica,sans-serif',
+            textAlign: 'left',
+            zIndex: 100000,
+            textShadow: '1px 1px 0 white',
+            borderRadius: "12px",
+            boxShadow: '0 0 6px #ccc'
+        });
+
+        form.action = 'http://www.bookmarkmanager.co.za/';
+        form.method = 'get';
+
+        form.onsubmit = function (event) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            else {
+                event.returnValue = false;
+            }
+            
+            var tags = this.elements.tags.value, url = 'http://www.bookmarkmanager.co.za/bookmark/' + id + '/?callback=' + callback,
+                notes = this.elements.notes.value;
+            
+            if (tags || notes) {
+                if (tags) {
+                    tags = tags.trim();
+                    url += '&tags=' + encodeURIComponent(tags);
+                }
+                if (notes) {
+                    url += '&notes=' + encodeURIComponent(notes);
+                }
+               
+                saveBookmark(url);    
+            }
+            
+            document.body.removeChild(this);
+            
+            return false;
+        };
+        
+        
+        
+        setStyle(h3, {
+            textAlign: 'center',
+            fontSize: '18px',
+            color: '#51A351',
+            float: 'none',
+            display: 'block',
+            fontWeight: 'bold',
+            margin: '0px 0px 10px 0px'
+        });
+        
+        
+        
+        setStyle(label, {
+            display: 'block',
+            textAlign: 'left',
+            float: 'none',
+            color: '#333333',
+            fontWeight: 'Normal',
+            margin: '0px 0px 5px 0px'
+        });
+        
+        setStyle(input, {
+            type: 'text',
+            border: '1px solid #ccc',
+            width: '300px',
+            float: 'none',
+            display: 'block',
+            padding: '5px',
+            margin: '0px'
+        });
+        input.name = 'tags';
+        input.placeholder = 'e.g python, git, demos';
+        
+
+        
+        setStyle(noteLabel, {
+            display: 'block',
+            textAlign: 'left',
+            color: '#333333',
+            float: 'none',
+            fontWeight: 'Normal',
+            margin: '10px 0px 5px 0px'
+        });
+        
+        
+        
+        setStyle(notes, {
+            border: '1px solid #ccc',
+            width: '300px',
+            float: 'none',
+            display: 'block',
+            padding: '5px',
+            margin: '0px'
+        });
+        notes.cols = '10';
+        notes.rows = '2';
+        notes.name = 'notes';
+        notes.placeholder = '....';
+
+        
+        
+        setStyle(button, {
+            textAlign: 'center',
+            float: 'none',
+            margin: '10px 10px 10px 0px'
+        });
+        button.type = 'submit';
+
+        setStyle(kancel, {
+            textAlign: 'center',
+            float: 'none',
+            margin: '10px 0px 10px 0px'
+        });
+        
+        kancel.onclick = function (event) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            else {
+                event.returnValue = false;
+            }
+            
+            document.body.removeChild(form);
+            
+            return false;
+        };
+        
+        
+        
+        label.appendChild(document.createTextNode('Tags: (seperate tags with commas)'));
+        noteLabel.appendChild(document.createTextNode('Notes:'));
+        h3.appendChild(document.createTextNode(msg));
+        button.appendChild(document.createTextNode('Done'));
+        kancel.appendChild(document.createTextNode('Cancel'));
+
+        
+        
+        form.appendChild(h3);
+        form.appendChild(label);
+        form.appendChild(input);
+        form.appendChild(noteLabel);
+        form.appendChild(notes);
+        form.appendChild(button);
+        form.appendChild(kancel);
+        
+        
+        
+        document.body.appendChild(form);
+    };
+    
+    
+    
+    
+    
+    echoUpdateForm = function (msg, id) {
         var form = document.createElement('form'),
             h3 = document.createElement('h3'),        
             label = document.createElement('label'),
@@ -244,7 +423,7 @@ Email: qawemlilo@gmail.com
         });
         
         if (!obj.error && obj.msg === 'Bookmark saved!') {
-            createForm(obj.msg, obj.model.id);
+            echoUpdateForm(obj.msg, obj.model.id);
             return;
         }
         

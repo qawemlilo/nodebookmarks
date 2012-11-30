@@ -170,9 +170,16 @@ app.get('/home', function (req, res) {
 
 
 
-// Home alias
+// Website Terms and Conditions of Use
 app.get('/privacy', function (req, res) { 
     res.render('privacy', {title: 'Website Terms and Conditions of Use', page: 'privacy', loggedIn: false});
+});
+
+
+
+// developers
+app.get('/developers', function (req, res) { 
+    res.render('developers', {title: 'Developers', page: 'developers', loggedIn: false});
 });
 
 

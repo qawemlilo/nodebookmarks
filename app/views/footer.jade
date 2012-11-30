@@ -6,6 +6,8 @@ nav
         i.icon-fire    
         |  Raging Flame  
         |  &copy 2012
+    li.first: a(href='/privacy', title='Contact') Terms & Privacy
+    li.first: a(href='/developers', title='Developers') Developers
     li.first: a(href='mailto:qawemlilo@gmail.com', title='Contact', target='_blank') Contact
     
     
@@ -25,9 +27,20 @@ script(src='/javascripts/models/user.js')
 if(page === 'index')
   script(src='/javascripts/routes/index.js')
   script(src='/javascripts/views/forms/register.js')
+  script(src='/javascripts/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
   script(type='text/javascript')
     $(function () {
-      App.init('index'); 
+      App.init('index');
+
+      $('#how-it-works').fancybox({
+        'width': '75%',
+        'height': '96%',
+        'autoScale': false,
+        'transitionIn': 'none',
+        'transitionOut': 'none',
+        'type': 'iframe',
+        'onStart': function () {}
+      });      
     });
   
 if(page === 'home' || page === 'demo')
