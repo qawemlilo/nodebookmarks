@@ -11,36 +11,43 @@ nav
     li.first: a(href='mailto:qawemlilo@gmail.com', title='Contact', target='_blank') Contact
     
     
-script(src='/javascripts/libs/json.js') 
+
 script(src='/javascripts/libs/jquery.js')
-script(src='/javascripts/libs/underscore.js')
-script(src='/javascripts/libs/backbone.js')
-script(src='/javascripts/libs/pagination.js')
-script(src='/javascripts/libs/ejs_production.js')
-script(src='/javascripts/libs/bootstrap-transition.js')
-script(src='/javascripts/libs/bootstrap-collapse.js')
-script(src='/javascripts/libs/bootstrap-dropdown.js')
-script(src='/javascripts/libs/script.js')
-script(src='/javascripts/app.js')
-script(src='/javascripts/models/user.js')
+script(src='/javascripts/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
+
+script(type='text/javascript')
+  $(function () {
+    $('#how-it-works').fancybox({
+      'width': '75%',
+      'height': '96%',
+      'autoScale': false,
+      'transitionIn': 'none',
+      'transitionOut': 'none',
+      'type': 'iframe',
+      'onStart': function () {}
+    });      
+  });
+  
+if(page !== 'privacy' && page !== 'developers')
+  script(src='/javascripts/libs/json.js') 
+  script(src='/javascripts/libs/underscore.js')
+  script(src='/javascripts/libs/backbone.js')
+  script(src='/javascripts/libs/pagination.js')
+  script(src='/javascripts/libs/ejs_production.js')
+  script(src='/javascripts/libs/bootstrap-transition.js')
+  script(src='/javascripts/libs/bootstrap-collapse.js')
+  script(src='/javascripts/libs/bootstrap-dropdown.js')
+  script(src='/javascripts/libs/script.js')
+  script(src='/javascripts/app.js')
+  script(src='/javascripts/models/user.js')
 
 if(page === 'index')
   script(src='/javascripts/routes/index.js')
   script(src='/javascripts/views/forms/register.js')
-  script(src='/javascripts/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
+  
   script(type='text/javascript')
     $(function () {
-      App.init('index');
-
-      $('#how-it-works').fancybox({
-        'width': '75%',
-        'height': '96%',
-        'autoScale': false,
-        'transitionIn': 'none',
-        'transitionOut': 'none',
-        'type': 'iframe',
-        'onStart': function () {}
-      });      
+      App.init('index');     
     });
   
 if(page === 'home' || page === 'demo')
