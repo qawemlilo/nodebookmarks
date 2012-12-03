@@ -38,13 +38,13 @@
         activeNew: false,
         
         
-        editTemplate: new Template({url: 'http://apps.rflab.co.za/bookmarkmanager/javascripts/views/bookmark/tmpl/edit.ejs'}),
+        editTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
         
         
-        bookmarkTemplate: new Template({url: 'http://apps.rflab.co.za/bookmarkmanager/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
+        bookmarkTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
         
         
-        newBookmarkTemplate: new Template({url: 'http://apps.rflab.co.za/bookmarkmanager/javascripts/views/bookmark/tmpl/new.ejs'}),
+        newBookmarkTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/new.ejs'}),
         
 
 

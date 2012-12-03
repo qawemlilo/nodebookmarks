@@ -13,10 +13,10 @@
         el: $('#controls'),
         
         
-        controlsTemplate: new Template({url: 'http://apps.rflab.co.za/bookmarkmanager/javascripts/views/controls/tmpl/controls.ejs'}),
+        controlsTemplate: new Template({url: '/javascripts/views/controls/tmpl/controls.ejs'}),
         
         
-        newBookmarkTemplate: new Template({url: 'http://apps.rflab.co.za/bookmarkmanager/javascripts/views/controls/tmpl/new.ejs'}),
+        newBookmarkTemplate: new Template({url: '/javascripts/views/controls/tmpl/new.ejs'}),
         
         
         events: {
