@@ -12,6 +12,8 @@ var express = require('express'),
     userModel = require('./models/user'),
     bookmarkModel = require('./models/bookmark'),
     
+    expressValidator = require('express-validator'),
+    
     dbSession = '',
     app, 
     
@@ -26,6 +28,8 @@ app.configure(function() {
     app.set('view engine', 'jade');
     
     app.set( "jsonp callback", true );
+    
+    app.use(expressValidator);
     
     app.use(express.bodyParser());
     

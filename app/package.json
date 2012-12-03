@@ -6,6 +6,7 @@
         "express": "2.5.2", 
         "jade": ">= 0.0.1",
         "mongoose": "2.7.x",
-        "connect-mongo": "0.1.x"
+        "connect-mongo": "0.1.x",
+        "express-validator": "0.3.x"
     }
 }

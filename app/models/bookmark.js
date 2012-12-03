@@ -2,14 +2,8 @@ var mongoose = require('mongoose'),
     db = mongoose.createConnection('mongodb://localhost/nodebookmarks'), 
     Schema = mongoose.Schema,    
     BookmarkSchema, 
-    validString,
     BookmarkSchema,
     Bookmark;
-
-
-validString = function (v) {
-    return typeof v === 'string' && v.length > 2;
-};
 
 
 BookmarkSchema = new Schema({
