@@ -9,6 +9,8 @@
         routes: {
             'user/login': 'loadLogin',
             
+            'bookmarks': 'loadLogin',
+            
             'user/login/:error': 'loadLogin',
             
             'user/register': 'loadRegister',

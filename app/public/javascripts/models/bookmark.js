@@ -9,9 +9,9 @@
         defaults: {
             publik: false,
             date: (new Date()).getTime(),
-            url: '#',
-            title: 'title',
-            notes: 'notes',
+            url: '',
+            title: '',
+            notes: '',
             starred: false,
             tags: ['uncategorised']
         },
