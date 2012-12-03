@@ -13,7 +13,7 @@
         el: $('#profile'),
         
         
-        settingsTemplate: new Template({url: '/javascripts/views/forms/tmpl/profile.ejs'}),
+        settingsTemplate: new Template({url: 'http://apps.rflab.co.za/bookmarkmanager/javascripts/views/forms/tmpl/profile.ejs'}),
         
         
         events: {
