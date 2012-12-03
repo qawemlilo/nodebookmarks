@@ -13,11 +13,8 @@ var express = require('express'),
     bookmarkModel = require('./models/bookmark'),
     
     expressValidator = require('express-validator'),
-    
-    dbSession = '',
-    app, 
-    
-    loggedIn;
+
+    dbSession = '', app, inSession,loggedIn;
 
 app = module.exports = express.createServer();
 
@@ -119,7 +116,19 @@ app.configure('production', function () {
 
 loggedIn = function (req, res, next) {
     if (!req.session.user) {
-        res.send(500);
+        res.send("Restricted access", 500);
+    }
+    else {
+        next();
+    }
+};
+
+
+
+
+inSession = function (req, res, next) {
+    if (req.session.user) {
+        res.redirect('/');
     }
     else {
         next();
@@ -146,7 +155,7 @@ loggedIn = function (req, res, next) {
 *****************/
 
 // Login
-app.post('/user/login', function (req, res) { 
+app.post('/user/login', inSession, function (req, res) { 
     userRoute.login(req, res, userModel); 
 });
 
@@ -214,7 +223,7 @@ app.get('/demo',  function (req, res) {
 ***************/
 
 // Register user - CREATE
-app.post('/user', function (req, res) { 
+app.post('/user', inSession, function (req, res) { 
     userRoute.register(req, res, userModel); 
 });
 

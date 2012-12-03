@@ -71,9 +71,27 @@ exports.demo = function (req, res, model) {
 
 // Update user information
 exports.update = function (req, res, model) {
+    var errors;
+    
+    req.assert('email', 'Please enter a valid Url').isEmail();
+    req.assert('name', 'Please enter a valid Url').len(3, 60);
+    
+    if (req.query.name && req.query.name.length > 2) {
+        req.sanitize('name').xss();
+        req.sanitize('name').trim();
+        req.sanitize('name').entityEncode();
+    }
+    
+    errors = req.validationErrors();
+    
+    if (errors) {
+        res.send("Please enter a valid Email", 500);
+        return;
+    }
+    
     model.update(req.params.id, {name: req.body.name, email: req.body.email, password: req.body.password}, function (error, currentuser) {
         if (error) {
-            res.send(500);
+            res.send("Server error", 500);
         } else {
             currentuser._id = currentuser._id.toHexString();
             req.session.user = currentuser;
@@ -118,18 +136,31 @@ exports.remove = function (req, res, model) {
 */
 
 exports.register = function (req, res, model) {
-    if (req.session.user) {
-        res.send(500);  
-    } 
-    else {
-        model.register({name: req.body.name, email: req.body.email, password: req.body.password}, function (error, user) {
-            if (error) {
-                res.send(500);
-            } else {
-                res.send({error: false, msg: 'Thank you ' + user.name + ' for registering. You may login after saving your buttons.', id: user._id.toHexString()});  
-            }
-        });        
+    var errors;
+    
+    req.assert('email', 'Please enter a valid Url').isEmail();
+    req.assert('name', 'Please enter a valid Url').len(3, 60);
+    
+    if (req.query.name && req.query.name.length > 2) {
+        req.sanitize('name').xss();
+        req.sanitize('name').trim();
+        req.sanitize('name').entityEncode();
     }
+    
+    errors = req.validationErrors();
+    
+    if (errors) {
+        res.send("Please enter a valid Email", 500);
+        return;
+    }
+    
+    model.register({name: req.body.name, email: req.body.email, password: req.body.password}, function (error, user) {
+        if (error) {
+            res.send(500);
+        } else {
+            res.send({error: false, msg: 'Thank you ' + user.name + ' for registering. You may login after saving your buttons.', id: user._id.toHexString()});  
+        }
+    });        
 };
 
 
@@ -146,20 +177,27 @@ exports.register = function (req, res, model) {
 */
 
 exports.login = function (req, res, model) {
-    if (req.session.user) {
-       res.send(500); 
-    } 
-    else {
-        model.login({email: req.body.email, password: req.body.password}, function (error,  user) {
-            if (error) {
-                res.redirect('/#user/login/error'); 
-            } else {
-                user._id = user._id.toHexString();
-                req.session.user = user;
-                req.session.uniqueid = user._id;
-                res.redirect('/');  
-            }
-        });
-        
+    var errors;
+    
+    req.assert('email', 'Please enter a valid Url').isEmail();
+    
+    errors = req.validationErrors();
+    
+    if (errors) {
+        res.send("Please enter a valid Email", 500);
+        return;
     }
+    
+    model.login({email: req.body.email, password: req.body.password}, function (error,  user) {
+        if (error) {
+            res.redirect('/#user/login/error'); 
+        } else {
+            user._id = user._id.toHexString();
+            req.session.user = user;
+            req.session.uniqueid = user._id;
+            res.redirect('/');  
+        }
+    });
+       
 };
+
