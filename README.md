@@ -88,7 +88,19 @@ A while ago I created a bookmarking app which was basically a hack that saved al
 
 # The Back End
 
-The application back-end uses 2 models, Users Model and Bookmarks Model.
+### Modules
+
+ - Express
+ 
+ - Mongoose
+ 
+ - connect-mongo
+ 
+ - Nodemailer
+ 
+ - Express-validator
+
+The application back-end uses 2 main models, Users Model and Bookmarks Model.
 
  - The Users Model API handles CRUD operations on users collection for both logged in users and guest users
  
