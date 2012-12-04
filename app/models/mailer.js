@@ -18,7 +18,7 @@ mailer = function (to, subject, message, fn) {
     
     // mailing options    
     mailOpts = {
-        from: config.from,
+        from: config.email,
         replyTo: config.email,
         to: to,
         subject: subject,
