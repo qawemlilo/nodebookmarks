@@ -1,13 +1,84 @@
 # Bookmark Manager
 
-Bookmark Manager is a Rich JavaScript Application for managing browser bookmarks. The front-end uses backbone(and twitter bootstrap) and the back-end runs on Node.JS. 
+Bookmark Manager is a Rich JavaScript Application for managing browser bookmarks. The front-end uses backbone(and twitter bootstrap) and the back-end runs on Node. 
 
 ## A bit of history
 
-A while ago I created a bookmarking app which was basically a hack that saved all bookmarks on a Google Docs spreadsheet. The app stopped working when the number of my bookmarks got too large. This made me decide to create a more polished app that other people could also use. The fundamental goal is to make Bookmark Manager useful and dead simple to use.
+A while ago I created a bookmarking app which was basically a hack that saved all bookmarks on a Google Docs spreadsheet <https://github.com/qawemlilo/Bookmarks>. The app stopped working when the number of my bookmarks got too large. This made me decide to create a more polished app that other people could also use. The fundamental goal is to make Bookmark Manager useful and dead simple to use.
 
 
-# Back End
+# The Back End
+
+```
+/bookmarkmanager/app
+    app.js
+    
+    config.js
+    
+    package.json
+    
+    /models
+        bookmarks
+        users
+        
+    /node_modules
+        ....
+    
+    /public
+        /javascripts
+            app.js
+            
+            controller.js
+            
+            /views
+                /bookmark
+                    bookmark.js
+                    /tmpl
+                        bookmark.ejs
+                
+                /bookmarks
+                    bookmarks.js
+                    
+                /controls
+                    controls.js 
+                    /tmpl
+                        controls.ejs
+                        
+                /forms
+                    profile.js
+                    register.js
+                    /tmpl
+                        profile.ejs
+                        
+                        
+                /pagination
+                    pagination.js 
+                    /tmpl
+                        pagination.ejs
+                    
+                    
+            /models
+                bookmark.js
+                user.js
+                
+            
+            /collections
+                bookmarks.js
+            
+            /routes
+                home.js
+                router.js
+                
+            /libs
+                .....
+    
+    /routes
+        bookmarks.js        
+        users.js
+        
+    /views
+        ....
+```
 
 The application back-end uses 2 models, Users Model and Bookmarks Model.
 
@@ -22,17 +93,17 @@ The application back-end uses 2 models, Users Model and Bookmarks Model.
 
 Logged users interact with the Users Model in several ways: 
 
-1. When they view their account information (READ)
+1. When they view their account information
 ```
 GET /user
 ```
   
-2. When they edit their account information (UPDATE)
+2. When they edit their account information
 ```
 PUT /user/:id
 ```
   
-3. When they delete their account (DELETE)
+3. When they delete their account
 ```
 POST /user/delete
 ```
@@ -43,16 +114,16 @@ GET /user/logout
 ```
 
 
-### Guest users (Back-end)
+### Guest users
 
 Guest users can interact with the Users Model in following ways: 
 
-1. When they create an account (CREATE)
+1. When they create an account
 ```
 POST /user
 ```
   
-2. When login (READ)
+2. When login
 ```
 POST /user/login
 ```
@@ -64,22 +135,22 @@ POST /user/login
 
 Logged users perform all available CRUD operations on the bookmarks collection: 
 
-1. When they create a new bookmark (CREATE)
+1. When they create a new bookmark
 ```
 POST /bookmarks
 ```
   
-2. When they edit a bookmark (UPDATE)
+2. When they edit a bookmark
 ```
 PUT /bookmarks/:id
 ```
   
-3. When they delete a bookmark (DELETE)
+3. When they delete a bookmark
 ```
 DELETE /bookmarks/:id
 ```
   
-4. When they fetch bookmarks (READ)
+4. When they fetch bookmark
 ```
 GET /bookmarks
 ```
@@ -89,7 +160,7 @@ GET /bookmarks
 
 Guest users can only view the demo page which reads the data from an account that I created: 
 
-1. When they fetch bookmarks (READ)
+1. When they fetch bookmarks
 
 ```
 GET /bookmarks

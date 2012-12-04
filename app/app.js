@@ -6,11 +6,11 @@ var express = require('express'),
     
     config = require('./config'),
     
-    userRoute = require('./routes/user'),
-    bookmarkRoute = require('./routes/bookmark'),
+    userRoute = require('./routes/users'),
+    bookmarkRoute = require('./routes/bookmarks'),
     
-    userModel = require('./models/user'),
-    bookmarkModel = require('./models/bookmark'),
+    userModel = require('./models/users'),
+    bookmarkModel = require('./models/bookmarks'),
     
     expressValidator = require('express-validator'),
 
