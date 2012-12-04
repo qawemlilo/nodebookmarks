@@ -23,12 +23,25 @@ The application back-end uses 2 models, Users Model and Bookmarks Model.
 Logged users interact with the Users Model in several ways: 
 
 1. When they view their account information (READ)
+```
+GET /user
+```
   
 2. When they edit their account information (UPDATE)
+```
+PUT /user/:id
+```
   
 3. When they delete their account (DELETE)
+```
+// read id from session
+POST /user/delete
+```
   
 4. When they logout(Not a CRUD operation but we place it here for organisational purposes)
+```
+GET /user/logout
+```
 
 
 ### Guest users (Back-end)
@@ -36,8 +49,14 @@ Logged users interact with the Users Model in several ways:
 Guest users can interact with the Users Model in following ways: 
 
 1. When they create an account (CREATE)
+```
+POST /user
+```
   
 2. When login (READ)
+```
+POST /user/login
+```
 
 
 ## Bookmarks Model
@@ -47,12 +66,24 @@ Guest users can interact with the Users Model in following ways:
 Logged users perform all available CRUD operations on the bookmarks collection: 
 
 1. When they create a new bookmark (CREATE)
+```
+POST /bookmarks
+```
   
 2. When they edit a bookmark (UPDATE)
+```
+PUT /bookmarks/:id
+```
   
 3. When they delete a bookmark (DELETE)
+```
+DELETE /bookmarks/:id
+```
   
 4. When they fetch bookmarks (READ)
+```
+GET /bookmarks
+```
 
 
 ### Guest users
@@ -60,6 +91,12 @@ Logged users perform all available CRUD operations on the bookmarks collection:
 Guest users can only view the demo page which reads the data from an account that I created: 
 
 1. When they fetch bookmarks (READ)
+```
+GET /bookmarks
+```
+
+
+
    
 
 
