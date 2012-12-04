@@ -13,7 +13,7 @@
         el: $('#pagination'),
         
         
-        paginationTemplate: new Template({url: 'http://apps.rflab.co.za/bookmarkmanager/javascripts/views/pagination/tmpl/pagination.ejs'}),
+        paginationTemplate: new Template({url: '/javascripts/views/pagination/tmpl/pagination.ejs'}),
         
         
         data: {},
