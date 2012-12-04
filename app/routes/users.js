@@ -158,13 +158,14 @@ exports.register = function (req, res, model) {
     }
     
     model.register({name: req.body.name, email: req.body.email, password: req.body.password}, function (error, user) {
-        var msg = '<strong>Hi ' + user.name + ' </strong><br><br>';
+        var msg = 'Hi ' + user.name + '<br><br>';
         
         msg += 'Your account was successfully created, thank you for registering. In order to activate your account please login using the credentials below: <br><br>';
         msg += '<strong>Email:</strong> ' + user.email + '<br>';
-        msg += '<strong>Password:</strong> ' + req.body.password + '<br><br><br>';
-        msg += 'Bookmark Manager' + user.email + '<br>';
-        msg += 'An easy way to save and manage your browser bookmarks <br>';
+        msg += '<strong>Password:</strong> ' + req.body.password + '<br><br>';
+        msg += '<i>Please reply to this email for any questions or feeback.</i><br><br><br>';
+        msg += '<strong>Bookmark Manager</strong><br>';
+        msg += '<i>An easy way to save and manage your browser bookmarks<i> <br>';
         msg += '<a href="http://www.bookmarkmanager.co.za">http://www.bookmarkmanager.co.za</a><br>';
         
         if (error) {
