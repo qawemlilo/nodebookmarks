@@ -101,13 +101,11 @@ A while ago I created a bookmarking app which was basically a hack that saved al
  - Express-validator
 
 The application back-end uses 2 main models, Users Model and Bookmarks Model.
-
- - The Users Model API handles CRUD operations on users collection for both logged in users and guest users
- 
- - The Bookmarks Model API handles CRUD operations on bookmarks collection for logged in users (demo bookmarks being the only ones accessible to the public)
  
 
 ## Users Model
+
+The Users Model API handles CRUD operations on users collection for both logged in users and guest users
 
 ### Logged in users
 
@@ -150,6 +148,8 @@ POST /user/login
 
 
 ## Bookmarks Model
+
+The Bookmarks Model API handles CRUD operations on bookmarks collection for logged in users (demo bookmarks being the only ones accessible to the public)
 
 ### Logged in users
 
