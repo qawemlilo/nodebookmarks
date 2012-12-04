@@ -94,10 +94,10 @@
         */            
         gotoPage: function (num) {
             var self = this, data;
-            
+
             //We want to check if we are on the latest page and if its not of 
             // filtered models
-            if (num >= self.collection.info().totalPages) {
+            if (num >= self.collection.info().totalPages && !self.collection.allFetched) {
                 $.shout('Loading more bookmarks.....', 0, 'info');
                 
                 data = {
@@ -130,7 +130,9 @@
                             self.collection.goTo(num);
                         }
                         else {
+                            self.collection.allFetched = true;
                             $.shout('All bookmarks have been loaded!', 10, 'info');
+                            self.collection.goTo(num);
                         }
                     },
                     

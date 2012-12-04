@@ -16,6 +16,7 @@ Backbone.Pagination = (function (Backbone, _, $) {
             this.filteredTag = '';
             this.currentPage = 1;
             this.currentGroup = 1;
+            this.allFetched = false;
         },
         
         
@@ -113,7 +114,7 @@ Backbone.Pagination = (function (Backbone, _, $) {
         */	
         pager: function () {
             var self = this,
-                disp = this.perPage,
+                disp = self.perPage,
                 start = (self.currentPage - 1) * disp,
                 stop = start + disp;
             
@@ -212,9 +213,9 @@ Backbone.Pagination = (function (Backbone, _, $) {
 	    info: function () {
 	        var self = this,
 	        info = {},
-	        totalRecords = this.filteredModels ? this.filteredModels.length : (self.origModels !== undefined) ? self.origModels.length : self.length,
+	        totalRecords = self.filteredModels ? self.filteredModels.length : (self.origModels !== undefined) ? self.origModels.length : self.length,
 	        totalPages = Math.ceil(totalRecords / self.perPage),
-	        totalGroups = Math.ceil(totalPages / this.groupLimit),
+	        totalGroups = Math.ceil(totalPages / self.groupLimit),
 	        currentGroup = self.currentGroup || 1,
             groupLimit = self.groupLimit;
 	        
@@ -227,17 +228,18 @@ Backbone.Pagination = (function (Backbone, _, $) {
                 showPreNext: self.showPreNext,
 	            totalRecords: totalRecords,
 	            currentPage: self.currentPage,
-	            perPage: this.perPage,
+	            perPage: self.perPage,
 	            totalPages: totalPages,
 	            lastPage: totalPages,
 	            previous: false,
 	            next: false,
-	            currentGroup: this.currentGroup || 1,
+	            currentGroup: self.currentGroup || 1,
 	            totalGroups: totalGroups,
-	            counterLimit: (this.currentGroup * groupLimit) > totalPages ? totalPages : (this.currentGroup * groupLimit),
-                counter: (this.currentGroup * groupLimit) - (groupLimit - 1),
+	            counterLimit: (self.currentGroup * groupLimit) > totalPages ? totalPages : (self.currentGroup * groupLimit),
+                counter: (self.currentGroup * groupLimit) - (groupLimit - 1),
                 groupLimit: groupLimit,
-                filteredTag: this.filteredTag
+                filteredTag: self.filteredTag,
+                allFetched: self.allFetched
 	        };
 	        
 	        
