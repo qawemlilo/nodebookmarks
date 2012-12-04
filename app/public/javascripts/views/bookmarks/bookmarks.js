@@ -75,6 +75,10 @@
             
             html += 'Page ' + data.currentPage + ' of ' + data.totalPages; 
             
+            if (this.collection.filteredTag) {
+                html += '<a href="#bookmarks" class="close">&times;</a>';
+            }
+            
             td = $('<th>', {
                 colspan: 2,
                 html: html
