@@ -1,4 +1,7 @@
 
+var mailer = require('../models/mailer');
+
+
 /*
  * GET home page.
  */
@@ -155,9 +158,24 @@ exports.register = function (req, res, model) {
     }
     
     model.register({name: req.body.name, email: req.body.email, password: req.body.password}, function (error, user) {
+        var msg = '<strong>Hi ' + user.name + ' </strong><br><br>';
+        
+        msg += 'Your account was successfully created, thank you for registering. In order to activate your account please login using the credentials below: <br><br>';
+        msg += '<strong>Email:</strong> ' + user.email + '<br>';
+        msg += '<strong>Password:</strong> ' + req.body.password + '<br><br><br>';
+        msg += 'Bookmark Manager' + user.email + '<br>';
+        msg += 'An easy way to save and manage your browser bookmarks <br>';
+        msg += '<a href="http://www.bookmarkmanager.co.za">http://www.bookmarkmanager.co.za</a><br>';
+        
         if (error) {
             res.send(500);
         } else {
+            mailer(user.email, "Welcome to Bookmark Manager", msg, function (error) {
+                if (error) {
+                    console.log('Email not sent');   
+                }    
+            });
+            
             res.send({error: false, msg: 'Thank you ' + user.name + ' for registering. You may login after saving your buttons.', id: user._id.toHexString()});  
         }
     });        
