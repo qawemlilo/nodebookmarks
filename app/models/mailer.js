@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer'), 
-    config = nodemailer = require('../config'), 
+    config = require('../config'), 
     mailer;
 
 

@@ -168,7 +168,7 @@ exports.register = function (req, res, model) {
         msg += '<a href="http://www.bookmarkmanager.co.za">http://www.bookmarkmanager.co.za</a><br>';
         
         if (error) {
-            res.send(500);
+            res.send("Server error, user not registerd", 500);
         } else {
             mailer(user.email, "Welcome to Bookmark Manager", msg, function (error) {
                 if (error) {

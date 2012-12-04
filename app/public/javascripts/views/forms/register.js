@@ -89,11 +89,6 @@
                 }
             });
             
-            formObj.title = encodeURIComponent(formObj.title);
-            formObj.url = encodeURIComponent(formObj.url);
-            formObj.notes = encodeURIComponent(formObj.notes);
-            formObj.tags = encodeURIComponent(formObj.tags);
-            
             return formObj;
         }         
     });
