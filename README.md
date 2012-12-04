@@ -7,7 +7,7 @@ Bookmark Manager is a Rich JavaScript Application for managing browser bookmarks
 A while ago I created a bookmarking app which was basically a hack that saved all bookmarks on a Google Docs spreadsheet <https://github.com/qawemlilo/Bookmarks>. The app stopped working when the number of my bookmarks got too large. This made me decide to create a more polished app that other people could also use. The fundamental goal is to make Bookmark Manager useful and dead simple to use.
 
 
-# The Back End
+# Directory Structure
 
 ```
 /bookmarkmanager/app
@@ -18,13 +18,19 @@ A while ago I created a bookmarking app which was basically a hack that saved al
     package.json
     
     /models
-        bookmarks
-        users
+        bookmarks.js
+        users.js
         
     /node_modules
         ....
     
     /public
+        /images
+            ....
+            
+        /stylesheets
+            ....
+            
         /javascripts
             app.js
             
@@ -79,6 +85,8 @@ A while ago I created a bookmarking app which was basically a hack that saved al
     /views
         ....
 ```
+
+# The Back End
 
 The application back-end uses 2 models, Users Model and Bookmarks Model.
 
