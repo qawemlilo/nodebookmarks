@@ -410,7 +410,12 @@
         getCleanModel: function () {
             var obj = {}, model = this.model, date = this.formatDate(model.get('date')), parser = document.createElement('a');
             
+            
             obj.url = decodeURIComponent(model.get('url'));
+            
+            if (obj.url.indexOf('http://') < 0 && obj.url.indexOf('https://') < 0) {
+                obj.url = 'http://' + obj.url;
+            }
             
             parser.href = obj.url;
             
