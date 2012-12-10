@@ -10,9 +10,8 @@ nav
     li.first: a(href='/developers', title='Developers') Developers
     li.first: a(href='mailto:qawemlilo@gmail.com', title='Contact', target='_blank') Contact
     
-    
 
-script(src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/jquery.js')
 script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/fancybox/jquery.fancybox-1.3.4.pack.js')
 
 script(type='text/javascript')
@@ -29,10 +28,21 @@ script(type='text/javascript')
   });
   
 if(page !== 'privacy' && page !== 'developers')
-  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/script_one-min.js') 
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/json.js') 
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/underscore.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/backbone.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/pagination.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/ejs_production.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/bootstrap-transition.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/bootstrap-collapse.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/bootstrap-dropdown.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/script.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/app.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/models/user.js')
 
 if(page === 'index')
-  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/index-min.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/routes/index.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/views/forms/register.js')
   
   script(type='text/javascript')
     $(function () {
@@ -40,7 +50,15 @@ if(page === 'index')
     });
   
 if(page === 'home' || page === 'demo')
-  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/libs/script_two-min.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/models/bookmark.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/collections/bookmarks.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/views/forms/profile.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/views/bookmark/bookmark.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/views/bookmarks/bookmarks.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/views/controls/controls.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/routes/router.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/views/pagination/pagination.js')
+  script(src='http://apps.rflab.co.za/bookmarkmanager/javascripts/controller.js')
   script(type='text/javascript')
     $(function () {
       var books = !{JSON.stringify(bookmarks)};
