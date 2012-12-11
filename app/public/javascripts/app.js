@@ -1,5 +1,5 @@
 /*
-    @Namespace: App - application namespace.
+    App - application namespace.
 */
 
 if (!String.prototype.trim) {
@@ -14,9 +14,7 @@ if (!String.prototype.trim) {
     var App = {
     
         /*
-            
-            @Api:   public   
-            @param: (String) page 
+            @param: (String) page - name of page
             @param: (Array) bookmarks - collection of bookmarks
         */
         init: function (page, bookmarks) {

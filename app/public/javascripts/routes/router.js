@@ -1,10 +1,13 @@
 /*
-    @Module: Routes::Router - handles app navigation
+    This is the router handles app navigation for logged in user.
+    The router also handles highlighting the currently active menu
 */
 (function(views, routes) {
     "use strict";
     
     routes.Router = Backbone.Router.extend({
+    
+    
         routes: {
             'bookmarks': 'loadBookmarks',
             
@@ -16,57 +19,65 @@
             
             'bookmarks/page/:num': 'goTo',
             
-            'bookmarks/new': 'newBookmark'
+            'bookmarks/new': 'newBookmark',
+            
+            'bookmarks/bookmarklet': 'loadBookmarklet'
         },
+        
+        
         
         
         loadAccount: function () {
             views.Controller.loadAccount();
-            
-            if (App.page !== 'demo') {
-                $('.nav-pills li.active').removeClass('active');
-                $('.nav-pills li.account').addClass('active');
-            }
+            this._changeActive('account');
         },
+        
+        
+        
+        
+        loadBookmarklet: function () {
+            views.Controller.loadBookmarklet();
+            this._changeActive('bookmarklet');
+        },
+        
+        
         
         
         goTo: function (num) {
             views.Controller.goTo(num); 
-            
-            if (App.page !== 'demo') {
-                $('.nav-pills li.active').removeClass('active');
-                $('.nav-pills li.bookmarks').addClass('active');
-            }
+            this._changeActive('bookmarks');
         },
+        
+        
         
         
         loadBookmarks: function () {
             views.Controller.loadBookmarks();
-
-            if (App.page !== 'demo') {
-                $('.nav-pills li.active').removeClass('active');
-                $('.nav-pills li.bookmarks').addClass('active'); 
-            }                
+            this._changeActive('bookmarks');               
         },
         
         
         newBookmark: function () {
             views.Controller.newBookmarkView();
-            
-            if (App.page !== 'demo') {
-                $('.nav-pills li.active').removeClass('active');
-                $('.nav-pills li.bookmarks').addClass('active');
-            }
+            this._changeActive('bookmarks');
         },
         
         
+        
+        
         filterTags: function (tag) {
-            views.Controller.filterTags(tag); 
-
+            views.Controller.filterTags(tag);
+            this._changeActive('bookmarks');
+        },
+        
+        
+        
+        
+        _changeActive: function (current) {
             if (App.page !== 'demo') {
                 $('.nav-pills li.active').removeClass('active');
-                $('.nav-pills li.bookmarks').addClass('active');
-            }
+                $('.nav-pills li.' + current).addClass('active');
+            }        
         }
     });
 }(App.Views, App.Routes));

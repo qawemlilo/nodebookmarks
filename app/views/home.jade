@@ -1,10 +1,25 @@
 
-div(id='controls', class='btn-toolbar home-div')
-     
+div(id='controls', class='btn-toolbar home-div app-elem')
+ 
+ 
 div(id='home', class='container')
-  table(id='bookmarks-table', class='table')
-  
-div(id='pagination', class='pagination home-div')
+  table(id='bookmarks-table', class='table app-elem')
 
-div#profile
+
+div(id='profile', class='app-elem')
+
+
+div(class='alert alert-info app-elem', id='bookmark-links', style='display: none; padding-top: 15px;  padding-bottom: 15px; margin-bottom: 0px')
+  i(class='icon-hand-up', style='margin-top: -12px')   
+  |  ` -  
+  
+  a(class="bookmarkButton", href="javascript:(function(){var jsScript=document.createElement('script');jsScript.setAttribute('type','text/javascript');jsScript.setAttribute('src','http://www.bookmarkmanager.co.za/javascripts/libs/add_bookmark.js');document.getElementsByTagName('head')[0].appendChild(jsScript);}());") Save Bookmark!  
+  
+  a(class="bookmarkButton", href="javascript:(function(){ window.location.href='http://www.bookmarkmanager.co.za/#bookmarks' }());") View Bookmarks 
+  
+  i.icon-hand-left  
+  |  Drag these buttons to your bookmarks toolbar 
+    
+  
+div(id='pagination', class='pagination home-div app-elem')
       

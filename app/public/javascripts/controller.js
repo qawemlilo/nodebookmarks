@@ -1,38 +1,50 @@
 /*
     @Module: App.Views.Controller - initializes application views
-    @Dependencies - jQuery
-                  - Backbone
-                  - UnderScore
 */
 (function (Backbone, models, views, collections, routes, $) {
     "use strict";
     
     views.Controller = Backbone.View.extend({
     
+    
+    
         el: $('#app-body'),
+        
+        
         
         
         router: {},
         
         
+        
+        
         profile: {},
+        
+        
         
         
         activeView: '',
         
         
+        
+        
         bookmarks: {},
+        
+        
         
         
         controls: {},
         
         
+        
+        
         pagination: {},
+
+
         
         
         /*
-            @Api:           public
-            @Constructor:   initializes app views 
+            @Constructor - initializes app views 
         */
         initialize: function () {
             _.bindAll(this, 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
@@ -76,12 +88,14 @@
         },
 
         
+        
+        
         /*
-            @Api:       public - displays profile page
-            @returns:   void
+            This method loads the account view
+            The router calls this method when the location hash changes to #user/account
         */
         loadAccount: function () {
-            this.$('.home-div, #home, #bookmarks-table').fadeOut(function () {
+            this.$('.app-elem').fadeOut().promise().done(function () {
                 this.$('#bookmarks-table').empty();
                 this.$('#profile').fadeIn();
                 this.activeView = 'profile';
@@ -89,17 +103,31 @@
         },
         
 
+        
+        
+        /*
+            This method loads the Bookmarklet view
+        */
+        loadBookmarklet: function () {
+            this.$('.app-elem').fadeOut().promise().done(function () {
+                this.$('#bookmarks-table').empty();
+                this.$('#bookmark-links').fadeIn();
+                this.activeView = 'bookmarklet';
+            }.bind(this));
+        },
+
+        
+        
 
         /*
-            @Api:       public - resets and displays bookmarks collection
-            @Returns:   void
+            This method loads the Bookmarks view. 
         */        
         loadBookmarks: function () {            
-            if (this.activeView === 'profile') {
-                $('#profile').fadeOut(function () {
-                    $('#home, .home-div').fadeIn();
+            if (this.activeView === 'profile' || this.activeView === 'bookmarklet') {
+            
+                $('.app-elem').fadeOut().promise().done(function () {
+                    $('.home-div').fadeIn();
                     this.pagination.reset();
-                    this.controls.render();
                     this.activeView = 'home';
                 }.bind(this)); 
                 
@@ -108,47 +136,54 @@
             
             $('.home-div').fadeIn();
             this.pagination.reset();
-            this.controls.render();
             this.activeView = 'home';
         },
         
-        
-        
+ 
+
+ 
+        /*
+            This method loads the new bookmark view by creating new Bookmark model outside the bookmarks collection 
+        */ 
         newBookmarkView: function () {
             var self = this,  model;
             
             $('#pagination').fadeOut(function () {
-               model = new models.Bookmark();
-                model = model.createUrlRoot('/bookmarks');
+                model = new models.Bookmark();
+                model = model.createUrlRoot('/bookmarks'); 
             
                 self.bookmarks.newBookmark(model);
             });
         },
         
 
+        
+        
 
         /*
-            @Api:       public - loads and displays a page of bookmarks
-            @returns:   void 
-            @param:     (Number) num - page number
+            This method loads and displays a page of bookmarks
+            @param: (Number) num - pagination number
         */        
         goTo: function (num) {
             this.pagination.gotoPage(num);              
         },
         
 
+        
+        
 
         /*
-            @Api:       public - filters and displays bookmarks containing a tag
-            @Returns:   void 
-            @param:     (String) tag - tag to be filtered
+            This method filters and displays bookmarks containing a tag
+            @param: (String) tag - tag to be filtered
         */         
         filterTags: function (tag) {
             this.controls.filterTags(tag);
             this.activeView = 'filteredTags';              
         },
         
-        
+ 
+
+ 
         assign: function (selector, view) {
             var selectors;
             
