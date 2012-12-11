@@ -31,13 +31,16 @@
             elem.hide().appendTo('body').slideDown();
         };
         
-        
-        
         if ($("#appMessage").length) {
             $("#appMessage").click();
+            
+            setTimeout(function () {
+                displayMsg(msg, x, dclass);
+            }, 1000);
         }
-        
-        displayMsg(msg, x, dclass);
+        else {
+            displayMsg(msg, x, dclass);
+        }
     };
     
     

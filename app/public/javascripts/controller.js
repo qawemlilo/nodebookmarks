@@ -96,7 +96,6 @@
         */
         loadAccount: function () {
             this.$('.app-elem').fadeOut().promise().done(function () {
-                this.$('#bookmarks-table').empty();
                 this.$('#profile').fadeIn();
                 this.activeView = 'profile';
             }.bind(this));
@@ -110,7 +109,6 @@
         */
         loadBookmarklet: function () {
             this.$('.app-elem').fadeOut().promise().done(function () {
-                this.$('#bookmarks-table').empty();
                 this.$('#bookmark-links').fadeIn();
                 this.activeView = 'bookmarklet';
             }.bind(this));
