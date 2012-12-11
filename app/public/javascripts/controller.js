@@ -126,17 +126,18 @@
             if (this.activeView === 'profile' || this.activeView === 'bookmarklet') {
             
                 $('.app-elem').fadeOut().promise().done(function () {
-                    $('.home-div').fadeIn();
-                    this.pagination.reset();
+                    this.pagination.reset(function () {
+                        $('.home-div').fadeIn();
+                    });
                     this.activeView = 'home';
                 }.bind(this)); 
-                
-                return;
             }
-            
-            $('.home-div').fadeIn();
-            this.pagination.reset();
-            this.activeView = 'home';
+            else {
+                this.pagination.reset(function () {
+                    $('.home-div').fadeIn();
+                });
+                this.activeView = 'home';
+            }
         },
         
  

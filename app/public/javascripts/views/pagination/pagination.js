@@ -74,8 +74,7 @@
 
 
         /*
-            @Public
-            @Void: loads the next group of available pages in the pagination view
+            Loads the next group of available pages in the pagination view
             @Param: (Object) e - click event object
         */          
         gotoNext: function (e) {
@@ -88,8 +87,7 @@
 
 
         /*
-            @Public
-            @Void: loads a page from the collection and call re-renders pagination
+            Loads a pagination page and re-renders pagination
             @Param: (Number) page - the number of the page to go to
         */            
         gotoPage: function (num) {
@@ -149,19 +147,20 @@
         
 
         /*
-            @Public
-            @Void: clears any filtered tag
+            Clears any filtered bookmarks
         */         
-        reset: function () {
+        reset: function (fn) {
             this.collection.resetFilteredModels();
+            if (fn) {
+                fn();
+            }
             this.render();
         },
 
 
 
         /*
-            @Public
-            @Void: sets number of bookmarks to be displayed per page and reloads current page
+            Sets number of bookmarks to be displayed per page and reloads current page
             @Param: (Number) num - the number of bookmarks par page
         */         
         changeCount: function (num) {

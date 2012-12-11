@@ -57,9 +57,9 @@ exports.demo = function (req, res, model) {
         
     model.get(options, function (error,  bookmarks) {
         if (error) {
-            res.render('demo', {title: 'Bookmark Manager - Demo', page: 'demo', loggedIn: false, bookmarks: [], user: req.session.user}); 
+            res.render('demo', {title: 'Bookmark Manager - Demo', page: 'demo', loggedIn: !!req.session.user, bookmarks: [], user: req.session.user}); 
         } else {
-            res.render('demo', {title: 'Bookmark Manager - Demo', page: 'demo', loggedIn: false, bookmarks: bookmarks, user: req.session.user});                
+            res.render('demo', {title: 'Bookmark Manager - Demo', page: 'demo', loggedIn: !!req.session.user, bookmarks: bookmarks, user: req.session.user});                
         }
     });
 };

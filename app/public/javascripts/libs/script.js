@@ -10,25 +10,34 @@
     
     
     $.shout = function (msg, x, dclass) {
+    
+        var elem, displayMsg;
+            
+        displayMsg = function (message, secs, msgclass) {
+            elem = $('<div>', {'id': 'appMessage', 'class': msgclass || 'error', html: message});
+            
+            elem.click(function () {
+                $(this).fadeOut(function () {
+                    $(this).remove();
+                }.bind(this));
+            });
+            
+            if (secs) {
+                setTimeout(function () {
+                    elem.click();
+                }, secs * 1000);
+            }
+            
+            elem.hide().appendTo('body').slideDown();
+        };
+        
+        
+        
         if ($("#appMessage").length) {
-          $("#appMessage").fadeOut().remove();
+            $("#appMessage").click();
         }
-            
-        var elem = $('<div>', {'id': 'appMessage', 'class': dclass || 'error', html: msg});
-            
-        elem.click(function () {
-            $(this).fadeOut(function () {
-                $(this).remove();
-            }.bind(this));
-        });
-            
-        if (x) {
-            setTimeout(function () {
-                elem.click();
-            }, x * 1000);
-        }
-            
-        elem.hide().appendTo('body').slideDown();
+        
+        displayMsg(msg, x, dclass);
     };
     
     

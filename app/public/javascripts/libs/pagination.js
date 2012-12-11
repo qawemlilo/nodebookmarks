@@ -103,6 +103,7 @@ Backbone.Pagination = (function (Backbone, _, $) {
             this.filteredTag = '';
             this.currentPage = 1;
             this.currentGroup = 1;
+            
             this.pager();
 	    },
 	

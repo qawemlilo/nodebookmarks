@@ -11,8 +11,6 @@
         routes: {
             'bookmarks': 'loadBookmarks',
             
-            '': 'loadBookmarks',
-            
             'user/account': 'loadAccount',
             
             'bookmarks/tags/:tag': 'filterTags',

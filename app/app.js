@@ -185,14 +185,14 @@ app.get('/home', function (req, res) {
 
 // Website Terms and Conditions of Use
 app.get('/privacy', function (req, res) { 
-    res.render('privacy', {title: 'Website Terms and Conditions of Use', page: 'privacy', loggedIn: false});
+    res.render('privacy', {title: 'Website Terms and Conditions of Use', page: 'privacy', loggedIn: !!req.session.user});
 });
 
 
 
 // developers
 app.get('/developers', function (req, res) { 
-    res.render('developers', {title: 'Developers', page: 'developers', loggedIn: false});
+    res.render('developers', {title: 'Developers', page: 'developers', loggedIn: !!req.session.user});
 });
 
 

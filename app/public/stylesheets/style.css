@@ -8,6 +8,10 @@ body {
  font: "helvetica neue", helvetica, verdana, arial, sans-serif;
 }
 
+#content-body {
+ min-height: 200px;
+}
+
 .container {
  width: 620px;
  padding: 0px;

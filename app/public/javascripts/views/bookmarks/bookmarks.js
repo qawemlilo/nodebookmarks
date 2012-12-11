@@ -55,7 +55,9 @@
                 model: bookmarkModel
             });
             
-            this.$el.html(bookmarkView.newBookmark().el);
+            this.$el.fadeOut(function () {
+                this.$el.html(bookmarkView.newBookmark().el).fadeIn();
+            }.bind(this));
         },
         
 
