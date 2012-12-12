@@ -6,7 +6,7 @@ var mailer = require('../models/mailer');
  * GET home page.
  */
 exports.index = function (req, res, model) {
-    if (req.session.user) {
+    if (!!(req.session.user)) {
         var options = Object.create({
             limit: 100,
             
