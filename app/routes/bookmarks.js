@@ -48,7 +48,6 @@ exports.add = function (req, res, model) {
     var bookmark = {}, errors;
     
     req.assert('url', 'Please enter a valid Url').isUrl();
-    req.assert('notes', 'Please enter a valid Url').len(2, 400);
     
     if (req.body.notes && req.body.notes.length > 2) {
         req.sanitize('notes').trim();

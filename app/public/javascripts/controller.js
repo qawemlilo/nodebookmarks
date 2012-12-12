@@ -147,7 +147,7 @@
         newBookmarkView: function () {
             var self = this,  model;
             
-            $('#pagination').fadeOut(function () {
+            $('.home-div').fadeOut().promise().done(function () {
                 model = new models.Bookmark();
                 model = model.createUrlRoot('/bookmarks'); 
             

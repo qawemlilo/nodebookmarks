@@ -96,7 +96,7 @@
             //We want to check if we are on the latest page and if its not of 
             // filtered models
             if (num >= self.collection.info().totalPages && !self.collection.allFetched) {
-                $.shout('Loading more bookmarks.....', 0, 'info');
+                $.shout('Loading more bookmarks.....', 10, 'info');
                 
                 data = {
                     skip: self.collection.info().totalRecords

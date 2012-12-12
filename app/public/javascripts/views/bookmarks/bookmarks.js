@@ -1,8 +1,6 @@
 /*
-    @Module: App.Views.Bookmarks - renders bookmarks collection
-    @Dependencies - jQuery
-                  - Backbone
-                  - UnderScore
+    The bookmarks view is the table containing currently selected bookmarks
+    It appends the bookmark view
 */
 (function (Backbone, views, $) {
     "use strict";
@@ -12,11 +10,7 @@
         el: $('#bookmarks-table'),
         
 
-
-        /*
-            @Public
-            @Constructor: (Void - chainable) binds collection events
-        */        
+     
         initialize: function () {
             _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'bookmarksHeader', 'render');
             
@@ -29,15 +23,17 @@
         },
         
         
+        
+        
         render: function () {
             return this;
         },
         
+        
 
 
         /*
-            @Public
-            @Void: appends a bookmark view the bookmarks table
+            Appends a bookmark view the bookmarks table
             @Param: (Object) bookmarkModel - bookmark model
         */        
         addBookmark: function (bookmarkModel) { 
@@ -48,8 +44,13 @@
             this.$el.append(bookmarkView.render().el);
         },
         
-
         
+        
+
+        /*
+            Loads a new bookmark form
+            @Param: (Object) bookmarkModel - bookmark model
+        */          
         newBookmark: function (bookmarkModel) { 
             var bookmarkView = new views.Bookmark({
                 model: bookmarkModel
@@ -60,15 +61,15 @@
             }.bind(this));
         },
         
+        
+        
 
 
         /*
-            @Public
-            @Void: appends a header to the bookmarks table 
-            @Param: (Object) bookmarkModel - bookmark model
+            Appends a header to the bookmarks table
         */ 
         bookmarksHeader: function () { 
-            var header = $('<thead>'), tr = $('<tr>'), data = this.collection.info(), html = '', td;
+            var header = $('<thead>'), tr = $('<tr>'), data = this.collection.info(), html = '', th;
             
             
             if (this.collection.filteredTag) {
@@ -81,24 +82,24 @@
                 html += '<a href="#bookmarks" class="close">&times;</a>';
             }
             
-            td = $('<th>', {
+            th = $('<th>', {
                 colspan: 2,
                 html: html
             });
             
-            tr.append(td);
+            tr.append(th);
             header.append(tr);
             
             this.$el.append(header);
         },
         
+        
 
 
         /*
-            @Public
-            @Void: appends all bookmarks to the bookmarks table
+            Loops through a collection and appends all bookmarks to the bookmarks table
         */ 
-        viewAllBookmarks: function () {
+        viewAllBookmarks: function () {          
             this.$el.fadeOut(function () {
                 this.$el.empty();
                 this.bookmarksHeader();
