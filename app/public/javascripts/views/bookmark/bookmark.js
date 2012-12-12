@@ -12,7 +12,11 @@
         tagName: 'tr',
         
         
+        
+        
         className: 'bookmark',
+        
+        
         
         
         events: {
@@ -32,64 +36,78 @@
         },
         
         
+        
+        
         activeEditor: false,
+        
+        
         
         
         activeNew: false,
         
         
+        
+        
         editTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/edit.ejs'}),
+        
+        
         
         
         bookmarkTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/bookmark.ejs'}),
         
         
+        
+        
         newBookmarkTemplate: new Template({url: '/javascripts/views/bookmark/tmpl/new.ejs'}),
         
 
+        
+        
 
         /*
-            @Api: public - binds change model events and initializes bookmark 
+            Binds model events and initializes bookmark 
         */        
         initialize: function () {
-            var $this = this;
+            var self = this;
             
-            _.bindAll(this, 'render', 'unrender', 'saveEdit', 'cancelNew', 'newBookmark', 'saveNew', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getCleanModel');
+            _.bindAll(self, 'render', 'unrender', 'saveEdit', 'cancelNew', 'newBookmark', 'saveNew', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getCleanModel');
 
             
-            this.model.on('change', function () {
+            self.model.on('change', function () {
                 var attrs = ['publik', 'url', 'title', 'notes', 'starred', 'tags'], i;
                 
-                for (i = 0; i < attrs.length; i++) {
-                    if (this.model.hasChanged(attrs[i])) {
-                        this.update(attrs[i]);
+                _.each(attrs, function(attr) {
+                    if (self.model.hasChanged(attr)) {
+                        self.update(attr);
                     }
-                }
-            }.bind(this));        
+                });
+            });        
             
-            return this;
+            return self;
         },
+        
+        
         
 
 
         /*
-            @Public
-            @Void: loads template and renders bookmark
+            Renders a bookmark view
         */        
         render: function () {
-            var model = this.getCleanModel(), bookmarkTemplate;
+            var self = this, model = self.getCleanModel(), bookmarkTemplate;
             
-            bookmarkTemplate = this.bookmarkTemplate.render(model);   
-            this.$el.append(bookmarkTemplate);
+            bookmarkTemplate = self.bookmarkTemplate.render(model);   
+            self.$el.append(bookmarkTemplate);
             
-            return this;
+            return self;
         },
         
 
+        
+        
 
         /*
-            @Private
-            @Void: unrenders bookmark
+            Removes a bookmark view
         */         
         unrender: function () {
             this.$el.addClass('highlight')
@@ -98,6 +116,7 @@
                 this.$el.remove();
             }.bind(this));
         },
+        
         
         
         
@@ -112,96 +131,66 @@
         },
         
         
+        
 
 
         /*
-            @Private
-            @Void: handles the submitted bookmark form data
+            Handles the submitted bookmark form data after editing
             @Param: (Object) e - submit event object
         */         
         saveEdit: function (e) {
             e.preventDefault();
             
-            var cleantags = [], 
-                formObj = {}, 
+            var cleantags = [],
+                self = this,            
+                formObj, 
                 successHandler, 
                 errorHandler, 
-                editForm = this.$('.bookmark-edit-form'),
-                editFormDiv = this.$('.bookmark-edit'),
-                formValues = editForm.serializeArray(),
+                editFormDiv = self.$('.bookmark-edit'),
                 errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not updated';
-            
-            _.each(formValues, function (fieldObj) {
-                if (fieldObj.name !== 'submit') {
-                    formObj[fieldObj.name] = fieldObj.value;
-                }
-            });
 
-            formObj.tags = formObj.tags.split(',') || [formObj.tags];
-            formObj.publik = !(!!formObj.publik);
-            
-            _.each(formObj.tags, function (rawTag) {
-                cleantags.push(rawTag.trim());
-            });
-             
-            formObj.tags = cleantags;
+            formObj = self.serializeForm('.bookmark-edit-form');
 
             successHandler = function (model, response) {
-                this.activeEditor = false; // unlock editor
+                self.activeEditor = false; // unlock editor
                 $.shout(response.msg, 10, 'success');
                 
                 views.Controls.render(); // refresh tags
-            }.bind(this);
+            };
             
             errorHandler = function (model, response) {
-                this.activeEditor = false; // unlock editor
+                self.activeEditor = false; // unlock editor
                 
                 $.shout(errmsg, 10);
-            }.bind(this);
+            };
             
             editFormDiv.fadeOut(function () {
                 editFormDiv.empty().hide();
-                this.$('.bookmark-main').fadeIn();
-            }.bind(this));
+                self.$('.bookmark-main').fadeIn();
+            });
             
-            this.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
+            self.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
         },
         
         
         
+        
+        
         /*
-            @Private
-            @Void: handles the submitted bookmark form data
+            Handles the submitted bookmark form data
             @Param: (Object) e - submit event object
         */         
         saveNew: function (e) {
             e.preventDefault();
             
-            var formObj = {}, 
+            var formObj, 
                 successHandler, 
                 errorHandler, 
-                editForm = this.$('#new-bookmark-form'),
-                formValues = editForm.serializeArray(),
                 self = this,
                 cleantags = [],
                 errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not saved';
 
-            _.each(formValues, function (fieldObj) {
-                if (fieldObj.name !== 'submit') {
-                    formObj[fieldObj.name] = fieldObj.value;
-                }
-            });
-
-            formObj.tags = formObj.tags.replace(' ', '');
-            formObj.tags = formObj.tags.split(',') || ['uncategorised'];
-            formObj.publik = !(!!formObj.publik);
-            
-            
-            _.each(formObj.tags, function (rawTag) {
-                cleantags.push(rawTag.trim());
-            });
-             
-            formObj.tags = cleantags;
+            formObj = self.serializeForm('#new-bookmark-form');
 
             successHandler = function (model, response) {
                 self.activeNew = false; // unlock
@@ -227,11 +216,17 @@
                 });
             };
             
-            this.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
+            self.model.save(formObj, {success: successHandler, error: errorHandler, wait: true});
         },
         
         
         
+        
+        
+        /*
+            Handles clicking the cancel button on a new bookmark form
+            @Param: (Object) e - click event object
+        */          
         cancelNew: function (e) { 
             e.preventDefault();
             
@@ -246,8 +241,7 @@
 
 
         /*
-            @Private
-            @Void: handles clicking the delete link
+            Handles clicking the delete link
             @Param: (Object) e - click event object
         */          
         deleteBookmark: function (e) {
@@ -276,8 +270,7 @@
 
 
         /*
-            @Private
-            @Void: closes the bookmark editor form and displays the bookmark
+            Closes the bookmark editor form and displays the bookmark
             @Param: (Object) e - click event object
         */          
         cancelEdit: function (e) { 
@@ -294,8 +287,7 @@
 
 
         /*
-            @Private
-            @Void: handles clicking the edit link and loads the bookmark editing form
+            Handles clicking the edit link and loads the bookmark editing form
             @Param: (Object) e - click event object
         */          
         loadEditor: function (e) {
@@ -321,8 +313,7 @@
 
 
         /*
-            @Private
-            @Void: updates the view of a changed bookmark model property
+            Updates the view of a changed bookmark model property
             @Param: (String) view - bookmark view that has changed
         */          
         update: function (view) {
@@ -380,9 +371,8 @@
 
 
         /*
-            @Private
-            @Object: formats a time integer to a date and returns an object 
-            @Param: (Number) date - time integer
+            Formats an integer to a date and returns an object 
+            @Param: (Number- Int) date - time in milliseconds
         */          
         formatDate: function (date) {
             var newdate,  obj = {}, 
@@ -401,11 +391,44 @@
             return obj;
         },
         
+        
+        
+        
+   
+        /*
+        */          
+        serializeForm: function (id) {
+            var formValues = this.$(id).serializeArray(), obj = {}, cleantags = [];
+            
+            _.each(formValues, function (fieldObj) {
+                if (fieldObj.name !== 'submit') {
+                    obj[fieldObj.name] = fieldObj.value;
+                }
+            });
+            
+            if (!obj.tags) {
+                obj.tags = ['uncategorised'];
+            }
+            else {
+                obj.tags = obj.tags.split(',') || [obj.tags];
+                obj.publik = !(!!obj.publik);
+            
+                _.each(obj.tags, function (rawTag) {
+                    cleantags.push(rawTag.trim());
+                });
+             
+                obj.tags = cleantags;
+            }
+            
+            return obj;
+        },
+        
+        
+        
 
 
         /*
-            @Private
-            @Object: returns a sanitized model object 
+            Returns a sanitized model object 
         */          
         getCleanModel: function () {
             var obj = {}, model = this.model, date = this.formatDate(model.get('date')), parser = document.createElement('a');
