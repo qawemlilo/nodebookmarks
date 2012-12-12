@@ -1,3 +1,8 @@
+
+/*
+    Variables
+*/
+
 var mongoose = require('mongoose'), 
     db = mongoose.createConnection('mongodb://localhost/nodebookmarks'), 
     Schema = mongoose.Schema,    
@@ -6,23 +11,65 @@ var mongoose = require('mongoose'),
     Bookmark;
 
 
+  
+
+  
+  
 BookmarkSchema = new Schema({
+
     id: Schema.ObjectId,
+    
     owner: Schema.Types.ObjectId,
-    title: {type: String, default: ''},
-    url: {type: String, unique: false},
-    notes: {type: String, default: ''},
-    starred: {type: Boolean, default: false},
-    publik: {type: Boolean, default: false},
-    date: {type: Date, default: Date.now},
-    tags: {type: Array, default: ['uncategorised']}
+    
+    title: {
+        type: String, 
+        default: ''
+    },
+    
+    url: {
+        type: String, 
+        unique: false
+    },
+    
+    notes: {
+       type: String, 
+       default: ''
+    },
+    
+    starred: {
+        type: Boolean, 
+        default: false
+    },
+    
+    publik: {
+        type: Boolean, 
+        default: false
+    },
+    
+    date: {
+        type: Date, 
+        default: Date.now
+    },
+    
+    tags: {
+        type: Array, 
+        default: ['uncategorised']
+    }
 });
+
+
+
 
 
 Bookmark =  db.model('Bookmark', BookmarkSchema);
 
 
+
+
+
+
 exports.get = function (opts, fn) {
+
     var DB =  db.model('Bookmark');
     
     DB.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}, function (err, bookmarks) {
@@ -50,7 +97,9 @@ exports.get = function (opts, fn) {
 
 
 
+
 exports.search = function (opts, fn) {
+
     var DB =  db.model('Bookmark');
     
     DB.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}).or(opts.find).execFind(function (err, bookmarks) {
@@ -75,7 +124,12 @@ exports.search = function (opts, fn) {
 };
 
 
+
+
+
+
 exports.add = function (bookmarkObj, fn) {
+
     var bookmark = new Bookmark(bookmarkObj);
 
     
@@ -101,7 +155,12 @@ exports.add = function (bookmarkObj, fn) {
 };
 
 
+
+
+
+
 exports.update = function (id, bookmarkObj, fn) {
+
     var Model =  db.model('Bookmark'), changed = false;
     
     Model.findById(id, function (err, bookmark) {
@@ -127,7 +186,12 @@ exports.update = function (id, bookmarkObj, fn) {
 };
 
 
+
+
+
+
 exports.remove = function (id, fn) {
+
     var Model =  db.model('Bookmark');
     
     Model.findOne({_id: id}, function (err, bookmark) {
@@ -147,3 +211,4 @@ exports.remove = function (id, fn) {
         }
     });    
 };
+

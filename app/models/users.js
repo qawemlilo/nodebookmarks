@@ -1,11 +1,14 @@
+
 /*
     Variables
 */
+
 var mongoose = require('mongoose'), 
     db = mongoose.createConnection('mongodb://localhost/nodebookmarks'), 
     Schema = mongoose.Schema,
     crypto = require('crypto'),    
-    UserSchema, User, validEmail, validString,
+    UserSchema, 
+    User,
     makeSalt,
     BookmarkSchema,
     Bookmark,
@@ -13,11 +16,9 @@ var mongoose = require('mongoose'),
 
 
 
-
-
     
 /*
-    Validation functions
+    Salt
 */
 
 makeSalt = function () {
@@ -25,52 +26,73 @@ makeSalt = function () {
 };
 
 
-validString = function (v) {
-    return typeof v === 'string' && v.length > 2;
-};
-
-validEmail = function (emailAddress) {
-    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-        
-    return pattern.test(emailAddress);
-};
-
-
-
-
 
 
 
 UserSchema = new Schema({
+
     id: Schema.ObjectId,
-    name: {type: String, validate: validString},
-    email: {type: String, unique: true, validate: validEmail},
-    date: {type: Date, default: Date.now},
+    
+    name: {
+        type: String
+    },
+    
+    email: {
+        type: String, 
+        unique: true
+    },
+    
+    date: {
+        type: Date, 
+        default: Date.now
+    },
+    
     salt: String,
-    password: {type: String, set: function (pass) {return this.hashPassword(pass);}}
+    
+    password: {
+        type: String, 
+        set: function (pass) {
+            return this.hashPassword(pass);
+        }
+    }
 });
 
 
+
+
+
 UserSchema.methods.hashPassword = function hashPassword (password) {
-    var salt = makeSalt();
+
+    var salt = makeSalt(), cryp;
+    
     this.salt = salt;
-    var cryp = crypto.createHmac('sha1', salt).update(password).digest('hex');
+    cryp = crypto.createHmac('sha1', salt).update(password).digest('hex');
     
     return cryp;
 };
 
+
+
+
 User =  db.model('User', UserSchema);
 
 
+
+
 exports.register = function (obj, fn) {
+
     var member = new User(obj);
+    
     member.save(function (err) {
         fn(err, member);    
     });
 };
 
 
+
+
 exports.login = function (obj, fn) {
+
     var Model =  db.model('User');
 
     Model.findOne({email:  obj.email}, function (err, user) {
@@ -93,7 +115,10 @@ exports.login = function (obj, fn) {
 };
 
 
+
+
 exports.remove = function (id, fn) {
+
     var Model =  db.model('User');
 
     Model.findById(id, function (err, user) {
@@ -108,7 +133,10 @@ exports.remove = function (id, fn) {
 };
 
 
+
+
 exports.update = function (id, obj, fn) {
+
     var Model =  db.model('User'), changed = false;
     
     Model.findById(id, function (err, user) {
@@ -146,19 +174,13 @@ exports.update = function (id, obj, fn) {
 };
 
 
+
+
 exports.getUsers = function (id, fn) {
+
     var Model =  db.model('User');
     
     Model.where('_id').ne(id).exec(function (err, users) {
         fn(err, users);
     });
 };
-
-
-/*
-    Export some helper functions
-*/
-
-exports.validEmail = validEmail;
-
-exports.validString = validString;
