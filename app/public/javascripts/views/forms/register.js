@@ -1,9 +1,5 @@
 /*
-    @Module: App.Views.Index - renders public home page
-    @Dependencies - jQuery
-                  - Backbone 
-                  - EJS
-                  - UnderScore                  
+    Registration form view                  
 */
 (function(Backbone, views, models, routes, Template, $) {
     "use strict";
@@ -29,8 +25,7 @@
 
 
         /*
-            @Api:     private - templates and renders forms
-            @Returns: (Object) this
+            Renders form
         */           
         render: function () {
             return this;
@@ -39,8 +34,7 @@
 
 
         /*
-            @Api:     private - handles submitted form data on registration
-            @Returns: void
+            Handles submitted form data on registration
             @Param:   (Object) e - submit event object
         */           
         registerUser: function (e) {    
@@ -76,8 +70,7 @@
 
 
         /*
-            @Api:     private - serializes form to hash
-            @Returns: void
+            Serializes form to hash
             @Param:   (String) id - form html id attribute
         */        
         formToObject: function (id) {

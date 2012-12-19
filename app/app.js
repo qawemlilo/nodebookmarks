@@ -172,7 +172,7 @@ app.get('/user/logout', function (req, res) {
 
 
 // Home
-app.get('/',  function (req, res) { 
+app.get('/',  function (req, res) {
     userRoute.index(req, res, bookmarkModel); 
 });
 

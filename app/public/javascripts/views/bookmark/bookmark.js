@@ -1,8 +1,5 @@
 /*
-    @Module: App.Views.Bookmark - renders a bookmark
-    @Dependencies - jQuery
-                  - Backbone
-                  - UnderScore
+    Bookmark view
 */
 (function (Backbone, views, collections, Template, $) {
     "use strict";
@@ -74,7 +71,7 @@
 
             
             self.model.on('change', function () {
-                var attrs = ['publik', 'url', 'title', 'notes', 'starred', 'tags'], i;
+                var attrs = ['publik', 'url', 'title', 'notes', 'starred', 'tags'];
                 
                 _.each(attrs, function(attr) {
                     if (self.model.hasChanged(attr)) {
@@ -187,7 +184,6 @@
                 successHandler, 
                 errorHandler, 
                 self = this,
-                cleantags = [],
                 errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not saved';
 
             formObj = self.serializeForm('#new-bookmark-form');

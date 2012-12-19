@@ -54,11 +54,13 @@
         newBookmark: function (bookmarkModel) { 
             var bookmarkView = new views.Bookmark({
                 model: bookmarkModel
-            });
+            }), 
             
-            this.$el.fadeOut(function () {
-                this.$el.html(bookmarkView.newBookmark().el).fadeIn();
-            }.bind(this));
+            self = this;
+            
+            self.$el.fadeOut(function () {
+                self.$el.html(bookmarkView.newBookmark().el).fadeIn();
+            });
         },
         
         
@@ -99,13 +101,15 @@
         /*
             Loops through a collection and appends all bookmarks to the bookmarks table
         */ 
-        viewAllBookmarks: function () {          
-            this.$el.fadeOut(function () {
-                this.$el.empty();
-                this.bookmarksHeader();
-                this.collection.forEach(this.addBookmark);
-                this.$el.fadeIn();
-            }.bind(this));
+        viewAllBookmarks: function () {
+            var self = this;
+            
+            self.$el.fadeOut(function () {
+                self.$el.empty();
+                self.bookmarksHeader();
+                self.collection.forEach(self.addBookmark);
+                self.$el.fadeIn();
+            });
         }        
     });
 }(Backbone, App.Views, jQuery));

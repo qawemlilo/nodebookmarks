@@ -47,44 +47,46 @@
             @Constructor - initializes app views 
         */
         initialize: function () {
-            _.bindAll(this, 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
+            var self = this;
+            
+            _.bindAll(self, 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
 
-            this.$('#profile').hide();
+            self.$('#profile').hide();
 
-            this.router = new routes.Router();
+            self.router = new routes.Router();
             
-            this.bookmarks = new views.Bookmarks({
-                collection: new collections.Bookmarks(this.collection)
+            self.bookmarks = new views.Bookmarks({
+                collection: new collections.Bookmarks(self.collection)
             });
             
-            this.controls = new views.Controls({
-                collection: this.bookmarks.collection
+            self.controls = new views.Controls({
+                collection: self.bookmarks.collection
             });
             
-            this.pagination = new views.Pagination({
-                collection: this.bookmarks.collection
+            self.pagination = new views.Pagination({
+                collection: self.bookmarks.collection
             });
             
-            this.profile = new views.Profile(); 
+            self.profile = new views.Profile(); 
             
             
-            views.Controls = this.controls;
-            views.Bookmarks = this.bookmarks;
-            views.Profile = this.profile;
-            views.Pagination = this.pagination;
-            collections.Bookmarks = this.bookmarks.collection;
+            views.Controls = self.controls;
+            views.Bookmarks = self.bookmarks;
+            views.Profile = self.profile;
+            views.Pagination = self.pagination;
+            collections.Bookmarks = self.bookmarks.collection;
 
             
-            this.bookmarks.collection.pager();
+            self.bookmarks.collection.pager();
             
-            this.assign({
-                '#profile': this.profile,
-                '#controls': this.controls, 
-                '#bookmarks-table': this.bookmarks,
-                '#pagination': this.pagination
+            self.assign({
+                '#profile': self.profile,
+                '#controls': self.controls, 
+                '#bookmarks-table': self.bookmarks,
+                '#pagination': self.pagination
             });
             
-            return this;
+            return self;
         },
 
         
@@ -95,10 +97,12 @@
             The router calls this method when the location hash changes to #user/account
         */
         loadAccount: function () {
-            this.$('.app-elem').fadeOut().promise().done(function () {
-                this.$('#profile').fadeIn();
-                this.activeView = 'profile';
-            }.bind(this));
+            var self = this;
+            
+            self.$('.app-elem').fadeOut().promise().done(function () {
+                self.$('#profile').fadeIn();
+                self.activeView = 'profile';
+            });
         },
         
 
@@ -108,10 +112,12 @@
             This method loads the Bookmarklet view
         */
         loadBookmarklet: function () {
-            this.$('.app-elem').fadeOut().promise().done(function () {
-                this.$('#bookmark-links').fadeIn();
-                this.activeView = 'bookmarklet';
-            }.bind(this));
+            var self = this;
+            
+            self.$('.app-elem').fadeOut().promise().done(function () {
+                self.$('#bookmark-links').fadeIn();
+                self.activeView = 'bookmarklet';
+            });
         },
 
         
@@ -120,21 +126,23 @@
         /*
             This method loads the Bookmarks view. 
         */        
-        loadBookmarks: function () {            
-            if (this.activeView === 'profile' || this.activeView === 'bookmarklet') {
+        loadBookmarks: function () { 
+            var self = this;
+            
+            if (self.activeView === 'profile' || self.activeView === 'bookmarklet') {
             
                 $('.app-elem').fadeOut().promise().done(function () {
-                    this.pagination.reset(function () {
+                    self.pagination.reset(function () {
                         $('.home-div').fadeIn();
                     });
-                    this.activeView = 'home';
-                }.bind(this)); 
+                    self.activeView = 'home';
+                }); 
             }
             else {
-                this.pagination.reset(function () {
+                self.pagination.reset(function () {
                     $('.home-div').fadeIn();
                 });
-                this.activeView = 'home';
+                self.activeView = 'home';
             }
         },
         

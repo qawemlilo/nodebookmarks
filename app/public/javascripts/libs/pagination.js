@@ -1,10 +1,5 @@
 /*
     @Plugin: Backbone.Pagination - pagination plugin
-    @Dependencies - jQuery
-                  - Backbone 
-                  - UnderScore 
-    
-    * Note: This plugin is a custom implemenation of Backbone.Paginator By Addy Osmani <http://addyosmani.com>
 */
 Backbone.Pagination = (function (Backbone, _, $) {
     "use strict";

@@ -32,7 +32,7 @@
                 return 'Name input is not valid';
             }
             
-            if (!$.validateEmail(attr.email)) {
+            if (!attr.email) {
                 var id = (this.task === 'login') ? '#login-email': '#email';
                 
                 $(id).addClass('warning');

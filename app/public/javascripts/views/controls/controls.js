@@ -1,9 +1,5 @@
 /*
-    @Module: App.Views.Controls - renders application controls/menu
-    @Dependencies - jQuery
-                  - Backbone
-                  - UnderScore                  
-                  - EJS                  
+    Controls view                
 */
 (function (Backbone, models, views, Template, $) {
     "use strict";
@@ -34,8 +30,7 @@
         
 
         /*
-            @Public
-            @Void: loads template and renders controls view
+            Loads template and renders controls view
         */          
         render: function () {
             var controlsTemplate, tags = this.collection.getTags();
@@ -53,7 +48,7 @@
             var self = this;
             
             //We want to check if we are on the latest page and if its not of 
-            // filtered models
+            // some filtered models
             if (tag) {
                 $.shout('Loading "' + tag + '" bookmarks.....', 0, 'info');
                 self.collection.fetch({
@@ -95,8 +90,7 @@
 
 
         /*
-            @Private
-            @Void: handles click events for changing limit of displayed bookmarks per page
+            Handles click events for changing limit of displayed bookmarks per page
             @Param: (Object) e - click event object
         */          
         changeCount: function (e) {
@@ -119,8 +113,7 @@
 
 
         /*
-            @Private
-            @Void: handles click events for changing display order of bookmarks
+            Handles click events for changing display order of bookmarks
             @Param: (Object) e - click event object
         */        
         sort: function (e) {
