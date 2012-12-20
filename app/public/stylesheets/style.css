@@ -438,7 +438,7 @@ h1 {
      Media query
 */
 
-@media (min-width: 1200px) {
+@media (min-width: 800px) {
   .container {
     width: 620px;
   }
