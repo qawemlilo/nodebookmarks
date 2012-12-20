@@ -1,5 +1,6 @@
 
 var express = require('express'),
+    request = require('request'),
 
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
@@ -11,6 +12,9 @@ var express = require('express'),
     
     userModel = require('./models/users'),
     bookmarkModel = require('./models/bookmarks'),
+    
+    Readability = require("readabilitySAX").Readability,
+    Parser = require("htmlparser2").Parser,
     
     expressValidator = require('express-validator'),
 
@@ -121,6 +125,18 @@ loggedIn = function (req, res, next) {
     else {
         next();
     }
+};
+
+
+var loadPage = function (url, fn) {
+    request(url, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            fn(false, body);            
+        }
+        else {
+            fn(true, '')
+        }
+    });
 };
 
 
@@ -309,6 +325,38 @@ app.delete('/bookmarks/:id', loggedIn, function (req, res) {
 });
 
 
+
+
+app.get('/read/:id', function (req, res) {
+    var readable = new Readability({}),
+    parser = new Parser(readable, {});
+    
+    bookmarkModel.find(req.params.id, function (error, bookmark) {
+        if(!error) {
+            loadPage(bookmark.url, function (err, html) {
+                if (!err) {
+                    parser.write(html);
+                    res.render('read', {page: 'read', href: bookmark.url, title: readable.getTitle(), loggedIn: !!req.session.user, articletitle: readable.getTitle(), article: readable.getHTML()});
+                }
+            });    
+        }
+    }); 
+});
+
+
+app.get('/reader', function (req, res) {
+    var readable = new Readability({}),
+    parser = new Parser(readable, {});
+    
+    var url = req.query.url;
+    
+    loadPage(url, function (err, html) {
+        if (!err) {
+            parser.write(html);
+            res.render('read', {page: 'read', href: url, title: readable.getTitle(), loggedIn: !!req.session.user, articletitle: readable.getTitle(), article: readable.getHTML()});
+        }
+    });    
+});
 
 
 

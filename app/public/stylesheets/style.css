@@ -13,7 +13,6 @@ body {
 }
 
 .container {
- width: 620px;
  padding: 0px;
  margin: 0 auto;
 }
@@ -405,3 +404,44 @@ ul.dropdown-menu {
   max-height: 400px;
   overflow-y: auto;
 }
+
+
+/*
+    Article styles
+*/
+
+h1 {
+  margin: 10px 0px 10px 0px;
+  padding: 10px 0px 10px 0px;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+
+.article table {
+  width: 100%;
+}
+
+.article p {
+    line-height: 1.55em;
+    margin-bottom: 1.2em;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 1.2em;
+    display:block;
+    font-size: 1.4em;
+}
+
+
+
+/*
+     Media query
+*/
+
+@media (min-width: 1200px) {
+  .container {
+    width: 620px;
+  }
+}
+
+

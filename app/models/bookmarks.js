@@ -161,7 +161,7 @@ exports.add = function (bookmarkObj, fn) {
 
 exports.update = function (id, bookmarkObj, fn) {
 
-    var Model =  db.model('Bookmark'), changed = false;
+    var Model =  db.model('Bookmark');
     
     Model.findById(id, function (err, bookmark) {
         if (!(!!err) && bookmark) {
@@ -178,6 +178,22 @@ exports.update = function (id, bookmarkObj, fn) {
                     fn(false, bookmark);
                 }
             });
+        }
+        else {
+            fn(true, {});
+        }
+    });    
+};
+
+
+
+exports.find = function (id, fn) {
+
+    var Model =  db.model('Bookmark');
+    
+    Model.findById(id, function (err, bookmark) {
+        if (!(!!err) && bookmark) {
+            fn(false, bookmark);
         }
         else {
             fn(true, {});

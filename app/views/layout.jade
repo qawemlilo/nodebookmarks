@@ -22,9 +22,11 @@ html(class='no-js', lang='en')
     
     script(src='/javascripts/libs/modernizr.js')  
   body
-    section(id='app-body', class='container')
-      header!= partial('header')
+    section(id='app-body', class='row-fluid container')
+      if(page !== 'read')
+        header(class='row-fluid')!= partial('header')
       
-      div(class='content', id='content-body', role='main')!= body
+      div(class='content row-fluid', id='content-body', role='main')!= body
       
-      footer!= partial('footer')
+      if(page !== 'read')
+        footer(class='row-fluid')!= partial('footer')
