@@ -9,10 +9,6 @@ var mongoose = require('mongoose'),
     BookmarkSchema, 
     BookmarkSchema,
     Bookmark;
-
-
-  
-
   
   
 BookmarkSchema = new Schema({
@@ -58,18 +54,10 @@ BookmarkSchema = new Schema({
 });
 
 
-
-
-
 Bookmark =  db.model('Bookmark', BookmarkSchema);
 
 
-
-
-
-
 exports.get = function (opts, fn) {
-
     var DB =  db.model('Bookmark');
     
     DB.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}, function (err, bookmarks) {
@@ -99,7 +87,6 @@ exports.get = function (opts, fn) {
 
 
 exports.search = function (opts, fn) {
-
     var DB =  db.model('Bookmark');
     
     DB.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}).or(opts.find).execFind(function (err, bookmarks) {
@@ -129,7 +116,6 @@ exports.search = function (opts, fn) {
 
 
 exports.add = function (bookmarkObj, fn) {
-
     var bookmark = new Bookmark(bookmarkObj);
 
     
@@ -160,7 +146,6 @@ exports.add = function (bookmarkObj, fn) {
 
 
 exports.update = function (id, bookmarkObj, fn) {
-
     var Model =  db.model('Bookmark');
     
     Model.findById(id, function (err, bookmark) {
@@ -188,7 +173,6 @@ exports.update = function (id, bookmarkObj, fn) {
 
 
 exports.find = function (id, fn) {
-
     var Model =  db.model('Bookmark');
     
     Model.findById(id, function (err, bookmark) {
@@ -207,7 +191,6 @@ exports.find = function (id, fn) {
 
 
 exports.remove = function (id, fn) {
-
     var Model =  db.model('Bookmark');
     
     Model.findOne({_id: id}, function (err, bookmark) {
