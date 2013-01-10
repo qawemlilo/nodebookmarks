@@ -17,7 +17,6 @@ var express = require('express'),
         Bookmarks: Bookmarks,
         Mailer: Mailer
     }),
-    
 
     dbSession = '',
     app;    
@@ -25,7 +24,10 @@ var express = require('express'),
  
 app = module.exports = express.createServer();
 
-// Configuration
+
+/***********************************
+   Configuration   
+************************************/
 app.configure(function() {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
@@ -49,26 +51,10 @@ app.configure(function() {
 });
 
 
-
-
-
-
-/*************************
-
-    Database Connection
-    
-**************************/
 dbSession = 'mongodb://' + config.db.host + '/' + config.db.db;
 mongoose.createConnection(dbSession);
 
 
-
-
-/****************
-
-   Configuration
-    
-*****************/
 app.configure('development', function () {
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
@@ -79,7 +65,9 @@ app.configure('production', function () {
 
 
 
-// Routes
+/***********************************
+   Routes   
+************************************/
 routes.setup({
     'controllers': controllers,
     'app': app
@@ -87,11 +75,8 @@ routes.setup({
 
 
 
-
 /********************************
-
-    Kick up the server!!!!!
-    
+    Kick up the server!!!!
 *********************************/
 
 app.listen(3003);

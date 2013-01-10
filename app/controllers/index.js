@@ -14,7 +14,7 @@ function controllers (params) {
                 fn(false, body);            
             }
             else {
-                fn(true, '')
+                fn(true, '');
             }
         });
     };
