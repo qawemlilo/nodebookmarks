@@ -20,6 +20,9 @@ function controllers (params) {
     };
     
     
+    
+    
+    
     controllers.index = function (req, res) {
         if (!!(req.session.user)) {
             var options = Object.create({
