@@ -341,7 +341,7 @@ form label {
   color: #000;
 }
 
-form input.input, form textarea.input-xlarge {
+form input.input, .row-fluid input.span3, form textarea.input-xlarge {
   width: 400px;
 }
 
