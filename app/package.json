@@ -22,7 +22,15 @@
       "connect-mongo": "0.1.x",
       "express-validator": "0.3.x",
       "nodemailer": "0.3.x",
-      "readabilitySAX": "1.5.x"
-  }
+      "readabilitySAX": "1.5.x",
+      "htmlparser2": "2.5.x"
+  },
+  "devDependencies": {
+      "mocha": "latest",
+      "should": "latest"
+  },
+  "scripts": {
+      "build": "node public/javascripts/r.js -o public/javascripts/app/build.js"
+  },
   "engine": "node >= 0.8.9"
 }

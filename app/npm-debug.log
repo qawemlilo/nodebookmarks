@@ -1,0 +1,32 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run-script',
+1 verbose cli   'build' ]
+2 info using npm@1.1.61
+3 info using node@v0.8.9
+4 verbose read json c:\Documents and Settings\Qawe Mlilo\Desktop\dev\Projects\nodebookmarks\app\package.json
+5 verbose run-script [ 'prebuild', 'build', 'postbuild' ]
+6 info prebuild nodebookmarks@0.1.7
+7 info build nodebookmarks@0.1.7
+8 verbose unsafe-perm in lifecycle true
+9 silly exec cmd "/c" "node public/javascripts/r.js -o public/javascripts/app/build.js"
+10 silly cmd,/c,node public/javascripts/r.js -o public/javascripts/app/build.js,c:\Documents and Settings\Qawe Mlilo\Desktop\dev\Projects\nodebookmarks\app spawning
+11 info nodebookmarks@0.1.7 Failed to exec build script
+12 error nodebookmarks@0.1.7 build: `node public/javascripts/r.js -o public/javascripts/app/build.js`
+12 error `cmd "/c" "node public/javascripts/r.js -o public/javascripts/app/build.js"` failed with 1
+13 error Failed at the nodebookmarks@0.1.7 build script.
+13 error This is most likely a problem with the nodebookmarks package,
+13 error not with npm itself.
+13 error Tell the author that this fails on your system:
+13 error     node public/javascripts/r.js -o public/javascripts/app/build.js
+13 error You can get their info via:
+13 error     npm owner ls nodebookmarks
+13 error There is likely additional logging output above.
+14 error System Windows_NT 5.1.2600
+15 error command "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run-script" "build"
+16 error cwd c:\Documents and Settings\Qawe Mlilo\Desktop\dev\Projects\nodebookmarks\app
+17 error node -v v0.8.9
+18 error npm -v 1.1.61
+19 error code ELIFECYCLE
+20 verbose exit [ 1, true ]

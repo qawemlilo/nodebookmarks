@@ -1,11 +1,10 @@
 /*
-    @Module - App.Models.Bookmark - holds bookmark data
-    @Dependencies - Backbone
+
 */
-(function(Backbone, models) {
+define(function() {
     "use strict";
     
-    models.Bookmark = Backbone.Model.extend({
+    var Bookmark = Backbone.Model.extend({
         defaults: {
             publik: false,
             date: (new Date()).getTime(),
@@ -22,4 +21,6 @@
             return this;
         }
     });
-}(Backbone, App.Models));
+    
+    return Bookmark;
+});

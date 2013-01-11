@@ -1,12 +1,10 @@
 /*
-    @Module - App.Models.Bookmark - holds user data
-    @Dependencies - Backbone
-                  - jQuery
+
 */
-(function (Backbone, models, $) {
+define(function () {
     "use strict";
     
-    models.User = Backbone.Model.extend({
+    var User = Backbone.Model.extend({
         defaults: {
             name: '',
             email: '',
@@ -64,4 +62,6 @@
             }
         }
     });
-}(Backbone, App.Models, jQuery));
+    
+    return User;
+});

@@ -1,9 +1,10 @@
 /*
     @Module: Collections::Bookmarks 
 */
-(function(models, collections) {
+
+define(function() {
 "use strict";
-    collections.Bookmarks = Backbone.Pagination.extend({
+    var Bookmarks = Backbone.Pagination.extend({
     
         model: models.Bookmark,
         
@@ -19,4 +20,6 @@
         
         currentPage: 1
     });
-}(App.Models, App.Collections));
+    
+    return Bookmarks;
+});
