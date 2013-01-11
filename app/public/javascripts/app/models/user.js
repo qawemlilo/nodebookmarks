@@ -1,10 +1,12 @@
 /*
 
 */
-define(function () {
+define(function (require) {
     "use strict";
     
-    var User = Backbone.Model.extend({
+    var Backbone = require('./libs/backbone'), User; 
+    
+    User = Backbone.Model.extend({
         defaults: {
             name: '',
             email: '',

@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: 'javascripts/app',
+    baseUrl: 'javascripts/app/',
     
     paths: {
         text: 'libs/text'
@@ -22,8 +22,9 @@ requirejs.config({
     }
 });
 
-require(["jquery", "app"], function($, App) {  
+require(["app"], function(App) {  
     $(function() {
+        window.App = App;
         App.init('home', []);
     });
 });

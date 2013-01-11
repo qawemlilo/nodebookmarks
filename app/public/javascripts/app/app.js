@@ -1,10 +1,12 @@
 /*
     App - application namespace.
 */
-define(['libs/backbone'], function (Backbone) {
+define(function (require) {
     "use strict";
-
-    var App = {
+    
+    var Backbone = require('./libs/backbone'), 
+    
+    App = {
     
         init: function (page, bookmarks) {
             var index, controller;
