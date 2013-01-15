@@ -1,7 +1,7 @@
 /*
 
 */
-define(function() {
+define(['../libs/backbone'], function(Backbone) {
     "use strict";
     
     var Bookmark = Backbone.Model.extend({

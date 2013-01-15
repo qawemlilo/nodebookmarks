@@ -2,10 +2,10 @@
     This is the router handles app navigation for logged in user.
     The router also handles highlighting the currently active menu
 */
-(function(views, routes) {
+define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
     "use strict";
     
-    routes.Router = Backbone.Router.extend({
+    var Router = Backbone.Router.extend({
     
     
         routes: {
@@ -26,7 +26,7 @@
         
         
         loadAccount: function () {
-            views.Controller.loadAccount();
+            App.Views.Controller.loadAccount();
             this._changeActive('account');
         },
         
@@ -34,7 +34,7 @@
         
         
         loadBookmarklet: function () {
-            views.Controller.loadBookmarklet();
+            App.Views.Controller.loadBookmarklet();
             this._changeActive('bookmarklet');
         },
         
@@ -42,7 +42,7 @@
         
         
         goTo: function (num) {
-            views.Controller.goTo(num); 
+            App.Views.Controller.goTo(num); 
             this._changeActive('bookmarks');
         },
         
@@ -50,13 +50,13 @@
         
         
         loadBookmarks: function () {
-            views.Controller.loadBookmarks();
+            App.Views.Controller.loadBookmarks();
             this._changeActive('bookmarks');               
         },
         
         
         newBookmark: function () {
-            views.Controller.newBookmarkView();
+            App.Views.Controller.newBookmarkView();
             this._changeActive('bookmarks');
         },
         
@@ -64,7 +64,7 @@
         
         
         filterTags: function (tag) {
-            views.Controller.filterTags(tag);
+            App.Views.Controller.filterTags(tag);
             this._changeActive('bookmarks');
         },
         
@@ -78,4 +78,6 @@
             }        
         }
     });
-}(App.Views, App.Routes));
+    
+    return Router;
+});

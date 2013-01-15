@@ -1,0 +1,9 @@
+﻿<form class='bookmark-edit-form' name='edit-form' action=''>
+    <label for='title'>Title:</label> <input type='text' class='span3' name='title' value='<%= title %>'><br>
+    <label for='url'>Url:</label> <input type='text' class='span3' name='url' value='<%= url %>'><br>
+    <label for='notes'>Notes:</label> <textarea type='text' class='input-xlarge' name='notes' rows='3'><%= notes %></textarea><br>
+    <label for='tags'>Tags:</label> <input type='text' class='span3' name='tags' value='<%= tags %>'><br />
+    <label class="publik"></label> <div><input name="publik" <% if(!publik) { %>checked='checked' <% } %> type="checkbox"> Private</div><br />
+    <label for='submit'></label><input type='submit' class='btn save' name='submit' value='Save'>
+    <button class='btn cancel' href='#'>Cancel</button>
+</form>

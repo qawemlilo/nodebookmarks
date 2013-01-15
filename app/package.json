@@ -30,7 +30,7 @@
       "should": "latest"
   },
   "scripts": {
-      "build": "node public/javascripts/r.js -o public/javascripts/app/build.js"
+      "build": "node r.js -o app.build.js"
   },
   "engine": "node >= 0.8.9"
 }

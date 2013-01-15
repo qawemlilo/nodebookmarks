@@ -1,10 +1,10 @@
 /*
     @Module: App.Views.Controller - initializes application views
 */
-define(['../libs/underscore', '../libs/backbone'], function (_, Backbone) {
+(function (Backbone, models, views, collections, routes, $) {
     "use strict";
     
-    var Controller = Backbone.View.extend({
+    views.Controller = Backbone.View.extend({
     
     
     
@@ -52,19 +52,38 @@ define(['../libs/underscore', '../libs/backbone'], function (_, Backbone) {
             _.bindAll(self, 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
 
             self.$('#profile').hide();
+
+            self.router = new routes.Router();
             
-            self.controls = App.Views.Controls;
-            self.bookmarks = App.Views.Bookmarks;
-            self.profile = App.Views.Profile;
-            self.pagination = App.Views.Pagination;
+            self.bookmarks = new views.Bookmarks({
+                collection: new collections.Bookmarks(self.collection)
+            });
+            
+            self.controls = new views.Controls({
+                collection: self.bookmarks.collection
+            });
+            
+            self.pagination = new views.Pagination({
+                collection: self.bookmarks.collection
+            });
+            
+            self.profile = new views.Profile(); 
+            
+            
+            views.Controls = self.controls;
+            views.Bookmarks = self.bookmarks;
+            views.Profile = self.profile;
+            views.Pagination = self.pagination;
+            collections.Bookmarks = self.bookmarks.collection;
+
             
             self.bookmarks.collection.pager();
             
             self.assign({
-                '#profile': App.Views.Profile
-                '#controls': App.Views.Controls, 
-                '#bookmarks-table': App.Views.Bookmarks,
-                '#pagination': App.Views.Pagination
+                '#profile': self.profile,
+                '#controls': self.controls, 
+                '#bookmarks-table': self.bookmarks,
+                '#pagination': self.pagination
             });
             
             return self;
@@ -192,6 +211,4 @@ define(['../libs/underscore', '../libs/backbone'], function (_, Backbone) {
             }, this);
         }        
     });
-    
-    return Controller;
-});
+}(Backbone, App.Models, App.Views, App.Collections, App.Routes, jQuery));

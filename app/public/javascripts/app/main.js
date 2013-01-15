@@ -1,8 +1,20 @@
 requirejs.config({
-    baseUrl: 'javascripts/app/',
+    baseUrl: 'javascripts/app',
     
     paths: {
-        text: 'libs/text'
+        'text': 'libs/text',
+        
+        'underscore': 'libs/underscore',
+        
+        'backbone': 'libs/backbone',
+        
+        'templates': 'templates',
+        
+        'views': 'views',
+        
+        'models': 'models',
+        
+        'collections': 'collections'
     },
     
     shim: {
@@ -17,7 +29,7 @@ requirejs.config({
         },
         
         'app': {
-            deps: ['libs/underscore', 'libs/backbone']
+            deps: ['views/bookmark', 'models/bookmark']
         }
     }
 });

@@ -3,9 +3,10 @@
     #login - calls loadLogin() method which loads login form
     #register - calls loadRegister() method which loads registration form
 */
-(function(routes) {
-"use strict";
-    routes.Router = Backbone.Router.extend({
+define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
+    "use strict";
+    
+    var Router = Backbone.Router.extend({
         routes: {
             'user/login': 'loadLogin',
             
@@ -44,4 +45,6 @@
             });
         }
     });
+    
+    return Router;
 }(App.Routes));

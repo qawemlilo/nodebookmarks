@@ -1,0 +1,46 @@
+<div class="btn-group">
+    <button class="btn btn-large"> <i class='icon-tags icon-calendar'></i> Sort </button>
+    <button data-toggle="dropdown" class="btn btn-large dropdown-toggle">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu sort">
+        <li><a href="#" class='desc'><i class='icon-tags icon-arrow-down'></i> Latest First</a></li>
+        <li><a href="#" class='asc'><i class='icon-tags icon-arrow-up'></i> Older First</a></li>
+    </ul>
+</div>
+
+<div class="btn-group">
+    <button class="btn btn-large"> <i class='icon-tags icon-list'></i> Display </button>
+    <button data-toggle="dropdown" class="btn btn-large dropdown-toggle">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu limit">
+        <li><a href="#">5</a></li>
+        <li><a href="#">10</a></li>
+        <li><a href="#">20</a></li>
+        <li><a href="#">50</a></li>
+        <li><a href="#">100</a></li>
+    </ul>
+</div>
+
+<div class="btn-group">
+    <button class="btn btn-large btn-info"> <i class='icon-tags icon-white'></i> Tags</button>
+    <button data-toggle="dropdown" class="btn btn-large btn-info dropdown-toggle">
+        <span class="caret"></span>
+    </button>
+    <ul class='dropdown-menu bookmark-menu-tags'>
+        <% _.each(tags, function (tag) { %>
+            <li>
+                <a href='#bookmarks/tags/<%= tag %>'><%= tag %></a>
+            </li>
+        <% }) %>
+        <% if (filteredTag) { %> 
+            <li class="divider"></li>
+            <li><a href="#bookmarks">Clear <%= filteredTag %></a></li>
+        <% } %>
+    </ul>
+</div>
+
+<div class="btn-group pull-right">
+    <a href="#bookmarks/new" class="btn btn-large btn-success new-bookmark"> <i class='icon-white icon-plus-sign'></i> New bookmark</a>
+</div>
