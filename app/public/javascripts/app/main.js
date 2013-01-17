@@ -2,19 +2,7 @@ requirejs.config({
     baseUrl: 'javascripts/app',
     
     paths: {
-        'text': 'libs/text',
-        
-        'underscore': 'libs/underscore',
-        
-        'backbone': 'libs/backbone',
-        
-        'templates': 'templates',
-        
-        'views': 'views',
-        
-        'models': 'models',
-        
-        'collections': 'collections'
+        'text': 'libs/text' 
     },
     
     shim: {
@@ -24,12 +12,11 @@ requirejs.config({
         
         'libs/backbone': {
             deps: ['libs/underscore'],
-            
             exports: 'Backbone'
         },
         
         'app': {
-            deps: ['views/bookmark', 'models/bookmark']
+            deps: ['libs/underscore', 'libs/backbone', 'libs/script']
         }
     }
 });
@@ -37,6 +24,6 @@ requirejs.config({
 require(["app"], function(App) {  
     $(function() {
         window.App = App;
-        App.init('home', []);
+        App.init(page, []);
     });
 });

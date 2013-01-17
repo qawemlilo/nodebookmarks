@@ -1,7 +1,7 @@
 /*
     @Plugin: Backbone.Pagination - pagination plugin
 */
-Backbone.Pagination = (function (Backbone, _, $) {
+define(['../libs/underscore', '../libs/backbone'], function (_, Backbone) {
     "use strict";
     
     var Pagination = Backbone.Collection.extend({
@@ -332,4 +332,4 @@ Backbone.Pagination = (function (Backbone, _, $) {
     });
     
     return Pagination;
-}(Backbone, _, jQuery));
+});

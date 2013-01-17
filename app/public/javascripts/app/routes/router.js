@@ -2,7 +2,7 @@
     This is the router handles app navigation for logged in user.
     The router also handles highlighting the currently active menu
 */
-define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
+define(['../libs/underscore', '../libs/backbone'], function(_, Backbone) {
     "use strict";
     
     var Router = Backbone.Router.extend({
@@ -24,9 +24,15 @@ define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
         
         
         
+        initialize: function(app) {
+            this.app = app;
+        },
+        
+        
+        
         
         loadAccount: function () {
-            App.Views.Controller.loadAccount();
+            this.app.views.controller.loadAccount();
             this._changeActive('account');
         },
         
@@ -34,7 +40,7 @@ define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
         
         
         loadBookmarklet: function () {
-            App.Views.Controller.loadBookmarklet();
+            this.app.views.controller.loadBookmarklet();
             this._changeActive('bookmarklet');
         },
         
@@ -42,7 +48,7 @@ define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
         
         
         goTo: function (num) {
-            App.Views.Controller.goTo(num); 
+            this.app.views.controller.goTo(num); 
             this._changeActive('bookmarks');
         },
         
@@ -50,13 +56,13 @@ define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
         
         
         loadBookmarks: function () {
-            App.Views.Controller.loadBookmarks();
+            this.app.views.controller.loadBookmarks();
             this._changeActive('bookmarks');               
         },
         
         
         newBookmark: function () {
-            App.Views.Controller.newBookmarkView();
+            this.app.views.Controller.newBookmarkView();
             this._changeActive('bookmarks');
         },
         
@@ -64,7 +70,7 @@ define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
         
         
         filterTags: function (tag) {
-            App.Views.Controller.filterTags(tag);
+            this.app.views.controller.filterTags(tag);
             this._changeActive('bookmarks');
         },
         
@@ -72,7 +78,7 @@ define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
         
         
         _changeActive: function (current) {
-            if (App.page !== 'demo') {
+            if (this.app.page !== 'demo') {
                 $('.nav-pills li.active').removeClass('active');
                 $('.nav-pills li.' + current).addClass('active');
             }        

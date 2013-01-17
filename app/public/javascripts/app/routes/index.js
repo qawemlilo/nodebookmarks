@@ -1,12 +1,11 @@
 /*
-    @Routes - @AppRouter - handles and responds to changes in url hash
-    #login - calls loadLogin() method which loads login form
-    #register - calls loadRegister() method which loads registration form
+
 */
-define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
+define(function() {
     "use strict";
     
     var Router = Backbone.Router.extend({
+    
         routes: {
             'user/login': 'loadLogin',
             
@@ -22,29 +21,68 @@ define(['../libs/underscore', '../libs/backbone', function(_, Backbone) {
             
             '/': 'loadRegister',
             
-            '': 'loadRegister'
+            'devs': 'loadDevsPage',
+            
+            'privacy': 'loadPrivacyPage'
         },
         
+        
+        
+        initialize: function (app) {
+            this.app = app;
+        },
+        
+        
+        
         loadLogin: function (error) {
-            $('#register-form, #punch-line').fadeOut(function () {
-                $('#login-form').fadeIn();
+            var self = this;
+            
+            $('#app-body').fadeOut(function () {
+                self.app.views.login.render();
                 $('.nav-pills li.active').removeClass('active');
                 $('.nav-pills li.login').addClass('active');
-                    
+                $('#app-body').fadeIn();    
                 if (error) {
                     $.shout('Invalid email / password combination',  10);
                 }
             });
         },
         
+        
+        
         loadRegister: function () {
-            $('#login-form').fadeOut(function () {
-                $('#register-form,  #punch-line').fadeIn();
+            var self = this;
+            
+            $('#app-body').fadeOut(function () {
+                self.app.views.register.render();
                 $('.nav-pills li.active').removeClass('active');
                 $('.nav-pills li.home').addClass('active');
+                $('#app-body').fadeIn(); 
+            });
+        },
+        
+        
+        loadDevsPage: function () {
+            var self = this;
+            
+            $('#app-body').fadeOut(function () {
+               self.app.views.pages.render('devs');
+                $('.nav-pills li.active').removeClass('active');
+                $('#app-body').fadeIn(); 
+            });
+        },
+        
+        
+        loadPrivacyPage: function () {
+            var self = this;
+            
+            $('#app-body').fadeOut(function () {
+                self.app.views.pages.render('privacy');
+                $('.nav-pills li.active').removeClass('active');
+                $('#app-body').fadeIn(); 
             });
         }
     });
     
     return Router;
-}(App.Routes));
+});

@@ -5,7 +5,7 @@
                   - UnderScore                  
                   - EJS 
 */
-define(['../libs/underscore', '../libs/backbone', 'text!templates/profile/profile.html'], function(_, Backbone, settingsTemplate) {
+define(['../models/user', 'text!templates/profile/profile.html'], function(User, settingsTemplate) {
     "use strict";
     
     var Profile = Backbone.View.extend({
@@ -24,9 +24,6 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/profile/profil
         
         
         
-        
-        
-        
         events: {
             'submit #settings-form': 'updateUser',
             'submit #delete': 'promptUser'
@@ -40,18 +37,18 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/profile/profil
         
         
       
-        initialize: function () {
+        initialize: function (opts) {
             _.bindAll(this, 'render', 'getUserData', 'updateUser', 'updateForm', 'promptUser');
             
-            if (App.page === 'demo') {
+            this.app = opts.app;
+            
+            if (this.app.page === 'demo') {
                 return;
             }
             
-            this.model = new models.User();
+            this.model = new User();
             this.model.task = 'update';
             this.model.on('change', this.updateForm);
- 
-            models.User = this.model;
             
             return this;
         },
@@ -69,7 +66,7 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/profile/profil
             @Returns: void
         */
         render: function () {
-            if (App.page === 'demo') {
+            if (this.app.page === 'demo') {
                 return;
             }
             

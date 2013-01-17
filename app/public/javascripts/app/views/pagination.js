@@ -1,6 +1,6 @@
 
 
-define(['../libs/underscore', '../libs/backbone', '../models/bookmark', 'text!templates/pagination/pagination.html'], function(_, Backbone, Bookmark, paginationTemplate) {
+define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../libs/pagination'], function(Bookmark, paginationTemplate) {
     "use strict";
     
     var Pagination = Backbone.View.extend({
@@ -24,16 +24,18 @@ define(['../libs/underscore', '../libs/backbone', '../models/bookmark', 'text!te
             @Public
             @Constructor: binds collection events
         */        
-        initialize: function () {
+        initialize: function (opts) {
             var self = this;
             
             _.bindAll(self, 'render', 'changeCount', 'gotoNext', 'gotoPage', 'gotoPrev');
-             
+            
+            self.app = opts.app;
+            
             self.collection.on('reset', self.render);
             self.collection.on('remove', function (model) {
                 self.collection.removeFromOGModels(model.cid);
                 self.render();
-                App.Views.Controls.render();
+                self.app.views.controls.render();
             }); 
 
             return self;            

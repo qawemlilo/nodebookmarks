@@ -1,5 +1,5 @@
 
-define(['../libs/underscore', '../libs/backbone', '../views/bookmark'], function (_, Backbone,  Bookmark) {
+define(['../views/bookmark', '../libs/bootstrap-transition', '../libs/bootstrap-collapse', '../libs/bootstrap-dropdown'], function (Bookmark) {
     "use strict";
     
     var Bookmarks = Backbone.View.extend({
@@ -15,6 +15,8 @@ define(['../libs/underscore', '../libs/backbone', '../views/bookmark'], function
             
             this.collection.on('add', this.addBookmark);
             this.collection.on('reset', this.viewAllBookmarks);
+            
+            
             
             return this;
         },

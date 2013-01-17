@@ -1,12 +1,12 @@
 /*
     Registration form view                  
 */
-define(['../libs/underscore', '../libs/backbone', '../routes/index'], function(_, Backbone, Router) {
+define(['../models/user', 'text!templates/register/register.html'], function(User, registerTemplate) {
     "use strict";
     
     var Register = Backbone.View.extend({
     
-        el: $('#form-container'),
+        el: $('#content-body'),
         
         
         events: {
@@ -14,12 +14,18 @@ define(['../libs/underscore', '../libs/backbone', '../routes/index'], function(_
         },
         
         
-        initialize: function () {
+        
+        registerTemplate: _.template(registerTemplate),
+        
+        
+        
+        
+        initialize: function (obj) {
+            this.app = obj.app;
+            
             _.bindAll(this, 'registerUser', 'render');
-            
-            this.router = new Router();
-            
-            this.render();
+
+            return this;
         },
         
 
@@ -28,7 +34,11 @@ define(['../libs/underscore', '../libs/backbone', '../routes/index'], function(_
             Renders form
         */           
         render: function () {
-            return this;
+            var self =this, template = self.registerTemplate({});
+            
+            self.$el.html(template);
+            
+            return self;
         },
         
 
@@ -40,18 +50,19 @@ define(['../libs/underscore', '../libs/backbone', '../routes/index'], function(_
         registerUser: function (e) {    
             e.preventDefault();
             
-            var newMember = new models.User(), 
-                data = this.formToObject('register-form'), 
+            var newMember = new User(),
+                self = this,            
+                data = self.formToObject('register-form'), 
                 successHandler, errorHandler;
             
             newMember.task = 'register';
             
             successHandler = function (model, res) {
                 if (!res.error) {
-                    $('#login-email').val(model.get('email'));
+                    self.$('#login-email').val(model.get('email'));
                     document.forms['register-form'].reset();
                     window.location.hash = '#user/login'; 
-                    $('#bookmark-links').fadeIn();
+                    self.$('#bookmark-links').fadeIn();
                     
                     $.shout(res.msg, 15, 'success');
                 } else { 

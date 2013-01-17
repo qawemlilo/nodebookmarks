@@ -1,48 +1,69 @@
 /*
     App - application namespace.
 */
-define(['../routes/router', 'views/bookmarks', 'views/bookmarks', 'views/controls', 'views/pagination', 'views/profile'], function (Router, Bookmarks, Controls, Pagination, Profile) {
+define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'views/controls', 'views/profile', 'views/pagination', 'routes/index', 'routes/router', 'libs/fancybox/fancybox'], 
+  function (Register, Login, Pages, Bookmarks, Controls, Profile, Pagination, Index, Router) {
 
     var App = {
     
-        init: function (page, bookmarks) {
-            var index, controller, router;
+        views: {},
+        
+        
+        models: {},
+        
+        
+        collections: {},
+        
+        
+        init: function (page, books) {
+            var index, controller, router, self = this;
             
+            self.page = page;
             
-            if(page == 'home') {
-                router = new Router();
-            }
-            else {
-            
-            }
-            App.page = page;
-
-            
-            App.Views = {
-                Bookmarks: new Bookmarks({
-                    collection: bookmarks
-                }),
+            if (page === 'index') {
+                $.howItWorks();
                 
-                Controls: new Controls({
-                    collection: App.Views.Bookmarks.collection
-                }),
-
-                Pagination: new Pagination({
-                    collection: App.Views.Bookmarks.collection
-                }),
+                router = new Index(self);
                 
-                Profile: new Profile()
-            };
-        },
-    
-    
-        Views: {},
-    
-    
-        Models: {},
-    
-    
-        Collections: {}
+                self.views.register = new Register({
+                    app: self
+                });
+                    
+                self.views.login = new Login({
+                    app: self
+                });
+                
+                self.views.pages = new Pages();
+            }
+            
+            if (page === 'home' || page === 'demo') {
+                router = new Router(self);
+                
+                
+                self.views.bookmarks = new Bookmarks({
+                    collection: books
+                });
+                    
+                self.views.controls = new Controls({
+                    app: self,
+                    collection: self.views.bookmarks.collection
+                });
+                
+                self.views.profile = new Profile({
+                    app: self,
+                    collection: self.views.bookmarks.collection
+                });
+                
+                self.views.pagination = new Pagination({
+                    app: self,
+                    collection: self.views.bookmarks.collection
+                });
+                
+                self.views.pages = new Pages();
+            }
+            
+            Backbone.history.start();
+        }
     };
   
     return App;

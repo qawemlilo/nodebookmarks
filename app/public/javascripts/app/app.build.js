@@ -1,9 +1,9 @@
 ({
     appDir: "../",
     
-    baseUrl: "app/",
+    baseUrl: "app",
     
-    dir: "../../build",
+    dir: "../build",
 
     modules: [
         {

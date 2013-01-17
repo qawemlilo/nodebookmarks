@@ -1,43 +1,21 @@
 /*
     @Module: App.Views.Controller - initializes application views
 */
-(function (Backbone, models, views, collections, routes, $) {
+define(['libs/underscore', 'libs/backbone', 'models/bookmark'], function (_, Backbone, Bookmark) {
     "use strict";
     
-    views.Controller = Backbone.View.extend({
-    
-    
-    
+    var Controller = Backbone.View.extend({
+
         el: $('#app-body'),
-        
-        
-        
-        
-        router: {},
-        
-        
-        
-        
+
         profile: {},
-        
-        
-        
-        
+
         activeView: '',
-        
-        
-        
-        
+
         bookmarks: {},
-        
-        
-        
-        
+
         controls: {},
-        
-        
-        
-        
+
         pagination: {},
 
 
@@ -46,44 +24,27 @@
         /*
             @Constructor - initializes app views 
         */
-        initialize: function () {
+        initialize: function (opts) {
             var self = this;
             
             _.bindAll(self, 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
 
             self.$('#profile').hide();
-
-            self.router = new routes.Router();
             
-            self.bookmarks = new views.Bookmarks({
-                collection: new collections.Bookmarks(self.collection)
-            });
+            self.app =opts.app;
             
-            self.controls = new views.Controls({
-                collection: self.bookmarks.collection
-            });
-            
-            self.pagination = new views.Pagination({
-                collection: self.bookmarks.collection
-            });
-            
-            self.profile = new views.Profile(); 
-            
-            
-            views.Controls = self.controls;
-            views.Bookmarks = self.bookmarks;
-            views.Profile = self.profile;
-            views.Pagination = self.pagination;
-            collections.Bookmarks = self.bookmarks.collection;
-
+            self.controls = self.app.views.controls;
+            self.bookmarks = self.app.views.bookmarks;
+            self.profile = self.app.views.p;
+            self.pagination = self.app.views.pagination;
             
             self.bookmarks.collection.pager();
             
             self.assign({
-                '#profile': self.profile,
-                '#controls': self.controls, 
-                '#bookmarks-table': self.bookmarks,
-                '#pagination': self.pagination
+                '#profile': self.app.views.profile
+                '#controls': self.app.views.controls, 
+                '#bookmarks-table': self.app.views.bookmarks,
+                '#pagination': self.app.views.pagination
             });
             
             return self;
@@ -156,7 +117,7 @@
             var self = this,  model;
             
             $('.home-div').fadeOut().promise().done(function () {
-                model = new models.Bookmark();
+                model = new Bookmark();
                 model = model.createUrlRoot('/bookmarks'); 
             
                 self.bookmarks.newBookmark(model);
@@ -211,4 +172,6 @@
             }, this);
         }        
     });
-}(Backbone, App.Models, App.Views, App.Collections, App.Routes, jQuery));
+    
+    return Controller;
+});

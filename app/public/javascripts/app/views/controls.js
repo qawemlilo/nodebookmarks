@@ -1,7 +1,7 @@
 /*
     Controls view                
 */
-define(['../libs/underscore', '../libs/backbone', '../models/bookmark', 'text!templates/controls/controls.html'], function (_, Backbone, Bookmark, controlsTemplate) {
+define(['../models/bookmark', 'text!templates/controls/controls.html'], function (Bookmark, controlsTemplate) {
     "use strict";
     
     var Controls = Backbone.View.extend({
@@ -30,8 +30,10 @@ define(['../libs/underscore', '../libs/backbone', '../models/bookmark', 'text!te
         
         
         
-        initialize: function () {
+        initialize: function (opts) {
             _.bindAll(this, 'render', 'clearNewBookmark');
+            
+            this.app = opts.app;
         },
         
         
@@ -108,7 +110,7 @@ define(['../libs/underscore', '../libs/backbone', '../models/bookmark', 'text!te
             e.preventDefault();
             var num = $(e.target).text();
              
-            App.Views.Pagination.changeCount(num);
+            this.app.views.pagination.changeCount(num);
         },
         
         

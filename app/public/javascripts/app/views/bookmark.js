@@ -1,9 +1,9 @@
 /*
     Bookmark view
 */
-define(['../libs/underscore', '../libs/backbone', 'text!templates/bookmark/bookmark.html', 'text!templates/bookmark/new.html', 'text!templates/bookmark/edit.html'], 
+define(['text!templates/bookmark/bookmark.html', 'text!templates/bookmark/new.html', 'text!templates/bookmark/edit.html'], 
     
-    function (_, Backbone, bookmarkTemplate, newBookmarkTemplate, editTemplate) {
+    function (bookmarkTemplate, newBookmarkTemplate, editTemplate) {
     
     var Bookmark = Backbone.View.extend({
     
@@ -68,10 +68,12 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/bookmark/bookm
         /*
             Binds model events and initializes bookmark 
         */        
-        initialize: function () {
+        initialize: function (opts) {
             var self = this;
             
             _.bindAll(self, 'render', 'unrender', 'saveEdit', 'cancelNew', 'newBookmark', 'saveNew', 'cancelEdit', 'update', 'loadEditor', 'deleteBookmark', 'getCleanModel');       
+            
+            self.app = opts.app;
             
             self.model.on('change', function () {
                 var attrs = ['publik', 'url', 'title', 'notes', 'starred', 'tags'];
@@ -178,7 +180,7 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/bookmark/bookm
                 successHandler, 
                 errorHandler, 
                 self = this,
-                errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not saved';
+                errmsg = (self.app.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not saved';
 
             formObj = self.j('#new-bookmark-form');
 
@@ -186,7 +188,7 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/bookmark/bookm
                 self.activeNew = false; // unlock
                 
                 self.model.set({'id': response.model.id});
-                App.Collections.Bookmarks.origModels.push(self.model);
+                self.app.collections.bookmarks.origModels.push(self.model);
                 
                 $.shout('New bookmark saved!', 10, 'success');
                 
@@ -251,7 +253,7 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/bookmark/bookm
                 successHandler, 
                 errorHandler, 
                 editFormDiv = self.$('.bookmark-edit'),
-                errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not updated';
+                errmsg = (self.app.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not updated';
 
             formObj = self.serializeForm('.bookmark-edit-form');
 
@@ -259,7 +261,7 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/bookmark/bookm
                 self.activeEditor = false; // unlock editor
                 $.shout(response.msg, 10, 'success');
                 
-                App.Views.Controls.render(); // refresh tags
+                self.app.views.controls.render(); // refresh tags
             };
             
             errorHandler = function (model, response) {
@@ -384,7 +386,7 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/bookmark/bookm
             var self = this,
                 errorHandler, 
                 successHandler, 
-                errmsg = (App.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not deleted';
+                errmsg = (self.app.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not deleted';
                 
             if (!confirm('Are you sure you want to delete this bookmark?')) {
                 return false;
@@ -393,7 +395,7 @@ define(['../libs/underscore', '../libs/backbone', 'text!templates/bookmark/bookm
             successHandler = function (model, response) {
                 self.unrender();
                 $.shout(response.msg, 10, 'success');
-                App.Collections.Bookmarks.refresh();
+                self.app.collections.bookmarks.refresh();
             };
             
             errorHandler = function (model, response) {

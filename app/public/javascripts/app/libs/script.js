@@ -68,6 +68,18 @@
         return true;
     };
     
+    $.howItWorks = function () {
+        $('#how-it-works').fancybox({
+            'width': '75%',
+            'height': '96%',
+            'autoScale': false,
+            'transitionIn': 'none',
+            'transitionOut': 'none',
+            'type': 'iframe',
+            'onStart': function () {}
+        });      
+    };
+    
     window.onerror = function (errorMsg, url, lineNumber) {
         alert(errorMsg + ' ' + lineNumber + ' ' + url);
     };
