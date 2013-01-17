@@ -83,7 +83,7 @@ define(['text!templates/bookmark/bookmark.html', 'text!templates/bookmark/new.ht
                         self.update(attr);
                     }
                 });
-            });        
+            });     
             
             return self;
         },
@@ -98,11 +98,12 @@ define(['text!templates/bookmark/bookmark.html', 'text!templates/bookmark/new.ht
         */        
         render: function () {
             var self = this, model = self.getCleanModel(), template;
-            
-            template = self.bookmarkTemplate(model);   
+
+            template = self.bookmarkTemplate(model);
+ 
             self.$el.append(template);
             
-            return self.$el;
+            return this.$el;
         },
         
         

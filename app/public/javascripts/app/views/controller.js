@@ -18,7 +18,7 @@ define(['models/bookmark'], function (Bookmark) {
             
             _.bindAll(self, '_changeActive', 'loadPage', 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
             
-            self.app =opts.app;
+            self.app = opts.app;
             
             self.app.views.bookmarks.collection.pager();
             self.app.collections.Bookmarks = self.app.collections.bookmarks = self.app.views.bookmarks.collection;
@@ -57,12 +57,12 @@ define(['models/bookmark'], function (Bookmark) {
         
         loadBookmarks: function () {
             var self = this;
+
+            $('#content-body').empty(); 
             
-             self.$el.fadeOut(function () {
-                self.app.views.pagination.reset();
-                self._changeActive('bookmarks');
-                 self.$el.fadeIn(); 
-            });           
+            self.app.views.bookmarks.collection.pager(); 
+            
+            self.app.views.controls.render();     
         },
         
         
@@ -104,7 +104,7 @@ define(['models/bookmark'], function (Bookmark) {
                 model = new Bookmark();
                 model = model.createUrlRoot('/bookmarks'); 
             
-                self.bookmarks.newBookmark(model);
+                self.app.views.bookmarks.newBookmark(model);
             });
         },
         

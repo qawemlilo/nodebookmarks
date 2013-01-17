@@ -1,5 +1,5 @@
 
-define(['../views/bookmark', '../libs/bootstrap-dropdown'], function (Bookmark) {
+define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown'], function (Bookmark, Model) {
     "use strict";
     
     var Bookmarks = Backbone.View.extend({
@@ -8,10 +8,12 @@ define(['../views/bookmark', '../libs/bootstrap-dropdown'], function (Bookmark) 
         
 
      
-        initialize: function () {
+        initialize: function (opts) {
             _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'bookmarksHeader', 'render');
             
             $('.dropdown-toggle').dropdown();
+            
+            this.app = opts.app;
             
             this.collection.on('add', this.addBookmark);
             this.collection.on('reset', this.viewAllBookmarks);
@@ -36,11 +38,14 @@ define(['../views/bookmark', '../libs/bootstrap-dropdown'], function (Bookmark) 
             @Param: (Object) bookmarkModel - bookmark model
         */        
         addBookmark: function (bookmarkModel) { 
+            var self = this;
+
             var bookmarkView = new Bookmark({
-                model: bookmarkModel
+                model: bookmarkModel,
+                app: self.app
             });
-            
-            this.$el.append(bookmarkView.render().el);
+
+            self.$el.append(bookmarkView.render());
         },
         
         
@@ -106,7 +111,7 @@ define(['../views/bookmark', '../libs/bootstrap-dropdown'], function (Bookmark) 
             self.$el.fadeOut(function () {
                 self.$el.empty();
                 self.bookmarksHeader();
-                _.each(self.collection, self.addBookmark);
+                self.collection.forEach(self.addBookmark);
                 self.$el.fadeIn();
             });
         }        
