@@ -1,9 +1,8 @@
-
-
-define(['libs/underscore', 'libs/backbone'], function (_, Backbone) {
-    "use strict";
-    
-    var Pagination = Backbone.Collection.extend({
+/*
+    @Plugin: Backbone.Pagination - pagination plugin
+*/
+define(function () {
+    Backbone.Pagination = Backbone.Collection.extend({
     
         initialize: function () {
             this.filteredModels = '';
@@ -330,5 +329,5 @@ define(['libs/underscore', 'libs/backbone'], function (_, Backbone) {
         
     });
     
-    return Pagination;
-});
+    return Backbone.Pagination;
+}(Backbone, _, jQuery));

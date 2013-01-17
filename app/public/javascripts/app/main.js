@@ -20,7 +20,7 @@ requirejs.config({
         },
         
         'app': {
-            deps: ['libs/underscore', 'libs/backbone', 'libs/pagination','libs/script']
+            deps: ['libs/underscore', 'libs/backbone', 'libs/script']
         }
     }
 });
