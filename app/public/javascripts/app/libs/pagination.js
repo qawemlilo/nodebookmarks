@@ -1,7 +1,6 @@
-/*
-    @Plugin: Backbone.Pagination - pagination plugin
-*/
-define(['../libs/underscore', '../libs/backbone'], function (_, Backbone) {
+
+
+define(['libs/underscore', 'libs/backbone'], function (_, Backbone) {
     "use strict";
     
     var Pagination = Backbone.Collection.extend({

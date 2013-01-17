@@ -15,8 +15,12 @@ requirejs.config({
             exports: 'Backbone'
         },
         
+        'libs/pagination': {
+            deps: ['libs/underscore', 'libs/backbone']
+        },
+        
         'app': {
-            deps: ['libs/underscore', 'libs/backbone', 'libs/script']
+            deps: ['libs/underscore', 'libs/backbone', 'libs/pagination','libs/script']
         }
     }
 });

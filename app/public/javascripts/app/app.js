@@ -1,8 +1,8 @@
 /*
     App - application namespace.
 */
-define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'views/controls', 'views/profile', 'views/pagination', 'routes/index', 'routes/router', 'libs/fancybox/fancybox'], 
-  function (Register, Login, Pages, Bookmarks, Controls, Profile, Pagination, Index, Router) {
+define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'views/controls', 'views/profile', 'views/pagination', 'routes/index', 'collections/bookmarks', 'routes/router', 'libs/fancybox/fancybox'], 
+  function (Register, Login, Pages, Bookmarks, Controls, Profile, Pagination, Index, Collection, Router) {
 
     var App = {
     
@@ -41,7 +41,7 @@ define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'view
                 
                 
                 self.views.bookmarks = new Bookmarks({
-                    collection: books
+                    collection: new Collection(books)
                 });
                     
                 self.views.controls = new Controls({
@@ -60,6 +60,8 @@ define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'view
                 });
                 
                 self.views.pages = new Pages();
+                
+                self.collection.Bookmarks = t
             }
             
             Backbone.history.start();
