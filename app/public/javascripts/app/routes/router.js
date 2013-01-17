@@ -19,7 +19,11 @@ define(['../libs/underscore', '../libs/backbone'], function(_, Backbone) {
             
             'bookmarks/new': 'newBookmark',
             
-            'bookmarks/bookmarklet': 'loadBookmarklet'
+            'bookmarks/bookmarklet': 'loadBookmarklet',
+            
+            'devs': 'loadDevsPage',
+            
+            'privacy': 'loadPrivacyPage'
         },
         
         
@@ -33,37 +37,32 @@ define(['../libs/underscore', '../libs/backbone'], function(_, Backbone) {
         
         loadAccount: function () {
             this.app.views.controller.loadAccount();
-            this._changeActive('account');
         },
         
         
         
         
         loadBookmarklet: function () {
-            this.app.views.controller.loadBookmarklet();
-            this._changeActive('bookmarklet');
+            this.app.views.controller.loadPage('bookmarklet');
         },
         
         
         
         
         goTo: function (num) {
-            this.app.views.controller.goTo(num); 
-            this._changeActive('bookmarks');
+            this.app.views.controller.goTo(num);
         },
         
         
         
         
         loadBookmarks: function () {
-            this.app.views.controller.loadBookmarks();
-            this._changeActive('bookmarks');               
+            this.app.views.controller.loadBookmarks();  
         },
         
         
         newBookmark: function () {
-            this.app.views.Controller.newBookmarkView();
-            this._changeActive('bookmarks');
+            this.app.views.controller.newBookmarkView();
         },
         
         
@@ -71,17 +70,16 @@ define(['../libs/underscore', '../libs/backbone'], function(_, Backbone) {
         
         filterTags: function (tag) {
             this.app.views.controller.filterTags(tag);
-            this._changeActive('bookmarks');
         },
         
         
+        loadDevsPage: function () {
+            this.app.views.controller.loadPage('devs');
+        },
         
         
-        _changeActive: function (current) {
-            if (this.app.page !== 'demo') {
-                $('.nav-pills li.active').removeClass('active');
-                $('.nav-pills li.' + current).addClass('active');
-            }        
+        loadPrivacyPage: function () {
+            this.app.views.controller.loadPage('privacy');
         }
     });
     

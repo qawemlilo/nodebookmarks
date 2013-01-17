@@ -1,8 +1,8 @@
 /*
     App - application namespace.
 */
-define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'views/controls', 'views/profile', 'views/pagination', 'routes/index', 'collections/bookmarks', 'routes/router', 'libs/fancybox/fancybox'], 
-  function (Register, Login, Pages, Bookmarks, Controls, Profile, Pagination, Index, Collection, Router) {
+define(['views/register', 'views/login', 'views/pages', 'views/profile', 'views/bookmarks', 'views/controls', 'views/pagination', 'views/controller', 'routes/index', 'routes/router', 'collections/bookmarks', 'libs/fancybox/fancybox'], 
+  function (Register, Login, Pages, Profile, Bookmarks, Controls, Pagination, Controller, Index, Router, Collection) {
 
     var App = {
     
@@ -16,7 +16,7 @@ define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'view
         
         
         init: function (page, books) {
-            var index, controller, router, self = this;
+            var index, router, self = this;
             
             self.page = page;
             
@@ -39,17 +39,15 @@ define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'view
             if (page === 'home' || page === 'demo') {
                 router = new Router(self);
                 
+                self.views.profile = new Profile({
+                    app: self
+                });
                 
                 self.views.bookmarks = new Bookmarks({
                     collection: new Collection(books)
                 });
-                    
-                self.views.controls = new Controls({
-                    app: self,
-                    collection: self.views.bookmarks.collection
-                });
                 
-                self.views.profile = new Profile({
+                self.views.controls = new Controls({
                     app: self,
                     collection: self.views.bookmarks.collection
                 });
@@ -60,8 +58,10 @@ define(['views/register', 'views/login', 'views/pages', 'views/bookmarks', 'view
                 });
                 
                 self.views.pages = new Pages();
-                
-                self.collection.Bookmarks = t
+
+                self.views.controller = new Controller({
+                    app: self
+                });               
             }
             
             Backbone.history.start();

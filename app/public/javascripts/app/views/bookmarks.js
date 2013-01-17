@@ -1,5 +1,5 @@
 
-define(['../views/bookmark', '../libs/bootstrap-transition', '../libs/bootstrap-collapse', '../libs/bootstrap-dropdown'], function (Bookmark) {
+define(['../views/bookmark', '../libs/bootstrap-dropdown'], function (Bookmark) {
     "use strict";
     
     var Bookmarks = Backbone.View.extend({
@@ -106,7 +106,7 @@ define(['../views/bookmark', '../libs/bootstrap-transition', '../libs/bootstrap-
             self.$el.fadeOut(function () {
                 self.$el.empty();
                 self.bookmarksHeader();
-                self.collection.forEach(self.addBookmark);
+                _.each(self.collection, self.addBookmark);
                 self.$el.fadeIn();
             });
         }        

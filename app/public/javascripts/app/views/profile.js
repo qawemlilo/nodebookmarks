@@ -1,20 +1,13 @@
 /*
-    @Module: App.Views.Profile - renders profile page
-    @Dependencies - jQuery
-                  - Backbone
-                  - UnderScore                  
-                  - EJS 
+
+
 */
 define(['../models/user', 'text!templates/profile/profile.html'], function(User, settingsTemplate) {
     "use strict";
     
     var Profile = Backbone.View.extend({
     
-        el: $('#profile'),
-        
-        
-        
-        
+        el: $('#content-body'),
         
         
         
@@ -72,8 +65,8 @@ define(['../models/user', 'text!templates/profile/profile.html'], function(User,
             
             this.getUserData(function (data) { 
                 var template = this.settingsTemplate(data);
-                
-                this.$el.append(template);
+                this.app.user = data;
+                this.$el.html(template);
             }.bind(this));
             
             return this;
@@ -147,6 +140,10 @@ define(['../models/user', 'text!templates/profile/profile.html'], function(User,
             @Param:   (Function) next - function called after fetch request is complete
         */        
         getUserData: function (next) {
+            if (this.app.hasOwnProperty('user')) {
+                next(this.app.user);
+                return;
+            }
             this.model.fetch({
                 success: function (model, res) {
                     next(res);

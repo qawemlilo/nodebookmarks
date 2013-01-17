@@ -331,4 +331,4 @@ define(function () {
     });
     
     return Backbone.Pagination;
-}(Backbone, _, jQuery));
+});

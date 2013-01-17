@@ -213,4 +213,6 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
             location.hash = '#pages/' + this.collection.currentPage;
         }
     });
+    
+    return Pagination;
 });

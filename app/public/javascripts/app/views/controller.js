@@ -1,23 +1,12 @@
 /*
     @Module: App.Views.Controller - initializes application views
 */
-define(['libs/underscore', 'libs/backbone', 'models/bookmark'], function (_, Backbone, Bookmark) {
+define(['models/bookmark'], function (Bookmark) {
     "use strict";
     
     var Controller = Backbone.View.extend({
 
         el: $('#app-body'),
-
-        profile: {},
-
-        activeView: '',
-
-        bookmarks: {},
-
-        controls: {},
-
-        pagination: {},
-
 
         
         
@@ -27,21 +16,14 @@ define(['libs/underscore', 'libs/backbone', 'models/bookmark'], function (_, Bac
         initialize: function (opts) {
             var self = this;
             
-            _.bindAll(self, 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
-
-            self.$('#profile').hide();
+            _.bindAll(self, '_changeActive', 'loadPage', 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
             
             self.app =opts.app;
             
-            self.controls = self.app.views.controls;
-            self.bookmarks = self.app.views.bookmarks;
-            self.profile = self.app.views.p;
-            self.pagination = self.app.views.pagination;
-            
-            self.bookmarks.collection.pager();
+            self.app.views.bookmarks.collection.pager();
+            self.app.collections.Bookmarks = self.app.collections.bookmarks = self.app.views.bookmarks.collection;
             
             self.assign({
-                '#profile': self.app.views.profile
                 '#controls': self.app.views.controls, 
                 '#bookmarks-table': self.app.views.bookmarks,
                 '#pagination': self.app.views.pagination
@@ -52,64 +34,66 @@ define(['libs/underscore', 'libs/backbone', 'models/bookmark'], function (_, Bac
 
         
         
-        
-        /*
-            This method loads the account view
-            The router calls this method when the location hash changes to #user/account
-        */
         loadAccount: function () {
             var self = this;
             
-            self.$('.app-elem').fadeOut().promise().done(function () {
-                self.$('#profile').fadeIn();
-                self.activeView = 'profile';
+            self.$el.fadeOut(function () {
+                self.app.views.profile.render();
+                self._changeActive('account');
+                 self.$el.fadeIn(); 
             });
         },
         
-
         
         
-        /*
-            This method loads the Bookmarklet view
-        */
-        loadBookmarklet: function () {
+        
+        goTo: function (num) {
+            this.app.views.pagination.gotoPage(num); 
+            this._changeActive('bookmarks');
+        },
+        
+        
+        
+        
+        loadBookmarks: function () {
             var self = this;
             
-            self.$('.app-elem').fadeOut().promise().done(function () {
-                self.$('#bookmark-links').fadeIn();
-                self.activeView = 'bookmarklet';
+             self.$el.fadeOut(function () {
+                self.app.views.pagination.reset();
+                self._changeActive('bookmarks');
+                 self.$el.fadeIn(); 
+            });           
+        },
+        
+        
+        
+        
+        filterTags: function (tag) {
+            this.app.views.controls.filterTags(tag);
+            this._changeActive('bookmarks');
+        },
+        
+       
+        
+        
+        loadPage: function (page) {
+            var self = this;
+            
+             self.$el.fadeOut(function () {
+                self.app.views.pages.render(page);
+                
+                if (page === 'bookmarklet') {
+                    self._changeActive('bookmarklet');
+                }
+                else {
+                    $('.nav-pills li.active').removeClass('active');
+                }
+                self.$el.fadeIn(); 
             });
         },
-
         
         
-
-        /*
-            This method loads the Bookmarks view. 
-        */        
-        loadBookmarks: function () { 
-            var self = this;
-            
-            if (self.activeView === 'profile' || self.activeView === 'bookmarklet') {
-            
-                $('.app-elem').fadeOut().promise().done(function () {
-                    self.pagination.reset(function () {
-                        $('.home-div').fadeIn();
-                    });
-                    self.activeView = 'home';
-                }); 
-            }
-            else {
-                self.pagination.reset(function () {
-                    $('.home-div').fadeIn();
-                });
-                self.activeView = 'home';
-            }
-        },
         
- 
-
- 
         /*
             This method loads the new bookmark view by creating new Bookmark model outside the bookmarks collection 
         */ 
@@ -124,34 +108,22 @@ define(['libs/underscore', 'libs/backbone', 'models/bookmark'], function (_, Bac
             });
         },
         
-
-        
-        
-
-        /*
-            This method loads and displays a page of bookmarks
-            @param: (Number) num - pagination number
-        */        
-        goTo: function (num) {
-            this.pagination.gotoPage(num);              
-        },
-        
-
-        
-        
-
-        /*
-            This method filters and displays bookmarks containing a tag
-            @param: (String) tag - tag to be filtered
-        */         
-        filterTags: function (tag) {
-            this.controls.filterTags(tag);
-            this.activeView = 'filteredTags';              
-        },
-        
+ 
+ 
  
 
- 
+        _changeActive: function (current) {
+            if (this.app.page !== 'demo') {
+                $('.nav-pills li.active').removeClass('active');
+                $('.nav-pills li.' + current).addClass('active');
+            }        
+        },
+        
+        
+        
+        
+        
+        
         assign: function (selector, view) {
             var selectors;
             
