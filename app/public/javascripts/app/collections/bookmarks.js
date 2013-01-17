@@ -2,12 +2,12 @@
     @Module: Collections::Bookmarks 
 */
 
-define(['../models/bookmark', '../libs/pagination'], function(Bookmark, Pagination) {
+define(['../models/bookmark'], function(Bookmark) {
     "use strict";
 
-    var Bookmarks = Pagination.extend({
+    var Bookmarks = Backbone.Collection.extend({
     
-        model: new Bookmark(),
+        model: new Bookmark,
         
         
         url: '/bookmarks',

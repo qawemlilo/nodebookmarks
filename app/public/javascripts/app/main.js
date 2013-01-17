@@ -28,6 +28,6 @@ requirejs.config({
 require(["app"], function(App) {  
     $(function() {
         window.App = App;
-        App.init(page, []);
+        App.init(page, books);
     });
 });

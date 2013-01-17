@@ -2,6 +2,7 @@
     @Plugin: Backbone.Pagination - pagination plugin
 */
 define(function () {
+
     Backbone.Pagination = Backbone.Collection.extend({
     
         initialize: function () {
