@@ -61,6 +61,11 @@ define(['text!templates/bookmark/bookmark.html', 'text!templates/bookmark/new.ht
             'submit #new-bookmark-form': 'saveNew'
         },
         
+        
+        
+        
+        app: {},
+        
 
         
         

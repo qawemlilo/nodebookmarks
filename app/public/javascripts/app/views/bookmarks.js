@@ -18,8 +18,6 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
             this.collection.on('add', this.addBookmark);
             this.collection.on('reset', this.viewAllBookmarks);
             
-            
-            
             return this;
         },
         
@@ -108,12 +106,9 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
         viewAllBookmarks: function () {
             var self = this;
             
-            self.$el.fadeOut(function () {
-                self.$el.empty();
-                self.bookmarksHeader();
-                self.collection.forEach(self.addBookmark);
-                self.$el.fadeIn();
-            });
+            self.$el.empty();
+            self.bookmarksHeader();
+            self.collection.forEach(self.addBookmark);
         }        
     });
     

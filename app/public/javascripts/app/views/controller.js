@@ -19,14 +19,11 @@ define(['models/bookmark'], function (Bookmark) {
             _.bindAll(self, '_changeActive', 'loadPage', 'loadAccount', 'newBookmarkView', 'filterTags', 'loadBookmarks', 'goTo', 'assign');
             
             self.app = opts.app;
-            
-            self.app.views.bookmarks.collection.pager();
             self.app.collections.Bookmarks = self.app.collections.bookmarks = self.app.views.bookmarks.collection;
             
-            self.assign({
-                '#controls': self.app.views.controls, 
-                '#bookmarks-table': self.app.views.bookmarks,
-                '#pagination': self.app.views.pagination
+            self.$el.fadeOut(function () {
+                self.app.views.home.render();
+                 self.$el.fadeIn(); 
             });
             
             return self;
@@ -48,8 +45,13 @@ define(['models/bookmark'], function (Bookmark) {
         
         
         goTo: function (num) {
-            this.app.views.pagination.gotoPage(num); 
-            this._changeActive('bookmarks');
+            var self = this;
+            
+             self.$el.fadeOut(function () {
+                self.app.views.pagination.gotoPage(num);
+                self._changeActive('bookmarks');
+                self.$el.fadeIn(); 
+            });
         },
         
         
@@ -57,20 +59,25 @@ define(['models/bookmark'], function (Bookmark) {
         
         loadBookmarks: function () {
             var self = this;
-
-            $('#content-body').empty(); 
             
-            self.app.views.bookmarks.collection.pager(); 
-            
-            self.app.views.controls.render();     
+             self.$el.fadeOut(function () {
+                self.app.views.home.render();
+                self._changeActive('bookmarks');
+                self.$el.fadeIn(); 
+            });        
         },
         
         
         
         
         filterTags: function (tag) {
-            this.app.views.controls.filterTags(tag);
-            this._changeActive('bookmarks');
+            var self = this;
+            
+             self.$el.fadeOut(function () {
+                self.app.views.controls.filterTags(tag);
+                self._changeActive('bookmarks');
+                self.$el.fadeIn(); 
+            });
         },
         
        

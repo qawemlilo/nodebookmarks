@@ -1,8 +1,8 @@
 /*
     App - application namespace.
 */
-define(['views/register', 'views/login', 'views/pages', 'views/profile', 'views/bookmarks', 'views/controls', 'views/pagination', 'views/controller', 'routes/index', 'routes/router', 'collections/bookmarks', 'libs/fancybox/fancybox'], 
-  function (Register, Login, Pages, Profile, Bookmarks, Controls, Pagination, Controller, Index, Router, Collection) {
+define(['views/register', 'views/login', 'views/pages', 'views/profile', 'views/bookmarks', 'views/controls', 'views/pagination', 'views/controller', 'views/home', 'routes/index', 'routes/router', 'collections/bookmarks'], 
+function (registerView, loginView, pagesView, profileView, bookmarksView, controlsView, paginationView, Controller, homeView, indexRouter, bookmarksRouter, BookmarksCollection) {
 
     var App = {
     
@@ -15,49 +15,54 @@ define(['views/register', 'views/login', 'views/pages', 'views/profile', 'views/
         collections: {},
         
         
-        init: function (page, books) {
+        init: function (page, bookmarks) {
             var index, router, self = this;
             
             self.page = page;
             
+            $.howItWorks();
+            
             if (page === 'index') {
-                $.howItWorks();
+                router = new indexRouter(self);
                 
-                router = new Index(self);
-                
-                self.views.register = new Register({
+                self.views.register = new registerView({
                     app: self
                 });
                     
-                self.views.login = new Login({
+                self.views.login = new loginView({
                     app: self
                 });
                 
-                self.views.pages = new Pages();
+                self.views.pages = new pagesView();
             }
             
             if (page === 'home' || page === 'demo') {
-                router = new Router(self);
+                router = new bookmarksRouter(self);
                 
-                self.views.profile = new Profile({
+                self.views.profile = new profileView({
                     app: self
                 });
                 
-                self.views.bookmarks = new Bookmarks({
-                    collection: new Collection(books)
+                self.views.bookmarks = new bookmarksView({
+                    collection: new BookmarksCollection(bookmarks),
+                    app: self
                 });
                 
-                self.views.controls = new Controls({
+                self.views.controls = new controlsView({
                     app: self,
                     collection: self.views.bookmarks.collection
                 });
                 
-                self.views.pagination = new Pagination({
+                self.views.pagination = new paginationView({
                     app: self,
                     collection: self.views.bookmarks.collection
                 });
                 
-                self.views.pages = new Pages();
+                self.views.pages = new pagesView();
+                
+                self.views.home = new homeView({
+                    app: self
+                });
 
                 self.views.controller = new Controller({
                     app: self
