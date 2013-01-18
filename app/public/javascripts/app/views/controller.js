@@ -9,6 +9,8 @@ define(['models/bookmark'], function (Bookmark) {
         el: $('#app-body'),
 
         
+        appView: '',
+        
         
         /*
             @Constructor - initializes app views 
@@ -37,7 +39,8 @@ define(['models/bookmark'], function (Bookmark) {
             self.$el.fadeOut(function () {
                 self.app.views.profile.render();
                 self._changeActive('account');
-                 self.$el.fadeIn(); 
+                self.appView = 'account';
+                self.$el.fadeIn(); 
             });
         },
         
@@ -61,7 +64,13 @@ define(['models/bookmark'], function (Bookmark) {
             var self = this;
             
              self.$el.fadeOut(function () {
-                self.app.views.home.render();
+                if (self.appView === 'tags') {
+                    self.app.views.pagination.reset();
+                    self.appView = 'bookmarks';
+                }
+                else {
+                    self.app.views.home.render();    
+                }
                 self._changeActive('bookmarks');
                 self.$el.fadeIn(); 
             });        
@@ -73,8 +82,9 @@ define(['models/bookmark'], function (Bookmark) {
         filterTags: function (tag) {
             var self = this;
             
-             self.$el.fadeOut(function () {
+            self.$el.fadeOut(function () {
                 self.app.views.controls.filterTags(tag);
+                self.appView = 'tags';
                 self._changeActive('bookmarks');
                 self.$el.fadeIn(); 
             });
@@ -95,6 +105,7 @@ define(['models/bookmark'], function (Bookmark) {
                 else {
                     $('.nav-pills li.active').removeClass('active');
                 }
+                self.appView = 'pages';
                 self.$el.fadeIn(); 
             });
         },
@@ -110,7 +121,7 @@ define(['models/bookmark'], function (Bookmark) {
             $('.home-div').fadeOut().promise().done(function () {
                 model = new Bookmark();
                 model = model.createUrlRoot('/bookmarks'); 
-            
+                self.appView = 'newbookmark';
                 self.app.views.bookmarks.newBookmark(model);
             });
         },
