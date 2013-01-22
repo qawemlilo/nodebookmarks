@@ -1,13 +1,25 @@
 ({
     appDir: "../",
     
-    baseUrl: "app",
+    mainConfigFile: './main.js',
     
     dir: "../build",
 
     modules: [
         {
-            name: "main"
+            name: "main",
+
+            include: [
+                "libs/underscore",
+                "libs/backbone",
+                "libs/fancybox/fancybox", 
+                "libs/script",
+                "app"
+            ]
+        },
+        
+        {
+            name: "app"
         }
     ]
 })
