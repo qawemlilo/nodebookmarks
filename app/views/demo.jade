@@ -7,4 +7,8 @@ div(id='home', class='container')
 div(id='pagination', class='pagination home-div')
 
 div#profile
+
+script(type='text/javascript')
+  window.page = '#{page}';
+  window.books = !{JSON.stringify(bookmarks)};
       

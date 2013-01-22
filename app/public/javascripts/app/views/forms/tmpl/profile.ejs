@@ -1,0 +1,40 @@
+<form method='post' id='delete' style='width: 100%; text-align: right' name='account' action='/user/delete'>
+    <button type="submit" class="btn btn-large btn-danger">Delete Account</button>
+</form>
+<form id='settings-form' class='well form-horizontal' method='post' name='settings-form' action='#'>
+   <fieldset>
+     <legend>Edit Account</legend>
+     
+      <div class='control-group'>
+        <label class='control-label' for='name'>Name</label>
+          <div class='controls'>
+            <input type='text' class='span3' id='name' value='<%= name %>' name='name'>
+          </div>
+        </div>
+        
+        <div class='control-group'>
+          <label class='control-label' for='email'>Email</label>
+           
+          <div class='controls'>
+            <input type='text' class='span3' id='email' value='<%= email %>' name='email'>
+          </div>
+        </div>
+        
+        <div class='control-group'>
+          <label class='control-label' for='password'>Password</label>
+           
+          <div class='controls'>
+            <input type='password' class='span3' id='password' value='' name='password'>
+          </div>
+        </div>
+        
+        <div class='control-group'>
+          <label class='control-label'></label>
+           
+          <div class='controls'>
+            <input type='submit' class='btn' id='submit' value='Save' name='submit'>
+            <a class='btn cancel' href='/#bookmarks'>Cancel</a>
+          </div>
+        </div>
+    </fieldset>
+</form>
