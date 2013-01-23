@@ -446,8 +446,6 @@ function controllers (params) {
     
     
     
-    
-    
     controllers.readBookmark = function (req, res) {
         var Readability = require("readabilitySAX").Readability,
             Parser = require("htmlparser2").Parser,
