@@ -25,7 +25,7 @@ exports.setup = function (params) {
     app.get('/bookmarks', controllers.getBookmarks);
     app.put('/bookmarks/:id', controllers.updateBookmark);
     app.delete('/bookmarks/:id', controllers.removeBookmark);
-    app.get('/read/:id', controllers.readBookmark);
+    app.get('/reader/:id', controllers.readBookmark);
     
     
     // Demo
