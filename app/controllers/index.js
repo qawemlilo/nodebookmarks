@@ -469,6 +469,9 @@ function controllers (params) {
                     }
                 });    
             }
+            else {
+                res.send("Server error", 500);
+            }
         });         
     };
 
