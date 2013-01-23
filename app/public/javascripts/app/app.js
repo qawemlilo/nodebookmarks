@@ -20,6 +20,11 @@ function (registerView, loginView, pagesView, profileView, bookmarksView, contro
             
             self.page = page;
             
+            
+            if (!page) {
+                return;
+            }
+            
             $.howItWorks();
             
             if (page === 'index') {

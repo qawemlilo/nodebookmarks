@@ -1,2 +1,3 @@
 #!/bin/bash
 forever restart app.js
+npm run-script build
