@@ -39,11 +39,9 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(express.session({
         secret: config.secret,
-        
         cookie: {
             maxAge: 365 * 24 * 60 * 60 * 1000
         },
-        
         store: new MongoStore(config.db)
     }));
     
