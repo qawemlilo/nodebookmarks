@@ -22,7 +22,7 @@ function (registerView, loginView, pagesView, profileView, bookmarksView, contro
             
             
             if (!page) {
-                return;
+                return false;
             }
             
             $.howItWorks();
