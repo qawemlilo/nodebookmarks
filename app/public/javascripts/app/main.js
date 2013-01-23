@@ -1,8 +1,11 @@
 requirejs.config({
+    appDir: "../",
+    
     baseUrl: 'app',
     
     paths: {
-        'text': 'libs/text' 
+        'text': 'libs/text',
+        'css': '../../stylesheets'        
     },
     
     shim: {
@@ -20,7 +23,7 @@ requirejs.config({
         },
         
         'app': {
-            deps: ['libs/underscore', 'libs/backbone', 'libs/fancybox/fancybox', 'libs/script']
+            deps: ['libs/underscore', 'libs/backbone', 'libs/text', 'libs/fancybox/fancybox', 'libs/script']
         }
     }
 });

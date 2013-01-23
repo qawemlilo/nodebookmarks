@@ -47,7 +47,7 @@ app.configure(function() {
     }));
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
-    app.use("/app", express.static(__dirname + '/public/javascripts/app')); //added this line support requirejs routes
+    app.use("/app", express.static(__dirname + '/public/javascripts/build/app')); //added this line support requirejs routes
 });
 
 
