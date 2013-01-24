@@ -278,7 +278,7 @@ function controllers (params) {
     
     
     //Adding a new bookmark from a remote request
-    controllers.addBookmarkRemotel = function (req, res) {
+    controllers.addBookmarkRemotely = function (req, res) {
         var callback = req.query.callback, bookmark = {}, errors;
 
         if (!req.session.uniqueid) {
