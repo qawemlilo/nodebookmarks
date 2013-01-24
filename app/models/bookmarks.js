@@ -175,7 +175,7 @@ exports.update = function (id, bookmarkObj, fn) {
 exports.find = function (id, fn) {
     var Model =  db.model('Bookmark');
     
-    Model.findById(id, function (err, bookmark) {
+    Model.findOne({_id: id}, function (err, bookmark) {
         if (!(!!err) && bookmark) {
             fn(false, bookmark);
         }

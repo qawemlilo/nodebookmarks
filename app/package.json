@@ -1,36 +1,37 @@
 {
-  "name": "nodebookmarks",
-  "version": "0.1.7",
-  "private": true,
-  "description": "A web app that makes it easy to save and manage your browser bookmarks",
-  "main": "app.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/qawemlilo/nodebookmarks.git"
-  },
-  "keywords": [
-    "Bookmark Manager", 
-    "bookmark service", 
-    "bookmarks app"
-  ],
-  "author": "Qawelesizwe Mlilo",
-  "license": "MIT",
-  "dependencies": {
-      "express": "2.5.2", 
-      "jade": ">= 0.0.1",
-      "mongoose": "2.7.x",
-      "connect-mongo": "0.1.x",
-      "express-validator": "0.3.x",
-      "nodemailer": "0.3.x",
-      "readabilitySAX": "1.5.x",
-      "htmlparser2": "2.5.x"
-  },
-  "devDependencies": {
-      "mocha": "latest",
-      "should": "latest"
-  },
-  "scripts": {
-      "build": "node r.js -o public/javascripts/app/app.build.js"
-  },
-  "engine": "node >= 0.8.9"
+   "name":"nodebookmarks",
+   "version":"0.2.0",
+   "private":true,
+   "description":"A web app that makes it easy to save and manage your browser bookmarks",
+   "main":"app.js",
+   "repository":{
+      "type":"git",
+      "url":"https://github.com/qawemlilo/nodebookmarks.git"
+   },
+   "keywords":[
+      "Bookmark Manager",
+      "bookmark service",
+      "bookmarks app"
+   ],
+   "author":"Qawelesizwe Mlilo",
+   "license":"MIT",
+   "dependencies":{
+      "express":"2.5.2",
+      "jade":">= 0.0.1",
+      "mongoose":"2.7.x",
+      "connect-mongo":"0.1.x",
+      "express-validator":"0.3.x",
+      "nodemailer":"0.3.x",
+      "readabilitySAX":"1.5.x",
+      "htmlparser2":"2.5.x",
+      "request":"2.12.x"
+   },
+   "devDependencies":{
+      "mocha":"latest",
+      "should":"latest"
+   },
+   "scripts":{
+      "build":"node tools/r.js -o public/javascripts/app/app.build.js"
+   },
+   "engine":"node >= 0.8.9"
 }

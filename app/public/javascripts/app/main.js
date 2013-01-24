@@ -1,8 +1,10 @@
 requirejs.config({
-    baseUrl: 'javascripts/app',
+    appDir: "../",
+    
+    baseUrl: 'app',
     
     paths: {
-        'text': 'libs/text' 
+        'text': 'libs/text'       
     },
     
     shim: {
@@ -20,14 +22,14 @@ requirejs.config({
         },
         
         'app': {
-            deps: ['libs/underscore', 'libs/backbone', 'libs/fancybox/fancybox', 'libs/script']
+            deps: ['libs/underscore', 'libs/backbone', 'libs/text', 'libs/fancybox/fancybox', 'libs/script'],
+            exports: 'App'
         }
     }
 });
 
 require(["app"], function(App) {  
     $(function() {
-        window.App = App;
         App.init(page, books);
     });
 });

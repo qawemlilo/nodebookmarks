@@ -1,13 +1,19 @@
 ({
     appDir: "../",
     
-    baseUrl: "app",
+    mainConfigFile: './main.js',
     
-    dir: "../build",
+    dir: "/home/rflabmfp/public_html/apps/rflab/build",
+    
+    optimizeCss: "standard",
 
     modules: [
         {
-            name: "main"
+            name: "main",
+
+            include: [
+                "app"
+            ]
         }
     ]
 })

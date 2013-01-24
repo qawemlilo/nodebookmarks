@@ -278,7 +278,7 @@ function controllers (params) {
     
     
     //Adding a new bookmark from a remote request
-    controllers.addBookmarkRemotel = function (req, res) {
+    controllers.addBookmarkRemotely = function (req, res) {
         var callback = req.query.callback, bookmark = {}, errors;
 
         if (!req.session.uniqueid) {
@@ -446,8 +446,6 @@ function controllers (params) {
     
     
     
-    
-    
     controllers.readBookmark = function (req, res) {
         var Readability = require("readabilitySAX").Readability,
             Parser = require("htmlparser2").Parser,
@@ -468,6 +466,9 @@ function controllers (params) {
                         res.send("Server error", 500);
                     }
                 });    
+            }
+            else {
+                res.send("Server error", 500);
             }
         });         
     };

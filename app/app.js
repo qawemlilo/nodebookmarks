@@ -46,9 +46,10 @@ app.configure(function() {
         },
         store: new MongoStore(config.db)
     }));
-    
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
+    app.use("/app", express.static(__dirname + '/public/javascripts/build/app')); //added this line support requirejs routes
+    app.use("/javascripts/libs", express.static(__dirname + '/public/javascripts/build/app/libs')); // to support old API
 });
 
 

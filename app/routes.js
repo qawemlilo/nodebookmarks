@@ -1,3 +1,41 @@
+
+
+/*    
+    Middleware
+*/
+
+
+var loggedIn = function (req, res, next) {
+    if (!req.session.user) {
+        res.send("Restricted access", 500);
+    }
+    else {
+        next();
+    }
+},
+
+
+inSession = function (req, res, next) {
+    if (req.session.user) {
+        res.redirect('/');
+    }
+    else {
+        next();
+    }
+};
+
+
+
+
+
+
+
+
+
+/*
+    Routes setup  
+*/
+
 exports.setup = function (params) {
 
     var app = params.app, controllers = params.controllers;
@@ -10,22 +48,22 @@ exports.setup = function (params) {
     
     
     // User Routes 
-    app.post('/user', controllers.registerUser);   
-    app.get('/user', controllers.getUser);   
-    app.put('/user/:id', controllers.updateUserInfo);   
-    app.post('/user/delete', controllers.removeUser);
-    app.post('/user/login', controllers.login);   
-    app.get('/user/logout', controllers.logout);
+    app.post('/user', loggedIn, controllers.registerUser);   
+    app.get('/user', loggedIn, controllers.getUser);   
+    app.put('/user/:id', loggedIn, controllers.updateUserInfo);   
+    app.post('/user/delete', loggedIn, controllers.removeUser);
+    app.post('/user/login', inSession, controllers.login);   
+    app.get('/user/logout', loggedIn, controllers.logout);
     
     
     // Bookmark Routes
-    app.post('/bookmarks', controllers.addBookmark);   
+    app.post('/bookmarks', loggedIn, controllers.addBookmark);   
     app.get('/bookmark', controllers.addBookmarkRemotely);   
     app.get('/bookmark/:id', controllers.updateBookmarkRemotely);   
     app.get('/bookmarks', controllers.getBookmarks);
-    app.put('/bookmarks/:id', controllers.updateBookmark);
-    app.delete('/bookmarks/:id', controllers.removeBookmark);
-    app.get('/reader/:id', controllers.readBookmark);
+    app.put('/bookmarks/:id', loggedIn, controllers.updateBookmark);
+    app.delete('/bookmarks/:id', loggedIn, controllers.removeBookmark);
+    app.get('/read/:id', controllers.readBookmark);
     
     
     // Demo
