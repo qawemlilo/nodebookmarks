@@ -24,14 +24,14 @@
       "nodemailer":"0.3.x",
       "readabilitySAX":"1.5.x",
       "htmlparser2":"2.5.x",
-      "request":""
+      "request":"2.12.x"
    },
    "devDependencies":{
       "mocha":"latest",
       "should":"latest"
    },
    "scripts":{
-      "build":"node r.js -o public/javascripts/app/app.build.js"
+      "build":"node tools/r.js -o public/javascripts/app/app.build.js"
    },
    "engine":"node >= 0.8.9"
 }
