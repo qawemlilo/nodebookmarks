@@ -9,11 +9,17 @@ define(function() {
         routes: {
             'user/login': 'loadLogin',
             
+            'users/login': 'loadLogin',
+            
             'bookmarks': 'loadLogin',
             
             'user/login/:error': 'loadLogin',
             
+            'users/login/:error': 'loadLogin',
+            
             'user/register': 'loadRegister',
+            
+            'users/register': 'loadRegister',
             
             'index': 'loadRegister',
             

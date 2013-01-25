@@ -16,7 +16,7 @@ define(function () {
         task: '',
         
         
-        urlRoot: 'user',
+        urlRoot: 'users',
         
         
         setUrl: function (url) {

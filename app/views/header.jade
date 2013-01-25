@@ -11,9 +11,9 @@ div(id='navigation', class='row-fluid container')
     ul(class='nav nav-pills pull-right')
       if(loggedIn)
         li.bookmarks: a(href='/#bookmarks') Bookmarks
-        li.account: a(href='/#user/account') Account
+        li.account: a(href='/#users/account') Account
         li.bookmarklet: a(href='/#bookmarks/bookmarklet') Bookmarklet
-        li.logout: a(href='/user/logout') Logout
+        li.logout: a(href='/users/logout') Logout
       if(!loggedIn)
         li.home: a(href='/#home') Home
         if(page == 'how-it-works')
@@ -24,4 +24,4 @@ div(id='navigation', class='row-fluid container')
           li.active: a(href='/demo', title='Demo', target='_blank') Demo
         else
           li: a(href='/demo', title='Demo') Demo
-        li.login: a(href='/#user/login', title='Login') Login
+        li.login: a(href='/#users/login', title='Login') Login

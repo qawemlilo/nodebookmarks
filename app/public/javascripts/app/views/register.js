@@ -61,7 +61,7 @@ define(['../models/user', 'text!templates/register/register.html'], function(Use
                 if (!res.error) {
                     self.$('#login-email').val(model.get('email'));
                     document.forms['register-form'].reset();
-                    window.location.hash = '#user/login'; 
+                    window.location.hash = '#users/login'; 
                     self.$('#bookmark-links').fadeIn();
                     
                     $.shout(res.msg, 15, 'success');

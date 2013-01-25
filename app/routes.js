@@ -48,12 +48,12 @@ exports.setup = function (params) {
     
     
     // User Routes 
-    app.post('/user', controllers.registerUser);   
-    app.get('/user', loggedIn, controllers.getUser);   
-    app.put('/user/:id', loggedIn, controllers.updateUserInfo);   
-    app.post('/user/delete', loggedIn, controllers.removeUser);
-    app.post('/user/login', inSession, controllers.login);   
-    app.get('/user/logout', loggedIn, controllers.logout);
+    app.post('/users', controllers.registerUser);   
+    app.get('/users', loggedIn, controllers.getUser);   
+    app.put('/users/:id', loggedIn, controllers.updateUserInfo);   
+    app.post('/users/delete', loggedIn, controllers.removeUser);
+    app.post('/users/login', inSession, controllers.login);   
+    app.get('/users/logout', loggedIn, controllers.logout);
     
     
     // Bookmark Routes

@@ -13,6 +13,8 @@ define(['../libs/underscore', '../libs/backbone'], function(_, Backbone) {
             
             'user/account': 'loadAccount',
             
+            'users/account': 'loadAccount',
+            
             'bookmarks/tags/:tag': 'filterTags',
             
             'bookmarks/page/:num': 'goTo',
