@@ -53,7 +53,7 @@ exports.setup = function (params) {
     app.put('/users/:id', loggedIn, controllers.updateUserInfo);   
     app.post('/users/delete', loggedIn, controllers.removeUser);
     app.post('/users/login', inSession, controllers.login);   
-    app.get('/users/logout', loggedIn, controllers.logout);
+    app.get('/users/logout', controllers.logout);
     
     
     // Bookmark Routes
