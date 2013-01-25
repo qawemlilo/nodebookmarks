@@ -17,6 +17,8 @@ define(function() {
             
             'users/login/:error': 'loadLogin',
             
+            'users/login/new': 'loadLoginNewUuser',
+            
             'user/register': 'loadRegister',
             
             'users/register': 'loadRegister',
@@ -48,6 +50,24 @@ define(function() {
                 $('.nav-pills li.active').removeClass('active');
                 $('.nav-pills li.login').addClass('active');
                 $('#app-body').fadeIn();    
+                if (error) {
+                    $.shout('Invalid email / password combination',  10);
+                }
+            });
+        },
+        
+        
+        
+        loadLoginNewUuser: function (error) {
+            var self = this;
+            
+            $('#app-body').fadeOut(function () {
+                self.app.views.login.render();
+                $('.nav-pills li.active').removeClass('active');
+                $('.nav-pills li.login').addClass('active');
+                $('#app-body').fadeIn(function () {
+                    $('#bookmark-links').fadeIn();
+                });    
                 if (error) {
                     $.shout('Invalid email / password combination',  10);
                 }

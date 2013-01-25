@@ -61,9 +61,7 @@ define(['../models/user', 'text!templates/register/register.html'], function(Use
                 if (!res.error) {
                     self.$('#login-email').val(model.get('email'));
                     document.forms['register-form'].reset();
-                    window.location.hash = '#users/login'; 
-                    self.$('#bookmark-links').fadeIn();
-                    
+                    window.location.hash = '#users/login/new'; 
                     $.shout(res.msg, 15, 'success');
                 } else { 
                     $.shout('Account not created, your form contains errors', 10, 'error');
