@@ -48,7 +48,7 @@ exports.setup = function (params) {
     
     
     // User Routes 
-    app.post('/user', loggedIn, controllers.registerUser);   
+    app.post('/user', controllers.registerUser);   
     app.get('/user', loggedIn, controllers.getUser);   
     app.put('/user/:id', loggedIn, controllers.updateUserInfo);   
     app.post('/user/delete', loggedIn, controllers.removeUser);
