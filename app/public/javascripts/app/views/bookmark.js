@@ -186,9 +186,16 @@ define(['text!templates/bookmark/bookmark.html', 'text!templates/bookmark/new.ht
                 successHandler, 
                 errorHandler, 
                 self = this,
-                errmsg = (self.app.page === 'demo') ? 'Error, unauthorised user' : 'Error occured, bookmark not saved';
+                errmsg;
+            
+            if (self.app.page === 'demo') { 
+                errmsg = 'Error, unauthorised user';
+            }
+            else {
+                errmsg = 'Error occured, bookmark not saved';
+            }
 
-            formObj = self.j('#new-bookmark-form');
+            formObj = self.serializeForm('#new-bookmark-form');
 
             successHandler = function (model, response) {
                 self.activeNew = false; // unlock

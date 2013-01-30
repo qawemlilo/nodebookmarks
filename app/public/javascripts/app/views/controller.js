@@ -119,7 +119,7 @@ define(['models/bookmark'], function (Bookmark) {
             var self = this,  model;
             
             $('.home-div').fadeOut().promise().done(function () {
-                model = new Bookmark();
+                model = new Bookmark({app: self.app});
                 model = model.createUrlRoot('/bookmarks'); 
                 self.appView = 'newbookmark';
                 self.app.views.bookmarks.newBookmark(model);
