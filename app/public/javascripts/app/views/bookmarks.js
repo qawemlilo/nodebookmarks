@@ -54,8 +54,11 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
             @Param: (Object) bookmarkModel - bookmark model
         */          
         newBookmark: function (bookmarkModel) { 
-            var bookmarkView = new Bookmark({
-                model: bookmarkModel
+            var bookmarkView, self = this;
+            
+            bookmarkView = new Bookmark({
+                model: bookmarkModel,
+                app: self.app
             }), 
             
             self = this;
