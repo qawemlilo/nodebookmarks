@@ -19,6 +19,15 @@ define(function () {
         urlRoot: 'users',
         
         
+        initialize: function (options) {
+            if (options) {
+                if (options.hasOwnProperty('task')) {
+                    this.task = options.task;
+                }
+            }
+        },
+        
+        
         setUrl: function (url) {
             this.url = url;
         },

@@ -23,6 +23,8 @@ define(['../libs/underscore', '../libs/backbone'], function(_, Backbone) {
             
             'bookmarks/bookmarklet': 'loadBookmarklet',
             
+            'bookmarklet': 'loadBookmarklet',
+            
             'devs': 'loadDevsPage',
             
             'privacy': 'loadPrivacyPage'

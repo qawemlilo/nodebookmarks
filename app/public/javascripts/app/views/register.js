@@ -50,18 +50,15 @@ define(['../models/user', 'text!templates/register/register.html'], function(Use
         registerUser: function (e) {    
             e.preventDefault();
             
-            var newMember = new User(),
+            var newMember = new User({task: 'register'}),
                 self = this,            
                 data = self.formToObject('register-form'), 
                 successHandler, errorHandler;
             
-            newMember.task = 'register';
-            
             successHandler = function (model, res) {
                 if (!res.error) {
-                    self.$('#login-email').val(model.get('email'));
                     document.forms['register-form'].reset();
-                    window.location.hash = '#users/login/new'; 
+                    window.location.hash = '#bookmarklet'; 
                     $.shout(res.msg, 15, 'success');
                 } else { 
                     $.shout('Account not created, your form contains errors', 10, 'error');

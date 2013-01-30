@@ -25,6 +25,8 @@ define(function() {
             
             'index': 'loadRegister',
             
+            'bookmarklet': 'loadBookmarkletPage',
+            
             'home': 'loadRegister',
             
             '/': 'loadRegister',
@@ -58,7 +60,7 @@ define(function() {
         
         
         
-        loadLoginNewUuser: function (error) {
+        loadLoginNewUuser: function () {
             var self = this;
             
             $('#app-body').fadeOut(function () {
@@ -68,9 +70,6 @@ define(function() {
                 $('#app-body').fadeIn(function () {
                     $('#bookmark-links').fadeIn();
                 });    
-                if (error) {
-                    $.shout('Invalid email / password combination',  10);
-                }
             });
         },
         
@@ -104,6 +103,17 @@ define(function() {
             
             $('#app-body').fadeOut(function () {
                 self.app.views.pages.render('privacy');
+                $('.nav-pills li.active').removeClass('active');
+                $('#app-body').fadeIn(); 
+            });
+        },
+        
+        
+        loadBookmarkletPage: function () {
+            var self = this;
+            
+            $('#app-body').fadeOut(function () {
+                self.app.views.pages.render('bookmarklet');
                 $('.nav-pills li.active').removeClass('active');
                 $('#app-body').fadeIn(); 
             });
