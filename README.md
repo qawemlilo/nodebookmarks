@@ -1,128 +1,40 @@
 # Bookmark Manager
 
-Bookmark Manager is a Rich JavaScript Application for managing browser bookmarks. The front-end uses backbone(and twitter bootstrap) and the back-end runs on Node. 
+Bookmark Manager is a Single Page Web Application for managing browser bookmarks. The front-end uses, RequireJS, backbone, and twitter bootstrap - the back-end runs on Node.JS. 
 
 ## A bit of history
 
-A while ago I created a bookmarking app which was basically a hack that saved all bookmarks on a Google Docs spreadsheet <https://github.com/qawemlilo/Bookmarks>. The app stopped working when the number of my bookmarks got too large. This made me decide to create a more polished app that other people could also use. The fundamental goal is to make Bookmark Manager useful and dead simple to use.
+A while ago I created a bookmarking app which was basically a hack that saved all bookmarks on a Google Docs spreadsheet. The app stopped working when the number of my bookmarks got too large. This made me decide to create a more polished app that other people could also use. The fundamental goal is to make Bookmark Manager useful and dead simple to use.
 
 
-# Directory Structure
+# Back End
 
-```
-/bookmarkmanager/app
-    app.js
-    
-    config.js
-    
-    package.json
-    
-    /models
-        bookmarks.js
-        users.js
-        
-    /node_modules
-        ....
-    
-    /public
-        /images
-            ....
-            
-        /stylesheets
-            ....
-            
-        /javascripts
-            app.js
-            
-            controller.js
-            
-            /views
-                /bookmark
-                    bookmark.js
-                    /tmpl
-                        bookmark.ejs
-                
-                /bookmarks
-                    bookmarks.js
-                    
-                /controls
-                    controls.js 
-                    /tmpl
-                        controls.ejs
-                        
-                /forms
-                    profile.js
-                    register.js
-                    /tmpl
-                        profile.ejs
-                        
-                        
-                /pagination
-                    pagination.js 
-                    /tmpl
-                        pagination.ejs
-                    
-                    
-            /models
-                bookmark.js
-                user.js
-                
-            
-            /collections
-                bookmarks.js
-            
-            /routes
-                home.js
-                router.js
-                
-            /libs
-                .....
-    
-    /routes
-        bookmarks.js        
-        users.js
-        
-    /views
-        ....
-```
+The application back-end uses 2 models, Users Model and Bookmarks Model.
 
-# The Back End
-
-### Modules
-
- - Express
+ - The Users Model API handles CRUD operations on users collection for both logged in users and guest users
  
- - Mongoose
- 
- - connect-mongo
- 
- - Nodemailer
- 
- - Express-validator
-
-The application back-end uses 2 main models, Users Model and Bookmarks Model.
+ - The Bookmarks Model API handles CRUD operations on bookmarks collection for logged in users (demo bookmarks being the only ones accessible to the public)
  
 
 ## Users Model
-
-The Users Model API handles CRUD operations on users collection for both logged in users and guest users
 
 ### Logged in users
 
 Logged users interact with the Users Model in several ways: 
 
-1. When they view their account information
+1. When they view their account information (READ)
 ```
 GET /user
 ```
   
-2. When they edit their account information
+2. When they edit their account information (UPDATE)
 ```
 PUT /user/:id
 ```
   
-3. When they delete their account
+3. When they delete their account (DELETE)
 ```
+// read id from session
 POST /user/delete
 ```
   
@@ -132,16 +44,16 @@ GET /user/logout
 ```
 
 
-### Guest users
+### Guest users (Back-end)
 
 Guest users can interact with the Users Model in following ways: 
 
-1. When they create an account
+1. When they create an account (CREATE)
 ```
 POST /user
 ```
   
-2. When login
+2. When login (READ)
 ```
 POST /user/login
 ```
@@ -149,28 +61,26 @@ POST /user/login
 
 ## Bookmarks Model
 
-The Bookmarks Model API handles CRUD operations on bookmarks collection for logged in users (demo bookmarks being the only ones accessible to the public)
-
 ### Logged in users
 
 Logged users perform all available CRUD operations on the bookmarks collection: 
 
-1. When they create a new bookmark
+1. When they create a new bookmark (CREATE)
 ```
 POST /bookmarks
 ```
   
-2. When they edit a bookmark
+2. When they edit a bookmark (UPDATE)
 ```
 PUT /bookmarks/:id
 ```
   
-3. When they delete a bookmark
+3. When they delete a bookmark (DELETE)
 ```
 DELETE /bookmarks/:id
 ```
   
-4. When they fetch bookmark
+4. When they fetch bookmarks (READ)
 ```
 GET /bookmarks
 ```
@@ -180,8 +90,7 @@ GET /bookmarks
 
 Guest users can only view the demo page which reads the data from an account that I created: 
 
-1. When they fetch bookmarks
-
+1. When they fetch bookmarks (READ)
 ```
 GET /bookmarks
 ```
