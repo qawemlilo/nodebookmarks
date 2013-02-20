@@ -1,6 +1,6 @@
 # Bookmark Manager
 
-Bookmark Manager is a Rich JavaScript Application for managing browser bookmarks. The front-end uses backbone(and twitter bootstrap) and the back-end runs on Node.JS. 
+Bookmark Manager is a Single Page Web Application for managing browser bookmarks. The front-end uses, RequireJS, backbone, and twitter bootstrap - the back-end runs on Node.JS. 
 
 ## A bit of history
 
