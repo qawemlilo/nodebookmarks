@@ -18,7 +18,7 @@
         <div class='bookmark-notes'><%= notes %></div>
         <div class='bookmark-tags'>
             <i class="icon-tags"></i>
-            <% _.each(function(tag) { %>
+            <% _.each(tags, function(tag) { %>
                 <span class='label b-tag'><%= tag.toLowerCase() %></span>
             <% }); %>
             <% if (publik) { %> <span id='label' class='label label-important'>Public</span> <% } else { %>
