@@ -1,3 +1,14 @@
+
+/*
+    Dependencies
+*/
+var request = require('request'),
+    Readability = require("readabilitySAX").Readability,
+    Parser = require("htmlparser2").Parser;
+
+
+
+
 function controllers (params) {  
   
     var Bookmarks = params.Bookmarks,     
@@ -7,8 +18,6 @@ function controllers (params) {
         
         
     loadPage = function (url, fn) {
-        var request = require('request');
-        
         request(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 fn(false, body);            
@@ -447,10 +456,7 @@ function controllers (params) {
     
     
     controllers.readBookmark = function (req, res) {
-        var Readability = require("readabilitySAX").Readability,
-            Parser = require("htmlparser2").Parser,
-            readable,
-            parser;
+        var readable, parser;
             
         readable = new Readability({}),
         parser = new Parser(readable, {});
