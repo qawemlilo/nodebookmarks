@@ -101,16 +101,8 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         gotoNext: function (e) {
             e.preventDefault();
              
-            var hash = parseInt(window.location.hash, 10),
-                currentpage = this.collection.currentPage,
-                totalPages = this.collection.info().totalPages,
-                page;
-            
-            page = hash || currentPage;
-                
-            if (page < totalPages) {
-                window.location.hash = "#bookmarks/page/" + (page + 1);
-            }
+            this.collection.nextGroup();
+            this.render();
         },     
 
 
