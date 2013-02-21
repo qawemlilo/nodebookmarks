@@ -144,6 +144,10 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
                     success: function(collection, result, opts) {
                         if (result.length > 0) {
                             $.shout('Done!', 1, 'info');
+                            
+                            if (result.length < 100) {
+                                self.collection.allFetched = true;
+                            }
                             _.each(result, function (model) {
                                 var bookmark = new Bookmark(model);
                             
