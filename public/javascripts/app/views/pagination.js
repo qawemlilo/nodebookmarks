@@ -102,7 +102,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
             e.preventDefault();
              
             var hash = parseInt(window.location.hash, 10),
-                currentpage = this.collection.info().currentPage,
+                currentpage = this.collection.currentPage,
                 totalPages = this.collection.info().totalPages,
                 page;
             
