@@ -10,8 +10,8 @@
     <% if (next && showPreNext) { %> <li><a class='next' href='#'> Next &raquo; </a></li> <% } else if (!next && showPreNext) { %>
         <li class='disabled'><a href='#'> Next &raquo; </a></li>
     <% } %>
-    <% if (totalPages > 2 && showFirstLast && !allFetched) { %> <li><a href='#bookmarks/page/<%= lastPage %>'>More</a></li> <% } else if (totalPages > 2 && showFirstLast && allFetched) { %>
-        <li class='disabled'><a href='#bookmarks/page/<%= lastPage %>'> More </a></li>
+    <% if (totalPages > 2 && showFirstLast && !allFetched) { %> <li><a href='#bookmarks/page/<%= (lastPage + 1) %>'>More</a></li> <% } else if (totalPages > 2 && showFirstLast && allFetched) { %>
+        <li class='disabled'><a href='#bookmarks/page/<%= (lastPage + 1) %>'> More </a></li>
     <% } %>
 </ul>
 <% } %>
