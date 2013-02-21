@@ -46,10 +46,22 @@ function controllers (params) {
         
             Bookmarks.get(options, function (error,  bookmarks) {
                 if (error) {
-                    res.render('home', {title: 'Bookmark Manager', page: 'home', loggedIn: true, bookmarks: [], user: req.session.user}); 
+                    res.render('home', {
+                        title: 'Bookmark Manager', 
+                        page: 'home', 
+                        loggedIn: true, 
+                        bookmarks: [], 
+                        user: req.session.user
+                    }); 
                 } 
                 else {
-                    res.render('home', {title: 'Bookmark Manager', page: 'home', loggedIn: true, bookmarks: bookmarks, user: req.session.user});                
+                    res.render('home', {
+                        title: 'Bookmark Manager', 
+                        page: 'home', 
+                        loggedIn: true, 
+                        bookmarks: bookmarks, 
+                        user: req.session.user
+                    });                
                 }
             });  
         } 
@@ -126,7 +138,11 @@ function controllers (params) {
                     }    
                 });
             
-                res.send({error: false, msg: 'Thank you ' + user.name + ' for registering. You may login after saving your buttons.', id: user._id.toHexString()});  
+                res.send({
+                    error: false, 
+                    msg: 'Thank you ' + user.name + ' for registering. You may login after saving your buttons.', 
+                    id: user._id.toHexString()
+                });  
             }
         });        
     };
@@ -466,7 +482,14 @@ function controllers (params) {
                 loadPage(bookmark.url, function (err, html) {
                     if (!err) {
                         parser.write(html);
-                        res.render('read', {page: 'read', href: bookmark.url, title: readable.getTitle(), loggedIn: !!req.session.user, articletitle: readable.getTitle(), article: readable.getHTML()});
+                        res.render('read', {
+                            page: 'read', 
+                            href: bookmark.url, 
+                            title: readable.getTitle(), 
+                            loggedIn: !!req.session.user, 
+                            articletitle: readable.getTitle(), 
+                            article: readable.getHTML()
+                        });
                     }
                     else {
                         res.send("Server error", 500);
@@ -503,10 +526,22 @@ function controllers (params) {
         
         Bookmarks.get(options, function (error,  bookmarks) {
             if (error) {
-                res.render('demo', {title: 'Bookmark Manager - Demo', page: 'demo', loggedIn: !!req.session.user, bookmarks: [], user: req.session.user}); 
+                res.render('demo', {
+                    title: 'Bookmark Manager - Demo', 
+                    page: 'demo', 
+                    loggedIn: !!req.session.user, 
+                    bookmarks: [], 
+                    user: req.session.user
+                }); 
             } 
             else {
-                res.render('demo', {title: 'Bookmark Manager - Demo', page: 'demo', loggedIn: !!req.session.user, bookmarks: bookmarks, user: req.session.user});                
+                res.render('demo', {
+                    title: 'Bookmark Manager - Demo', 
+                    page: 'demo', 
+                    loggedIn: !!req.session.user, 
+                    bookmarks: bookmarks, 
+                    user: req.session.user
+                });                
             }
         });
     };
