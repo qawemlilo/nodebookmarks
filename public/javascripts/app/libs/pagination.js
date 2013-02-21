@@ -94,7 +94,7 @@ define(function () {
         nextPage: function () {
             var next = this.currentPage + 1;
             
-            if (next >= this.totalPages) {
+            if (next <= this.totalPages) {
                 this.goTo(next);
             }
 	    },
