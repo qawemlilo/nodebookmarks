@@ -16,7 +16,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         
         events: {
             'click a.next': 'gotoNext',
-            'click a.prev': 'gotoPrev'        
+            'click a.prev': 'gotoPrev'
         },
         
 
@@ -78,7 +78,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         gotoPrev: function (e) {
             e.preventDefault();
             
-            this.collection.prevPage();
+            this.collection.previousGroup();
             this.render();
         },
          
@@ -101,7 +101,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         gotoNext: function (e) {
             e.preventDefault();
              
-            this.collection.nextPage();
+            this.collection.nextGroup();
             this.render();
         },     
 
@@ -169,7 +169,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
                 });
                 
                 return;
-            }        
+            }
             
             self.collection.goTo(num);
         },
