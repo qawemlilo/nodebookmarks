@@ -27,7 +27,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         initialize: function (opts) {
             var self = this;
             
-            _.bindAll(self, 'render', 'loadMore', 'changeCount', 'gotoNext', 'gotoPage', 'gotoPrev');
+            _.bindAll(self, 'render', 'changeCount', 'gotoNext', 'gotoPage', 'gotoPrev');
             
             self.app = opts.app;
             
