@@ -143,7 +143,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
                     
                     success: function(collection, result, opts) {
                         if (result.length > 0) {
-                            $.shout('Done!', 2, 'info');
+                            //$.shout('Done!', 2, 'info');
                             _.each(result, function (model) {
                                 var bookmark = new Bookmark(model);
                             

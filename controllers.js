@@ -520,7 +520,7 @@ function controllers (params) {
             fields: [],
             
             query: {
-                owner: "5024b9236f760ecc03000001"
+                publik: true
             }
         }); 
         
