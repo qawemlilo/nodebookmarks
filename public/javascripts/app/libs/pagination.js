@@ -88,39 +88,6 @@ define(function () {
         
         
         
-        /*
-            Reloads current paginated collection page
-        */        
-        nextPage: function () {
-            var next = this.currentPage + 1;
-            
-            if (next <= this.totalPages) {
-                this.goTo(next);
-            }
-	    },
-        
-        
-        
-        
-        
-        
-        
-        
-        /*
-            Reloads current paginated collection page
-        */        
-        prevPage: function () {
-            var prev = this.currentPage - 1;
-            
-            if (prev > 0) {
-                this.goTo(next);
-            }
-	    },
-        
-        
-        
-        
-        
 
 
         /*

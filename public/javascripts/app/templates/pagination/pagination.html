@@ -11,7 +11,7 @@
         <li class='disabled'><a href='#'> Next &raquo; </a></li>
     <% } %>
     <% if (totalPages > 2 && showFirstLast && !allFetched) { %> <li><a href='#bookmarks/page/<%= (lastPage + 1) %>'>More</a></li> <% } else if (totalPages > 2 && showFirstLast && allFetched) { %>
-        <li class='disabled'><a href='#bookmarks/page/<%= (lastPage + 1) %>'> More </a></li>
+        <li class='disabled'><a href='#'> More </a></li>
     <% } %>
 </ul>
 <% } %>
