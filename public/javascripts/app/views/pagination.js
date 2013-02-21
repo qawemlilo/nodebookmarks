@@ -167,11 +167,10 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
                         $.shout('Request failed!', 10, 'warning');
                     }
                 });
-                
-                return;
             }
-            
-            self.collection.goTo(num);
+            else {
+                self.collection.goTo(num);
+            }
         },
         
         
