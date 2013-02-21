@@ -381,11 +381,7 @@ function controllers (params) {
     
     // Fetching all bookmarks
     controllers.getBookmarks = function (req, res) {
-        var id = "5024b9236f760ecc03000001", options;
-    
-        if (req.session.user) {
-            id = req.session.user._id;
-        }
+        var id = req.session.user._id, options;
     
         options = Object.create({
             limit: 100,

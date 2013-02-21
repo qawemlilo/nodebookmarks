@@ -7,7 +7,7 @@
 
 var loggedIn = function (req, res, next) {
     if (!req.session.user) {
-        res.send("Restricted access", 500);
+        res.send("Restricted access", 401);
     }
     else {
         next();
@@ -60,7 +60,7 @@ exports.setup = function (params) {
     app.post('/bookmarks', loggedIn, controllers.addBookmark);   
     app.get('/bookmark', controllers.addBookmarkRemotely);   
     app.get('/bookmark/:id', controllers.updateBookmarkRemotely);   
-    app.get('/bookmarks', controllers.getBookmarks);
+    app.get('/bookmarks', loggedIn, controllers.getBookmarks);
     app.put('/bookmarks/:id', loggedIn, controllers.updateBookmark);
     app.delete('/bookmarks/:id', loggedIn, controllers.removeBookmark);
     app.get('/read/:id', controllers.readBookmark);

@@ -16,7 +16,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         
         events: {
             'click a.next': 'gotoNext',
-            'click a.prev': 'gotoPrev'
+            'click a.prev': 'gotoPrev'        
         },
         
 
@@ -27,7 +27,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         initialize: function (opts) {
             var self = this;
             
-            _.bindAll(self, 'render', 'changeCount', 'gotoNext', 'gotoPage', 'gotoPrev');
+            _.bindAll(self, 'render', 'loadMore', 'changeCount', 'gotoNext', 'gotoPage', 'gotoPrev');
             
             self.app = opts.app;
             
@@ -78,7 +78,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         gotoPrev: function (e) {
             e.preventDefault();
             
-            this.collection.previousGroup();
+            this.collection.prevPage();
             this.render();
         },
          
@@ -101,7 +101,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
         gotoNext: function (e) {
             e.preventDefault();
              
-            this.collection.nextGroup();
+            this.collection.nextPage();
             this.render();
         },     
 
@@ -143,7 +143,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
                     
                     success: function(collection, result, opts) {
                         if (result.length > 0) {
-                            //$.shout('Done!', 2, 'info');
+                            $.shout('Done!', 1, 'info');
                             _.each(result, function (model) {
                                 var bookmark = new Bookmark(model);
                             
@@ -169,7 +169,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
                 });
                 
                 return;
-            }
+            }        
             
             self.collection.goTo(num);
         },
