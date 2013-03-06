@@ -153,7 +153,7 @@ define(function () {
             Removes Zombie models upon bookmark deletion
             @Param: (String) cid - model unique id
         */	    
-	    removeFromOGModels: function ( cid ) {
+	    killZombies: function ( cid ) {
 	        var self = this;
             
             

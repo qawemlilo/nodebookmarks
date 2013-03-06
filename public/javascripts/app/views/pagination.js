@@ -33,7 +33,7 @@ define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../l
             
             self.collection.on('reset', self.render);
             self.collection.on('remove', function (model) {
-                self.collection.removeFromOGModels(model.cid);
+                self.collection.killZombies(model.cid);
                 self.render();
                 self.app.views.controls.render();
             }); 
