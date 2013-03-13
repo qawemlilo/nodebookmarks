@@ -1,7 +1,7 @@
 /*
     Bookmark view
 */
-define(['text!templates/bookmark/bookmark.html', 'text!templates/bookmark/new.html', 'text!templates/bookmark/edit.html'], 
+define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templates/edit.html'], 
     
     function (bookmarkTemplate, newBookmarkTemplate, editTemplate) {
     

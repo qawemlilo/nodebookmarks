@@ -1,6 +1,6 @@
 
 
-define(['../models/bookmark', 'text!templates/pagination/pagination.html', '../libs/pagination'], function(Bookmark, paginationTemplate) {
+define(['../models/bookmark', 'text!templates/pagination.html', '../libs/pagination'], function(Bookmark, paginationTemplate) {
     "use strict";
     
     var Pagination = Backbone.View.extend({

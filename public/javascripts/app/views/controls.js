@@ -1,7 +1,7 @@
 /*
     Controls view                
 */
-define(['../models/bookmark', 'text!templates/controls/controls.html'], function (Bookmark, controlsTemplate) {
+define(['../models/bookmark', 'text!templates/controls.html'], function (Bookmark, controlsTemplate) {
     "use strict";
     
     var Controls = Backbone.View.extend({
@@ -46,6 +46,8 @@ define(['../models/bookmark', 'text!templates/controls/controls.html'], function
         */          
         render: function () {
             var template, self = this, tags = self.collection.getTags();
+            
+            tags.sort();
 
             template = self.controlsTemplate({tags: tags, filteredTag: self.collection.filteredTag}); 
             self.$el.html(template);

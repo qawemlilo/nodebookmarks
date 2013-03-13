@@ -284,8 +284,6 @@ define(function () {
             var tags = this.buildTags(), 
                 uniqueTags = _.uniq(tags);
             
-            uniqueTags.sort();
-            
             return uniqueTags;
         },
         

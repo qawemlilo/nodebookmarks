@@ -1,7 +1,7 @@
 /*
     Registration form view                  
 */
-define(['../models/user', 'text!templates/register/register.html'], function(User, registerTemplate) {
+define(['../models/user', 'text!templates/register.html'], function(User, registerTemplate) {
     "use strict";
     
     var Register = Backbone.View.extend({

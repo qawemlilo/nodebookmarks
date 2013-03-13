@@ -1,7 +1,7 @@
 /*
     Registration form view                  
 */
-define(['text!templates/pages/devs.html', 'text!templates/pages/privacy.html', 'text!templates/pages/bookmarklet.html'], function(devsTemplate, privacyTemplate, bookmarkletTemplate) {
+define(['text!templates/devs.html', 'text!templates/privacy.html', 'text!templates/bookmarklet.html'], function(devsTemplate, privacyTemplate, bookmarkletTemplate) {
     "use strict";
     
     var Pages = Backbone.View.extend({

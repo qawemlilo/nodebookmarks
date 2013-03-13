@@ -3,8 +3,6 @@
 /*    
     Middleware
 */
-
-
 var loggedIn = function (req, res, next) {
     if (!req.session.user) {
         res.send("Restricted access", 401);
@@ -28,24 +26,17 @@ inSession = function (req, res, next) {
 
 
 
-
-
-
-
 /*
     Routes setup  
 */
-
 exports.setup = function (params) {
-
     var app = params.app, controllers = params.controllers;
 
     // Generic Routes
     app.get('/', controllers.index);     
     app.get('/home', controllers.home);   
     app.get('/privacy', controllers.privacy);
-    app.get('/developers', controllers.developers);
-    
+    app.get('/developers', controllers.developers); 
     
     // User Routes 
     app.post('/users', controllers.registerUser);   
@@ -54,7 +45,6 @@ exports.setup = function (params) {
     app.post('/users/delete', loggedIn, controllers.removeUser);
     app.post('/users/login', inSession, controllers.login);   
     app.get('/users/logout', controllers.logout);
-    
     
     // Bookmark Routes
     app.post('/bookmarks', loggedIn, controllers.addBookmark);   

@@ -2,7 +2,7 @@
 
 
 */
-define(['../models/user', 'text!templates/profile/profile.html'], function(User, settingsTemplate) {
+define(['../models/user', 'text!templates/profile.html'], function(User, settingsTemplate) {
     "use strict";
     
     var Profile = Backbone.View.extend({

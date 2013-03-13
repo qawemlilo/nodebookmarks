@@ -1,7 +1,7 @@
 /*
 
 */
-define(['text!templates/home/home.html'], function (homeTemplate) {
+define(['text!templates/home.html'], function (homeTemplate) {
     "use strict";
     
     var Home = Backbone.View.extend({

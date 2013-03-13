@@ -1,7 +1,7 @@
 /*
     Registration form view                  
 */
-define(['text!templates/login/login.html'], function(loginTemplate) {
+define(['text!templates/login.html'], function(loginTemplate) {
     "use strict";
     
     var Login = Backbone.View.extend({
