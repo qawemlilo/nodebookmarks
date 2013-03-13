@@ -47,6 +47,7 @@ define(['../models/bookmark', 'text!templates/controls.html'], function (Bookmar
         render: function () {
             var template, self = this, tags = self.collection.getTags();
             
+            tags = _.map(tags, function (t) { return t.replace(/^\s+|\s+$/,'');});
             tags.sort();
 
             template = self.controlsTemplate({tags: tags, filteredTag: self.collection.filteredTag}); 
