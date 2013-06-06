@@ -1,19 +1,13 @@
 
 var express = require('express'),
     expressValidator = require('express-validator'),
-    
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
-    
     config = require('./config.json'),
     routes = require('./routes'),
-    
-    Users = require('./models/users'),
-    Bookmarks = require('./models/bookmarks'),
-    
     controllers = require('./controllers')({
-        Users: Users,
-        Bookmarks: Bookmarks
+        Users: require('./models/users'),
+        Bookmarks: require('./models/bookmarks')
     }),
 
     dbSession = '',

@@ -1,9 +1,9 @@
 
-function Controllers (params) {
+function Controllers (models) {
     "use strict";
     
-    var Bookmarks = params.Bookmarks,
-        Users = params.Users,
+    var Bookmarks = models.Bookmarks,
+        Users = models.Users,
         pages = require('./pages')(Bookmarks),
         user = require('./user')(Users),
         bookmark = require('./bookmark')(Bookmarks),
