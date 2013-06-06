@@ -4,6 +4,8 @@
     Middleware
 */
 var loggedIn = function (req, res, next) {
+    "use strict"; 
+    
     if (!req.session.user) {
         res.send("Restricted access", 401);
     }
@@ -14,6 +16,8 @@ var loggedIn = function (req, res, next) {
 
 
 inSession = function (req, res, next) {
+    "use strict"; 
+    
     if (req.session.user) {
         res.redirect('/');
     }
@@ -30,6 +34,8 @@ inSession = function (req, res, next) {
     Routes setup  
 */
 exports.setup = function (params) {
+    "use strict"; 
+    
     var app = params.app, controllers = params.controllers;
 
     // Generic Routes

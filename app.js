@@ -5,17 +5,15 @@ var express = require('express'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
     
-    config = require('./config'),
+    config = require('./config.json'),
     routes = require('./routes'),
     
     Users = require('./models/users'),
     Bookmarks = require('./models/bookmarks'),
-    Mailer = require('./models/mailer'),
     
     controllers = require('./controllers')({
         Users: Users,
-        Bookmarks: Bookmarks,
-        Mailer: Mailer
+        Bookmarks: Bookmarks
     }),
 
     dbSession = '',
