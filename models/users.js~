@@ -3,9 +3,8 @@
     Variables
 */
 
-var mongoose = require('mongoose'),
-    mongodb = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/nodebookmarks', 
-    db = mongoose.createConnection(mongodb), 
+var mongoose = require('mongoose'), 
+    db = mongoose.createConnection('mongodb://localhost/nodebookmarks'), 
     Schema = mongoose.Schema,
     crypto = require('crypto'),    
     UserSchema, 

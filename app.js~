@@ -45,7 +45,7 @@ app.configure(function() {
 });
 
 
-dbSession = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://' + config.db.host + '/' + config.db.db;
+dbSession = 'mongodb://' + config.db.host + '/' + config.db.db;
 mongoose.createConnection(dbSession);
 
 

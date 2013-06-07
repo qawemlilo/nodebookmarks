@@ -33,8 +33,5 @@
   "scripts": {
     "build": "node tools/r.js -o public/javascripts/app/app.build.js"
   },
-  "engines": {
-    "node": ">= 0.8.9",
-    "npm": ">= 1.1.0"
-  }
+  "engine": "node >= 0.8.9"
 }

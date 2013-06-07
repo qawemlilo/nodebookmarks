@@ -1,0 +1,30 @@
+!!! 5
+//if lt IE 7
+  <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en">
+//if IE 7
+  <html class="no-js lt-ie9 lt-ie8" lang="en">
+//if IE 8
+  <html class="no-js lt-ie9" lang="en">
+//[if gt IE 8]><!
+html(class='no-js', lang='en')
+  //<![endif]
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    title= title
+    meta(name='description', content='Bookmark Manager is a web app that makes it easy to manage your browser bookmarks')
+    meta(name='keywords', content='Bookmark Manager, bookmark service, bookmarks app')
+    meta(name='viewport', content='width=device-width')
+    link(rel='shortcut icon', href='http://apps.rflab.co.za/rflab/build/app/images/favicon.ico')
+    link(rel='stylesheet', href='http://apps.rflab.co.za/rflab/build/app/css/main.css')
+    script(src='http://apps.rflab.co.za/rflab/build/app/libs/modernizr.js')
+    script(data-main='app/main', src='app/libs/require-jquery.js')    
+  body
+    section(id='app-body', class='row-fluid container')
+      if(page !== 'read')
+        header(class='row-fluid')!= partial('header')
+      
+      div(class='content row-fluid', id='content-body', role='main')!= body
+      
+      if(page !== 'read')
+        footer(class='row-fluid')!= partial('footer')
