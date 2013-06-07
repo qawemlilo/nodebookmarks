@@ -6,7 +6,6 @@
 var mongoose = require('mongoose'), 
     db = mongoose.createConnection('mongodb://localhost/nodebookmarks'), 
     Schema = mongoose.Schema,    
-    BookmarkSchema, 
     BookmarkSchema,
     Bookmark;
   
@@ -18,38 +17,38 @@ BookmarkSchema = new Schema({
     owner: Schema.Types.ObjectId,
     
     title: {
-        type: String, 
-        default: ''
+        'type': String, 
+        'default': ''
     },
     
     url: {
-        type: String, 
-        unique: false
+        'type': String, 
+        'unique': false
     },
     
     notes: {
-       type: String, 
-       default: ''
+       'type': String, 
+       'default': ''
     },
     
     starred: {
-        type: Boolean, 
-        default: false
+        'type': Boolean, 
+        'default': false
     },
     
     publik: {
-        type: Boolean, 
-        default: false
+        'type': Boolean, 
+        'default': false
     },
     
     date: {
-        type: Date, 
-        default: Date.now
+        'type': Date, 
+        'default': Date.now
     },
     
     tags: {
-        type: Array, 
-        default: ['uncategorised']
+        'type': Array, 
+        'default': ['uncategorised']
     }
 });
 
@@ -57,15 +56,19 @@ BookmarkSchema = new Schema({
 Bookmark =  db.model('Bookmark', BookmarkSchema);
 
 
-exports.get = function (opts, fn) {
-    var DB =  db.model('Bookmark');
+
+
+function get (opts, fn) {
+    "use strict";
     
-    DB.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}, function (err, bookmarks) {
+    var database =  db.model('Bookmark');
+    
+    database.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}, function (err, bookmarks) {
     
         var cleanbookmarks = bookmarks.map(function (bookmark) {
             var temparray = {};
  
-            temparray.id = bookmark._id.toHexString() + '';
+            temparray.id = bookmark._id.toHexString();
             temparray.tags = bookmark.tags; 
             temparray.date = bookmark.date.getTime();
             temparray.publik = bookmark.publik;
@@ -79,22 +82,24 @@ exports.get = function (opts, fn) {
         
         fn(err, cleanbookmarks);
     });
-};
+}
 
 
 
 
 
 
-exports.search = function (opts, fn) {
-    var DB =  db.model('Bookmark');
+function search (opts, fn) {
+    "use strict";
     
-    DB.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}).or(opts.find).execFind(function (err, bookmarks) {
+    var database =  db.model('Bookmark');
+    
+    database.find(opts.query, opts.fields, {sort: {date: -1}, skip: opts.skip, limit: opts.limit}).or(opts.find).execFind(function (err, bookmarks) {
     
         var cleanbookmarks = bookmarks.map(function (bookmark) {
             var temparray = {};
  
-            temparray.id = bookmark._id.toHexString() + '';
+            temparray.id = bookmark._id.toHexString();
             temparray.tags = bookmark.tags; 
             temparray.date = bookmark.date.getTime();
             temparray.publik = bookmark.publik;
@@ -108,14 +113,16 @@ exports.search = function (opts, fn) {
         
         fn(err, cleanbookmarks);
     });
-};
+}
 
 
 
 
 
 
-exports.add = function (bookmarkObj, fn) {
+function add (bookmarkObj, fn) {
+    "use strict";
+    
     var bookmark = new Bookmark(bookmarkObj);
 
     
@@ -138,21 +145,27 @@ exports.add = function (bookmarkObj, fn) {
             fn(true, bookmark);
         }            
     });
-};
+}
 
 
 
 
 
 
-exports.update = function (id, bookmarkObj, fn) {
-    var Model =  db.model('Bookmark');
+function update (id, bookmarkObj, fn) {
+    "use strict";
     
-    Model.findById(id, function (err, bookmark) {
+    var database =  db.model('Bookmark');
+    
+    database.findById(id, function (err, bookmark) {
+        var prop;
+        
         if (!(!!err) && bookmark) {
             
-            for (key in bookmarkObj) {
-                bookmark[key] = bookmarkObj[key];
+            for (prop in bookmarkObj) {
+                if (bookmarkObj.hasOwnProperty(prop)) {
+                    bookmark[prop] = bookmarkObj[prop];
+                }
             }
             
             bookmark.save(function (err) {
@@ -168,14 +181,16 @@ exports.update = function (id, bookmarkObj, fn) {
             fn(true, {});
         }
     });    
-};
+}
 
 
 
-exports.find = function (id, fn) {
-    var Model =  db.model('Bookmark');
+function find (id, fn) {
+    "use strict";
     
-    Model.findOne({_id: id}, function (err, bookmark) {
+    var database = db.model('Bookmark');
+    
+    database.findOne({_id: id}, function (err, bookmark) {
         if (!(!!err) && bookmark) {
             fn(false, bookmark);
         }
@@ -183,17 +198,17 @@ exports.find = function (id, fn) {
             fn(true, {});
         }
     });    
-};
+}
 
 
 
 
-
-
-exports.remove = function (id, fn) {
-    var Model =  db.model('Bookmark');
+function remove(id, fn) {
+    "use strict";
     
-    Model.findOne({_id: id}, function (err, bookmark) {
+    var database =  db.model('Bookmark');
+    
+    database.findOne({_id: id}, function (err, bookmark) {
         if (!(!!err) && bookmark) {
             
             bookmark.remove(function (err) {
@@ -209,5 +224,15 @@ exports.remove = function (id, fn) {
             fn(true, {});
         }
     });    
-};
+}
+
+
+
+module.exports.get = get;
+module.exports.search = search;
+module.exports.add = add;
+module.exports.update = update;
+module.exports.find = find;
+module.exports.remove = remove;
+
 

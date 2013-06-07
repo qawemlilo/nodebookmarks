@@ -9,10 +9,8 @@ var mongoose = require('mongoose'),
     crypto = require('crypto'),    
     UserSchema, 
     User,
-    makeSalt,
     BookmarkSchema,
-    Bookmark,
-    test = [];
+    Bookmark;
 
 
 
@@ -20,10 +18,9 @@ var mongoose = require('mongoose'),
 /*
     Salt
 */
-
-makeSalt = function () {
+function makeSalt () {
     return Math.round((new Date().valueOf() * Math.random())) + '';
-};
+}
 
 
 
@@ -58,10 +55,8 @@ UserSchema = new Schema({
 });
 
 
-
-
-
 UserSchema.methods.hashPassword = function hashPassword (password) {
+    "use strict";
 
     var salt = makeSalt(), cryp;
     
@@ -72,26 +67,26 @@ UserSchema.methods.hashPassword = function hashPassword (password) {
 };
 
 
-
-
 User =  db.model('User', UserSchema);
 
 
 
 
-exports.register = function (obj, fn) {
-
+function register (obj, fn) {
+    "use strict";
+    
     var member = new User(obj);
     
     member.save(function (err) {
         fn(err, member);    
     });
-};
+}
 
 
 
 
-exports.login = function (obj, fn) {
+function login (obj, fn) {
+    "use strict";
 
     var Model =  db.model('User');
 
@@ -112,12 +107,13 @@ exports.login = function (obj, fn) {
             return;
         }
     });    
-};
+}
 
 
 
 
-exports.remove = function (id, fn) {
+function remove (id, fn) {
+    "use strict";
 
     var Model =  db.model('User');
 
@@ -130,12 +126,13 @@ exports.remove = function (id, fn) {
             return;
         }
     });    
-};
+}
 
 
 
 
-exports.update = function (id, obj, fn) {
+function update (id, obj, fn) {
+    "use strict";
 
     var Model =  db.model('User'), changed = false;
     
@@ -171,16 +168,28 @@ exports.update = function (id, obj, fn) {
             fn(true, {});
         }
     });    
-};
+}
 
 
 
 
-exports.getUsers = function (id, fn) {
+function getUsers (id, fn) {
+    "use strict";
 
     var Model =  db.model('User');
     
     Model.where('_id').ne(id).exec(function (err, users) {
         fn(err, users);
     });
-};
+}
+
+
+
+module.exports.getUsers = getUsers;
+module.exports.getUsers = getUsers;
+module.exports.getUsers = getUsers;
+module.exports.getUsers = getUsers;
+module.exports.getUsers = getUsers;
+module.exports.getUsers = getUsers;
+
+
