@@ -1,23 +1,19 @@
 
+/*
+    Dependencies
+*/
 var express = require('express'),
     expressValidator = require('express-validator'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
     config = require('./config.json'),
     routes = require('./routes'),
-    controllers = require('./controllers')({
-        Users: require('./models/users'),
-        Bookmarks: require('./models/bookmarks')
-    }),
-
-    dbSession = '',
-    app;    
+    controllers = require('./controllers');    
 
  
-app = module.exports = express.createServer();
+ 
 
-
-
+var app = module.exports = express.createServer();
 
 
 /***********************************
@@ -41,12 +37,11 @@ app.configure(function() {
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
     app.use("/app", express.static(__dirname + '/public/javascripts/build/app')); //added this line support requirejs routes
-    app.use("/javascripts/libs", express.static(__dirname + '/public/javascripts/build/app/libs')); // to support old API
+    //app.use("/javascripts/libs", express.static(__dirname + '/public/javascripts/build/app/libs')); // to support old API
 });
 
 
-dbSession = 'mongodb://' + config.db.host + '/' + config.db.db;
-mongoose.createConnection(dbSession);
+mongoose.createConnection('mongodb://' + config.db.host + '/' + config.db.db);
 
 
 app.configure('development', function () {

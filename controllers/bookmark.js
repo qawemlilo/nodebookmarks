@@ -5,7 +5,7 @@
 var request = require('request'),
     Readability = require("readabilitySAX").Readability,
     Parser = require("htmlparser2").Parser,
-
+    Bookmarks = require('../models/bookmarks'),
     loadPage = function (url, fn) {
         request(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -18,7 +18,9 @@ var request = require('request'),
     };
 
 
-function Bookmark (Bookmarks) {  
+    
+    
+function bookmarkFactory () {  
     "use strict"; 
     
     var bookmrk = Object.create({});
@@ -259,4 +261,4 @@ function Bookmark (Bookmarks) {
     return bookmrk;
 };
 
-module.exports = Bookmark;
+module.exports = bookmarkFactory();

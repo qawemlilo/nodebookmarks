@@ -1,6 +1,13 @@
 
+/*
+    Dependencies
+*/
+var Users = require('../models/users');
 
-function User (Users) {  
+
+
+
+function userFactory () {  
     "use strict"; 
     
     var user = Object.create({});
@@ -163,4 +170,4 @@ function User (Users) {
     return user;
 };
 
-module.exports = User;
+module.exports = userFactory();
