@@ -1,6 +1,6 @@
 {
   "name": "nodebookmarks",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "description": "A web app that makes it easy to save and manage your browser bookmarks",
   "main": "app.js",
