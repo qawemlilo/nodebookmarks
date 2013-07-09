@@ -185,12 +185,10 @@ function getUsers (id, fn) {
 }
 
 
-
-module.exports.getUsers = getUsers;
-module.exports.getUsers = getUsers;
-module.exports.getUsers = getUsers;
-module.exports.getUsers = getUsers;
-module.exports.getUsers = getUsers;
+module.exports.register = register;
+module.exports.login = login;
+module.exports.update = update;
+module.exports.remove = remove;
 module.exports.getUsers = getUsers;
 
 

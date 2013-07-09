@@ -1,13 +1,11 @@
 
-function Controllers (models) {
+function controllersFactory () {
     "use strict";
     
-    var Bookmarks = models.Bookmarks,
-        Users = models.Users,
-        pages = require('./pages')(Bookmarks),
-        user = require('./user')(Users),
-        bookmark = require('./bookmark')(Bookmarks),
-        demo = require('./demo')(Bookmarks),
+    var pages = require('./pages'),
+        user = require('./user'),
+        bookmark = require('./bookmark'),
+        demo = require('./demo'),
         controllers = Object.create({});
 
     
@@ -106,4 +104,4 @@ function Controllers (models) {
     return controllers;
 };
 
-module.exports = Controllers;
+module.exports = controllersFactory();

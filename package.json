@@ -1,6 +1,6 @@
 {
   "name": "nodebookmarks",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": true,
   "description": "A web app that makes it easy to save and manage your browser bookmarks",
   "main": "app.js",
@@ -31,7 +31,7 @@
     "should": "latest"
   },
   "scripts": {
-    "build": "node tools/r.js -o public/javascripts/app/app.build.js"
+    "build": "node tools/r.js -o public/app/app.build.js"
   },
   "engines": {
     "node": ">= 0.8.9",

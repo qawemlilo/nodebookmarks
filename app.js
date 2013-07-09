@@ -1,23 +1,20 @@
 
+/*
+    Dependencies
+*/
 var express = require('express'),
     expressValidator = require('express-validator'),
     mongoose = require('mongoose'),
     MongoStore = require('connect-mongo')(express),
     config = require('./config.json'),
     routes = require('./routes'),
-    controllers = require('./controllers')({
-        Users: require('./models/users'),
-        Bookmarks: require('./models/bookmarks')
-    }),
-
-    dbSession = '',
-    app;    
+    controllers = require('./controllers'),
+    port = process.env.PORT || 3006;    
 
  
-app = module.exports = express.createServer();
+ 
 
-
-
+var app = module.exports = express.createServer();
 
 
 /***********************************
@@ -33,19 +30,15 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(express.session({
         secret: config.secret,
-        cookie: {
-            maxAge: 365 * 24 * 60 * 60 * 1000
-        },
+        cookie: {maxAge: 365 * 24 * 60 * 60 * 1000},
         store: new MongoStore(config.db)
     }));
     app.use(app.router);
-    app.use(express.static(__dirname + '/public'));
-    app.use("/app", express.static(__dirname + '/public/javascripts/build/app')); //added this line support requirejs routes
-    app.use("/javascripts/libs", express.static(__dirname + '/public/javascripts/build/app/libs')); // to support old API
+    app.use(express.static(__dirname + '/build/app'));
 });
 
 
-dbSession = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://' + config.db.host + '/' + config.db.db;
+var dbSession = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://' + config.db.host + '/' + config.db.db;
 mongoose.createConnection(dbSession);
 
 
@@ -73,7 +66,7 @@ routes.setup({
     Kick up the server!!!!
 *********************************/
 
-app.listen(3003);
+app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 

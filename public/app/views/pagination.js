@@ -1,6 +1,10 @@
 
 
-define(['../models/bookmark', 'text!templates/pagination.html', '../libs/pagination'], function(Bookmark, paginationTemplate) {
+define([
+    '../models/bookmark', 
+    'text!templates/pagination.html', 
+    '../libs/pagination'
+], function(Bookmark, paginationTemplate) {
     "use strict";
     
     var Pagination = Backbone.View.extend({
@@ -125,8 +129,7 @@ define(['../models/bookmark', 'text!templates/pagination.html', '../libs/paginat
             //We want to check if we are on the latest page and if its not of 
             // filtered models
             if (num > self.collection.info().totalPages && !self.collection.allFetched) {
-                $.shout('Loading more bookmarks.....', 10, 'info');
-                
+                                
                 data = {
                     skip: self.collection.info().totalRecords
                 }
@@ -162,13 +165,13 @@ define(['../models/bookmark', 'text!templates/pagination.html', '../libs/paginat
                         }
                         else {
                             self.collection.allFetched = true;
-                            $.shout('All bookmarks have been loaded!', 10, 'info');
+                            $.shout('All bookmarks have been loaded!', 5, 'info');
                             self.collection.goTo(num);
                         }
                     },
                     
                     error: function(collection, xhr, options) {
-                        $.shout('Request failed!', 10, 'warning');
+                        $.shout('Request failed!', 5, 'warning');
                     }
                 });
             }

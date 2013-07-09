@@ -38,11 +38,8 @@ exports.setup = function (params) {
     
     var app = params.app, controllers = params.controllers;
 
-    // Generic Routes
-    app.get('/', controllers.index);     
-    app.get('/home', controllers.home);   
-    app.get('/privacy', controllers.privacy);
-    app.get('/developers', controllers.developers); 
+    // Home
+    app.get('/', controllers.index);
     
     // User Routes 
     app.post('/users', controllers.registerUser);   

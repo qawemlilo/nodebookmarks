@@ -1,6 +1,13 @@
 
+/*
+    Dependencies
+*/
+var Bookmarks = require('../models/bookmarks');
 
-function Demo (Bookmarks) {  
+
+
+
+function demoFactory () {  
     "use strict"; 
     
     var demo = Object.create({});
@@ -48,4 +55,4 @@ function Demo (Bookmarks) {
     return demo;
 };
 
-module.exports = Demo;
+module.exports = demoFactory();

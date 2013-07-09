@@ -1,6 +1,12 @@
 
+/*
+    Dependencies
+*/
+var Bookmarks = require('../models/bookmarks');
 
-function Pages (Bookmarks) {
+
+
+function pagesFactory () {
     "use strict"; 
     
     var pages = Object.create({});
@@ -73,4 +79,4 @@ function Pages (Bookmarks) {
 }
     
 
-module.exports = Pages;
+module.exports = pagesFactory();

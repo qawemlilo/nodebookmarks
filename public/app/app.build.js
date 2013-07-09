@@ -3,7 +3,7 @@
     
     mainConfigFile: './main.js',
     
-    dir: "/home/rflabmfp/public_html/apps/rflab/build",
+    dir: "../../build",
     
     optimizeCss: "standard",
 

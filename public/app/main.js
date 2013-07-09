@@ -4,7 +4,8 @@ requirejs.config({
     baseUrl: 'app',
     
     paths: {
-        'text': 'libs/text'       
+        text: 'libs/text',
+        fancybox: 'libs/fancybox/fancybox'
     },
     
     shim: {
@@ -12,17 +13,17 @@ requirejs.config({
             exports: '_'
         },
         
-        'libs/backbone': {
+        'libs/backbone-v1': {
             deps: ['libs/underscore'],
             exports: 'Backbone'
         },
         
         'libs/pagination': {
-            deps: ['libs/underscore', 'libs/backbone']
+            deps: ['libs/underscore', 'libs/backbone-v1']
         },
         
         'app': {
-            deps: ['libs/underscore', 'libs/backbone', 'libs/text', 'libs/fancybox/fancybox', 'libs/script'],
+            deps: ['libs/underscore', 'libs/backbone-v1', 'text', 'fancybox', 'libs/script'],
             exports: 'App'
         }
     }
