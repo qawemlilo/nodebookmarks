@@ -64,9 +64,7 @@ define(['../models/bookmark', 'text!templates/controls.html'], function (Bookmar
             
             //We want to check if we are on the latest page and if its not of 
             // some filtered models
-            if (tag) {
-                $.shout('Loading "' + tag + '" bookmarks.....', 0, 'info');
-                
+            if (tag) { 
                 self.collection.fetch({
                     data: {
                         skip: self.collection.info().totalRecords,

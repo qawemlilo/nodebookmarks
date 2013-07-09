@@ -203,7 +203,7 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
                 self.model.set({'id': response.model.id});
                 self.app.collections.bookmarks.origModels.push(self.model);
                 
-                $.shout('New bookmark saved!', 10, 'success');
+                $.shout('New bookmark saved!', 5, 'success');
                 
                 self.$el.fadeOut('slow', function () {
                     self.$el.remove();
@@ -214,7 +214,7 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
             errorHandler = function (model, response) {
                 self.activeNew = false; // unlock
                 
-                $.shout(errmsg, 10);
+                $.shout(errmsg, 5);
                 self.$el.fadeOut('slow', function () {
                     self.$el.remove();
                     location.hash = '#bookmarks';
@@ -272,7 +272,7 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
 
             successHandler = function (model, response) {
                 self.activeEditor = false; // unlock editor
-                $.shout(response.msg, 10, 'success');
+                $.shout(response.msg, 5, 'success');
                 
                 self.app.views.controls.render(); // refresh tags
             };
@@ -280,7 +280,7 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
             errorHandler = function (model, response) {
                 self.activeEditor = false; // unlock editor
                 
-                $.shout(errmsg, 10);
+                $.shout(errmsg, 5);
             };
             
             editFormDiv.fadeOut(function () {
@@ -407,12 +407,12 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
                
             successHandler = function (model, response) {
                 self.unrender();
-                $.shout(response.msg, 10, 'success');
+                $.shout(response.msg, 5, 'success');
                 self.app.collections.bookmarks.refresh();
             };
             
             errorHandler = function (model, response) {
-                $.shout(errmsg, 10);
+                $.shout(errmsg, 5);
             };
             
             self.model.destroy({success: successHandler, error: errorHandler, wait: true});

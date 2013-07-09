@@ -115,7 +115,7 @@ define(function () {
                 stop = start + disp;
             
             if (self.origModels === undefined) {
-                self.origModels = self.models;
+                self.origModels = self.clone().models;
 	        }
 	    
 	        self.models = self.origModels;

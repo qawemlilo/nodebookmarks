@@ -31,7 +31,7 @@
     "should": "latest"
   },
   "scripts": {
-    "build": "node tools/r.js -o public/javascripts/app/app.build.js"
+    "build": "node tools/r.js -o public/app/app.build.js"
   },
   "engine": "node >= 0.8.9"
 }

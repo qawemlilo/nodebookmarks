@@ -2,7 +2,7 @@
     This is the router handles app navigation for logged in user.
     The router also handles highlighting the currently active menu
 */
-define(['../libs/underscore', '../libs/backbone'], function(_, Backbone) {
+define(['../libs/underscore', '../libs/backbone-v1'], function(_, Backbone) {
     "use strict";
     
     var Router = Backbone.Router.extend({
@@ -17,7 +17,7 @@ define(['../libs/underscore', '../libs/backbone'], function(_, Backbone) {
             
             'bookmarks/tags/:tag': 'filterTags',
             
-            'bookmarks/page/:num': 'goTo',
+            'bookmarks/pages/:num': 'goTo',
             
             'bookmarks/new': 'newBookmark',
             

@@ -15,16 +15,18 @@ html(class='no-js', lang='en')
     meta(name='description', content='Bookmark Manager is a web app that makes it easy to manage your browser bookmarks')
     meta(name='keywords', content='Bookmark Manager, bookmark service, bookmarks app')
     meta(name='viewport', content='width=device-width')
-    link(rel='shortcut icon', href='http://apps.rflab.co.za/rflab/build/app/images/favicon.ico')
-    link(rel='stylesheet', href='http://apps.rflab.co.za/rflab/build/app/css/main.css')
-    script(src='http://apps.rflab.co.za/rflab/build/app/libs/modernizr.js')
-    script(data-main='http://apps.rflab.co.za/rflab/build/app/main', src='http://apps.rflab.co.za/rflab/build/app/libs/require-jquery.js')    
+    link(rel='shortcut icon', href='/images/favicon.ico')
+    link(rel='stylesheet', href='/css/css.css')
+    script(src='/libs/modernizr.js')
+    script(data-main='/main', src='/libs/require-jquery.js')    
   body
     section(id='app-body', class='row-fluid container')
       if(page !== 'read')
-        header(class='row-fluid')!= partial('header')
+        header(class='row-fluid')
+          include header
       
       div(class='content row-fluid', id='content-body', role='main')!= body
       
       if(page !== 'read')
-        footer(class='row-fluid')!= partial('footer')
+        footer(class='row-fluid')
+          include footer

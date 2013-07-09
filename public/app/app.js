@@ -1,8 +1,20 @@
 /*
     App - application namespace.
 */
-define(['views/register', 'views/login', 'views/pages', 'views/profile', 'views/bookmarks', 'views/controls', 'views/pagination', 'views/controller', 'views/home', 'routes/index', 'routes/router', 'collections/bookmarks'], 
-function (registerView, loginView, pagesView, profileView, bookmarksView, controlsView, paginationView, Controller, homeView, indexRouter, bookmarksRouter, BookmarksCollection) {
+define([
+    'views/register', 
+    'views/login', 
+    'views/pages', 
+    'views/profile', 
+    'views/bookmarks', 
+    'views/controls', 
+    'views/pagination', 
+    'views/controller', 
+    'views/home', 
+    'routes/index', 
+    'routes/router', 
+    'collections/bookmarks'
+], function (registerView, loginView, pagesView, profileView, bookmarksView, controlsView, paginationView, Controller, homeView, indexRouter, bookmarksRouter, BookmarksCollection) {
 
     var App = {
     

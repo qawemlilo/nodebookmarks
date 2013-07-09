@@ -39,7 +39,9 @@
             }, 1000);
         }
         else {
-            displayMsg(msg, x, dclass);
+            setTimeout(function () {
+                displayMsg(msg, x, dclass);
+            }, 0);
         }
     };
     
