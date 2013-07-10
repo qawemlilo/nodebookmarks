@@ -106,9 +106,9 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
 
             template = self.bookmarkTemplate(model);
  
-            self.$el.append(template);
+            self.$el.html(template);
             
-            return this.$el;
+            return this.el;
         },
         
         

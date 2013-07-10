@@ -61,12 +61,12 @@ define(['../models/user', 'text!templates/register.html'], function(User, regist
                     window.location.hash = '#bookmarklet'; 
                     $.shout(res.msg, 15, 'success');
                 } else { 
-                    $.shout('Account not created, your form contains errors', 10, 'error');
+                    $.shout('Account not created, your form contains errors', 5, 'error');
                 }
             };
                 
             errorHandler = function (model, res) {
-                $.shout('Account not created, your form contains errors or you are already registered', 10, 'error');
+                $.shout('Account not created, your form contains errors or you are already registered', 5, 'error');
             };
             
             newMember.save(data, {success: successHandler, error: errorHandler});

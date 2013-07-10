@@ -47,9 +47,9 @@
     
     
     $.validateEmail = function (email) {
-        var valid = (email.indexOf('@') > 0 && email.indexOf('.') > email.indexOf('@'));
-            
-        return valid;
+        var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        
+        return regex.test(email);
     };
         
 
@@ -70,8 +70,8 @@
         return true;
     };
     
-    $.howItWorks = function () {
-        $('#how-it-works').fancybox({
+    $.howItWorks = function (id) {
+        $(id).fancybox({
             'width': '75%',
             'height': '96%',
             'autoScale': false,

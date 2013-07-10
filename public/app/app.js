@@ -27,17 +27,19 @@ define([
         collections: {},
         
         
-        init: function (page, bookmarks) {
-            var index, router, self = this;
-            
-            self.page = page;
-            
-            
-            if (!page) {
+        init: function () {
+            if (!window.bookmarkmanager) {
                 return false;
             }
             
-            $.howItWorks();
+            var self = this,
+                page = window.bookmarkmanager.page,
+                bookmarks = window.bookmarkmanager.bookmarks,
+                user = window.bookmarkmanager.user,
+                router;
+            
+            self.page = page;
+
             
             if (page === 'index') {
                 router = new indexRouter(self);
@@ -57,7 +59,8 @@ define([
                 router = new bookmarksRouter(self);
                 
                 self.views.profile = new profileView({
-                    app: self
+                    app: self,
+                    user: user
                 });
                 
                 self.views.bookmarks = new bookmarksView({

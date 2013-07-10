@@ -16,40 +16,29 @@ define(['../models/user', 'text!templates/profile.html'], function(User, setting
         
         
         
-        
         events: {
-            'submit #settings-form': 'updateUser',
+            'submit #settings-form': 'update',
             'submit #delete': 'promptUser'
-        },
-        
-        
-        
-        
-        
-        
+        }, 
         
         
       
+      
         initialize: function (opts) {
-            _.bindAll(this, 'render', 'getUserData', 'updateUser', 'updateForm', 'promptUser');
+            _.bindAll(this, 'render', 'update', 'promptUser');
             
             this.app = opts.app;
             
             if (this.app.page === 'demo') {
-                return;
+                return this;
             }
             
-            this.model = new User();
+            this.model = new User(opts.user);
             this.model.task = 'update';
-            this.model.on('change', this.updateForm);
+            this.model.on('change', this.render);
             
             return this;
         },
-        
-        
-        
-        
-        
         
         
         
@@ -60,45 +49,22 @@ define(['../models/user', 'text!templates/profile.html'], function(User, setting
         */
         render: function () {
             if (this.app.page === 'demo') {
-                return;
+                return this;
             }
             
-            this.getUserData(function (data) { 
-                var template = this.settingsTemplate(data);
-                this.app.user = data;
-                this.$el.html(template);
-            }.bind(this));
+            var template = this.settingsTemplate(this.model.toJSON());
+            
+            this.$el.html(template);
             
             return this;
         },
-        
-        
-        
-        
-        
-        
 
-
-        /*
-            @Api:     private - updates profile form
-            @Returns: void
-        */
-        updateForm: function () {
-            var data =this.model.toJSON(), 
-                template = this.settingsTemplate(data);
-                
-            this.app.user = data;
-            this.$el.html(template);
-        },
+        
         
         
         promptUser: function (e) {
             return confirm('Are you sure you want to delete your account?');
-        },
-        
-        
-        
-        
+        },  
         
         
 
@@ -108,57 +74,21 @@ define(['../models/user', 'text!templates/profile.html'], function(User, setting
             @Returns: void
             @Param:   (Object) e - submit event object           
         */        
-        updateUser: function (e) {    
+        update: function (e) {    
             e.preventDefault();
             
             var data = this.formToObject('settings-form'), successHandler, errorHandler; 
             
             successHandler = function (model, res) {
-                if ($('#email').hasClass('warning')) {
-                    $('#email').removeClass('warning');
-                }
-                if ($('#name').hasClass('warning')) {
-                    $('#name').removeClass('warning');
-                }
-                
-                $.shout(res.msg, 10, 'success');
+                $.shout(res.msg, 5, 'success');
             };
             
             errorHandler = function (model, res) {
-                $.shout(res.msg || res, 10, 'error');
+                $.shout(res.msg || res, 5, 'error');
             };
             
             this.model.save(data, {success: successHandler, error: errorHandler, wait: true});
         },
-        
-        
-        
-        
-        
-
-
-        /*
-            @Api:     private - fetches user data from the server
-            @Returns: void
-            @Param:   (Function) next - function called after fetch request is complete
-        */        
-        getUserData: function (next) {
-            if (this.app.hasOwnProperty('user')) {
-                next(this.app.user);
-                return;
-            }
-            this.model.fetch({
-                success: function (model, res) {
-                    next(res);
-                },
-                
-                error: function (model, res){
-                    next({name: '', email: '', password: ''});
-                }
-            });
-        },
-        
-        
         
         
 

@@ -34,41 +34,34 @@ define(function () {
         
         
         validate: function (attr) {
+            var nameField = $('#name'),
+                emailId = (this.task === 'login') ? '#login-email': '#email',
+                emailField = $(emailId);
+            
             if (!$.validateName(attr.name) && (this.task === 'register' || this.task === 'update')) {
-                $('#name').addClass('warning');
+                nameField.addClass('warning');
                 
                 return 'Name input is not valid';
+                
+            } else {
+                if (nameField.hasClass('warning')) {
+                    nameField.removeClass('warning');
+                }
             }
             
-            if (!attr.email) {
-                var id = (this.task === 'login') ? '#login-email': '#email';
-                
-                $(id).addClass('warning');
+            if (!$.validateEmail(attr.email)) {
+                emailField.addClass('warning');
                 
                 return 'Email input is not valid';
+                
+            } else {
+                if (emailField.hasClass('warning')) {
+                    emailField.removeClass('warning');
+                }
             }
             
             if (!$.validatePassword(attr.password)) {
                 return 'Password input is not valid';
-            }
-        },
-        
-        
-        update: function (data, options) {
-            var changedAttributes = {}, model = this, attr, update = false;
-            
-            for (attr in data) {
-                if (data[attr] !== model.get(attr)) {
-                    changedAttributes[attr] = data[attr];
-                    update = true;
-                }
-            }
-            
-            if (update) {
-               model.save(changedAttributes, options);
-            }
-            else {
-                $.shout('Nothing to update', 10, 'success');
             }
         }
     });

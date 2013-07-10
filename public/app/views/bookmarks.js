@@ -76,7 +76,11 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
             Appends a header to the bookmarks table
         */ 
         bookmarksHeader: function () { 
-            var header = $('<thead>'), tr = $('<tr>'), data = this.collection.info(), html = '', th;
+            var header = document.createElement('thead'), 
+                tr = document.createElement('tr'), 
+                data = this.collection.info(), 
+                html = '', 
+                th = document.createElement('th');
             
             
             if (this.collection.filteredTag) {
@@ -89,15 +93,13 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
                 html += '<a href="#bookmarks" class="close">&times;</a>';
             }
             
-            th = $('<th>', {
-                colspan: 2,
-                html: html
-            });
+            th.innerHTML = html;
+            th.setAttribute("colspan", "2");
             
-            tr.append(th);
-            header.append(tr);
+            tr.appendChild(th);
+            header.appendChild(tr);
             
-            this.$el.append(header);
+            return header;
         },
         
         
@@ -107,11 +109,21 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
             Loops through a collection and appends all bookmarks to the bookmarks table
         */ 
         viewAllBookmarks: function () {
-            var self = this;
+            var self = this, fragment = document.createDocumentFragment();
             
-            self.$el.empty();
-            self.bookmarksHeader();
-            self.collection.forEach(self.addBookmark);
+ 
+            fragment.appendChild(self.bookmarksHeader());
+            
+            self.collection.forEach(function (bookmarkModel) { 
+                var bookmarkView = new Bookmark({
+                    model: bookmarkModel,
+                    app: self.app
+                });
+
+                fragment.appendChild(bookmarkView.render());
+            });
+            
+            this.$el.html(fragment);
         }        
     });
     

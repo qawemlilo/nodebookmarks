@@ -34,7 +34,9 @@ app.configure(function() {
         store: new MongoStore(config.db)
     }));
     app.use(app.router);
-    app.use(express.static(__dirname + '/build/app'));
+    app.use(express.static(__dirname + '/public/app'));
+    app.use('/app', express.static(__dirname + '/public/app'));
+    app.use('/libs', express.static(__dirname + '/public/app/libs'));
 });
 
 

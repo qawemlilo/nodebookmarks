@@ -40,7 +40,11 @@ function pagesFactory () {
                         page: 'home', 
                         loggedIn: true, 
                         bookmarks: bookmarks, 
-                        user: req.session.user
+                        user: {
+                            id: req.session.user._id,
+                            name: req.session.user.name,
+                            email: req.session.user.email
+                        }
                     });                
                 }
             });  

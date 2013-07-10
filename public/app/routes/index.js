@@ -7,23 +7,16 @@ define(function() {
     var Router = Backbone.Router.extend({
     
         routes: {
-            'user/login': 'loadLogin',
             
             'users/login': 'loadLogin',
             
             'bookmarks': 'loadLogin',
             
-            'user/login/:error': 'loadLogin',
-            
             'users/login/:error': 'loadLogin',
             
             'users/login/new': 'loadLoginNewUuser',
             
-            'user/register': 'loadRegister',
-            
             'users/register': 'loadRegister',
-            
-            'index': 'loadRegister',
             
             'bookmarklet': 'loadBookmarkletPage',
             
@@ -40,6 +33,7 @@ define(function() {
         
         initialize: function (app) {
             this.app = app;
+            $.howItWorks('#how-it-works');
         },
         
         
@@ -117,6 +111,11 @@ define(function() {
                 $('.nav-pills li.active').removeClass('active');
                 $('#app-body').fadeIn(); 
             });
+        },
+        
+        
+        loadAboutPage: function () {
+            $.howItWorks();
         }
     });
     

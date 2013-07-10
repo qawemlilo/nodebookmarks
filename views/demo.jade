@@ -9,6 +9,8 @@ div(id='pagination', class='pagination home-div')
 div#profile
 
 script.
-  window.page = '#{page}';
-  window.books = !{JSON.stringify(bookmarks)};
+  window.bookmarkmanager = {
+    page: '#{page}',
+    bookmarks: !{JSON.stringify(bookmarks)}
+  }
       

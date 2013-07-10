@@ -294,10 +294,11 @@ define(function () {
             Combines all collection tags into one array
         */          
         buildTags: function () {
-            var tags = [], models = this.origModels || this.models;
+            var tags = [], models = this.origModels || this.models, subtags;
             
             _.each(models, function (bookmark) {
-                var subtags = bookmark.get('tags');
+                subtags = bookmark.get('tags');
+                
                 tags.push(subtags);
             }, this);
             

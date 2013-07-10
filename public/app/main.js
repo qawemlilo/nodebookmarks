@@ -31,6 +31,6 @@ requirejs.config({
 
 require(["app"], function(App) {  
     $(function() {
-        App.init(page, books);
+        App.init();
     });
 });

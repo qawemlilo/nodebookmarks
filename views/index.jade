@@ -47,7 +47,7 @@ div(id='form-container', class='container')
           
           div.control-group
             input(type="submit", name="submit", value="Sign Up", id="submit", class="btn")
-            a(href="#user/login", style="margin-left: 20px", id="login-link") Already registered? Login
+            a(href="#users/login", style="margin-left: 20px", id="login-link") Already registered? Login
             
             
             
@@ -79,18 +79,20 @@ div(id='form-container', class='container')
           label.control-label
           
           div.control-group
-            a(href="#user/register", id="register-link") Register   
+            a(href="#users/register", id="register-link") Register   
 
 
         div.control-group
           label.control-label
           
           div.control-group
-            <!-- a(href="#user/reset-password", id="email-password") Forgot your password? --> 
+            <!-- a(href="#users/reset-password", id="email-password") Forgot your password? --> 
 
 script.
-  window.page = '#{page}';
-  window.books = [];
+  window.bookmarkmanager = {
+    page: '#{page}',
+    bookmarks: []
+  };
     
 
             
