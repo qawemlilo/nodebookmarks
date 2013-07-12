@@ -146,7 +146,6 @@ define([
                     
                     success: function(collection, result, opts) {
                         if (result.length > 0) {
-                            $.shout('Done!', 1, 'info');
                             
                             if (result.length < 100) {
                                 self.collection.allFetched = true;
