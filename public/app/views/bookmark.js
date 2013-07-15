@@ -88,7 +88,12 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
                         self.update(attr);
                     }
                 });
-            });     
+            });
+            /*
+            self.model.on('cleanup', function () {
+                self.undelegateEvents();
+                self.$el.unbind();
+            });*/
             
             return self;
         },
@@ -108,7 +113,7 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
  
             self.$el.html(template);
             
-            return this.el;
+            return self;
         },
         
         

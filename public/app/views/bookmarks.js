@@ -9,22 +9,33 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
 
      
         initialize: function (opts) {
-            _.bindAll(this, 'addBookmark', 'viewAllBookmarks', 'bookmarksHeader', 'render');
+            _.bindAll(this, 'bookmarkView', 'viewAllBookmarks', 'bookmarksHeader', 'render');
             
             $('.dropdown-toggle').dropdown();
             
-            this.app = opts.app;
             
-            this.collection.on('add', this.addBookmark);
-            this.collection.on('reset', this.viewAllBookmarks);
+            var self = this;
             
-            return this;
+            self.app = opts.app;
+            
+            self.collection.on('add', self.render);
+            self.collection.on('reset', function () {
+                /*
+                self.collection.currentModels.forEach(function (model) {
+                    model.trigger('cleanup');
+                });*/
+                
+                self.render();
+            });
+            
+            return self;
         },
         
         
         
         
         render: function () {
+            this.viewAllBookmarks();
             return this;
         },
         
@@ -35,7 +46,7 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
             Appends a bookmark view the bookmarks table
             @Param: (Object) bookmarkModel - bookmark model
         */        
-        addBookmark: function (bookmarkModel) { 
+        bookmarkView: function (bookmarkModel) { 
             var self = this;
 
             var bookmarkView = new Bookmark({
@@ -43,7 +54,7 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
                 app: self.app
             });
 
-            self.$el.append(bookmarkView.render());
+            return bookmarkView;
         },
         
         
@@ -115,12 +126,9 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
             fragment.appendChild(self.bookmarksHeader());
             
             self.collection.forEach(function (bookmarkModel) { 
-                var bookmarkView = new Bookmark({
-                    model: bookmarkModel,
-                    app: self.app
-                });
+                var bookmark = self.bookmarkView(bookmarkModel);
 
-                fragment.appendChild(bookmarkView.render());
+                fragment.appendChild(bookmark.render().el);
             });
             
             this.$el.html(fragment);

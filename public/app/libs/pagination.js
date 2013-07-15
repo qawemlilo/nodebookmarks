@@ -14,6 +14,9 @@ define(function () {
         },
         
         
+        currentModels: [],
+        
+        
         showPreNext: true,
         
         
@@ -125,8 +128,10 @@ define(function () {
 	        }
             
             self.models = self.sortModels(self.models, self.sortOrder);
+            
+            self.currentModels = self.models.slice(start, stop);
 	    
-	        self.reset(self.models.slice(start, stop));
+	        self.reset(self.currentModels);
 	    },
 	
     

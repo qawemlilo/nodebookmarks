@@ -126,6 +126,9 @@ define([
         gotoPage: function (num) {
             var self = this, data;
 
+            
+            self.collection.goTo(num);
+            
             //We want to check if we are on the latest page and if its not of 
             // filtered models
             if (num > self.collection.info().totalPages && !self.collection.allFetched) {
@@ -174,9 +177,7 @@ define([
                     }
                 });
             }
-            else {
-                self.collection.goTo(num);
-            }
+            
         },
         
         
