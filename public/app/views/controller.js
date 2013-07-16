@@ -50,9 +50,11 @@ define(['models/bookmark'], function (Bookmark) {
         goTo: function (num) {
             var self = this;
             
-            
-            self.app.views.pagination.gotoPage(num);
-            self._changeActive('bookmarks');
+            self.$el.fadeOut(function () {
+                self.app.views.pagination.gotoPage(num);
+                self._changeActive('bookmarks');
+                self.$el.fadeIn(); 
+            });
         },
         
         

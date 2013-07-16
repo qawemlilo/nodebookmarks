@@ -16,10 +16,11 @@
         displayMsg = function (message, secs, msgclass) {
             elem = $('<div>', {'id': 'appMessage', 'class': msgclass || 'error', html: message});
             
-            elem.click(function () {
-                $(this).fadeOut(function () {
-                    $(this).remove();
-                }.bind(this));
+            elem.on('click', function () {
+                elem.fadeOut(function () {
+                    elem.off();
+                    elem.remove();
+                });
             });
             
             if (secs) {

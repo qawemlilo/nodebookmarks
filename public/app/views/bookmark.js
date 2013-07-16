@@ -54,11 +54,7 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
             
             'click .cancel': 'cancelEdit',
             
-            'submit .bookmark-edit-form': 'saveEdit',
-            
-            'click #new-bookmark-form .cancel': 'cancelNew',
-            
-            'submit #new-bookmark-form': 'saveNew'
+            'submit .bookmark-edit-form': 'saveEdit'
         },
         
         
@@ -80,7 +76,7 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
             
             self.app = opts.app;
             
-            self.model.on('change', function () {
+            self.listenTo(self.model, 'change', function () {
                 var attrs = ['publik', 'url', 'title', 'notes', 'starred', 'tags'];
                 
                 _.each(attrs, function(attr) {
@@ -89,11 +85,12 @@ define(['text!templates/bookmark.html', 'text!templates/new.html', 'text!templat
                     }
                 });
             });
-            /*
-            self.model.on('cleanup', function () {
+
+            self.listenTo(self.model, 'cleanup', function () {
                 self.undelegateEvents();
                 self.$el.unbind();
-            });*/
+                self.stopListening(self.model);
+            });
             
             return self;
         },

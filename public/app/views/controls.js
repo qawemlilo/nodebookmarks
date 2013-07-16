@@ -66,6 +66,8 @@ define(['../models/bookmark', 'text!templates/controls.html'], function (Bookmar
             // some filtered models
             if (tag) { 
                 self.collection.fetch({
+                    reset: true,
+                    
                     data: {
                         skip: self.collection.info().totalRecords,
                         tag: tag
@@ -75,7 +77,6 @@ define(['../models/bookmark', 'text!templates/controls.html'], function (Bookmar
                     
                     success: function(collection, result, opts) {
                         if (result.length > 0) {
-                            $.shout('Done!', 2, 'info');
                             _.each(result, function (model) {
                                 var bookmark = new Bookmark(model);
                             
@@ -86,7 +87,6 @@ define(['../models/bookmark', 'text!templates/controls.html'], function (Bookmar
                             self.render();
                         }
                         else {
-                            $.shout('Done!', 2, 'info');
                             self.collection.filterTags(tag);
                             self.render();                            
                         }

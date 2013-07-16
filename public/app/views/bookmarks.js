@@ -18,12 +18,11 @@ define(['../views/bookmark', '../models/bookmark', '../libs/bootstrap-dropdown']
             
             self.app = opts.app;
             
-            self.collection.on('add', self.render);
-            self.collection.on('reset', function () {
-                /*
-                self.collection.currentModels.forEach(function (model) {
+            self.listenTo(self.collection, 'add', self.render);
+            self.listenTo(self.collection, 'reset', function () {
+                if (self.collection.currentModels) self.collection.currentModels.forEach(function (model) {
                     model.trigger('cleanup');
-                });*/
+                });
                 
                 self.render();
             });

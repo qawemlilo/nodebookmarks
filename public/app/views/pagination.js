@@ -35,8 +35,8 @@ define([
             
             self.app = opts.app;
             
-            self.collection.on('reset', self.render);
-            self.collection.on('remove', function (model) {
+            self.listenTo(self.collection, 'reset', self.render);
+            self.listenTo(self.collection, 'remove', function (model) {
                 self.collection.killZombies(model.cid);
                 self.render();
                 self.app.views.controls.render();
@@ -143,7 +143,12 @@ define([
                 }
                 
                 self.collection.fetch({
-                    data: data, 
+                
+                    reset: true, 
+                    
+                    
+                    data: data,
+                    
                     
                     type: 'GET', 
                     
@@ -153,6 +158,7 @@ define([
                             if (result.length < 100) {
                                 self.collection.allFetched = true;
                             }
+                            
                             _.each(result, function (model) {
                                 var bookmark = new Bookmark(model);
                             
