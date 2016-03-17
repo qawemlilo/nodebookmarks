@@ -16,15 +16,15 @@
   "author": "Qawelesizwe Mlilo",
   "license": "MIT",
   "dependencies": {
-    "express": "2.5.2",
+    "express": "4.13.4",
     "jade": ">= 0.0.1",
-    "mongoose": "2.7.x",
-    "connect-mongo": "0.1.x",
-    "express-validator": "0.3.x",
-    "nodemailer": "0.3.x",
-    "readabilitySAX": "1.5.x",
-    "htmlparser2": "2.5.x",
-    "request": "~2.14.0"
+    "mongoose": "4.4.7",
+    "connect-mongo": "1.1.0",
+    "express-validator": "2.20.2",
+    "nodemailer": "2.3.0",
+    "readabilitySAX": "1.6.1",
+    "htmlparser2": "3.9.0",
+    "request": "~2.69.0"
   },
   "devDependencies": {
     "mocha": "latest",
