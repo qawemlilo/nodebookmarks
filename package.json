@@ -21,7 +21,7 @@
     "mongoose": "4.4.7",
     "connect-mongo": "1.1.0",
     "express-validator": "2.20.2",
-    "nodemailer": "2.3.0",
+    "nodemailer": "3.1.0",
     "readabilitySAX": "1.6.1",
     "htmlparser2": "3.9.0",
     "request": "~2.69.0"
