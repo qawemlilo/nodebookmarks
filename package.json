@@ -16,7 +16,7 @@
   "author": "Qawelesizwe Mlilo",
   "license": "MIT",
   "dependencies": {
-    "express": "4.13.4",
+    "express": "4.15.0",
     "jade": ">= 0.0.1",
     "mongoose": "4.4.7",
     "connect-mongo": "1.1.0",
